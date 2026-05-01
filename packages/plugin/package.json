@@ -1,0 +1,14 @@
+{
+  "name": "@tutorialvid/plugin",
+  "version": "0.0.1",
+  "description": "TutorialVid Claude Code plugin (orchestrator)",
+  "license": "MIT",
+  "private": false,
+  "files": [".claude-plugin", "skills", "commands", "agents", "README.md"],
+  "scripts": {
+    "lint": "echo 'no JS to lint' && exit 0",
+    "test": "echo 'no plugin unit tests in plan-1' && exit 0",
+    "typecheck": "echo 'no TS in plugin' && exit 0",
+    "build": "echo 'plugin is content-only' && exit 0"
+  }
+}
