@@ -1,0 +1,29 @@
+{
+  "name": "@tutorialvid/cli",
+  "version": "0.0.1",
+  "description": "TutorialVid Node CLI engine",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "tutorialvid": "./bin/tutorialvid" },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "bin"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src tests --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "execa": "^9.4.0",
+    "pino": "^9.5.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "vitest": "^2.1.0",
+    "typescript": "^5.5.0"
+  }
+}
