@@ -20,15 +20,28 @@ async function collectFiles(root: string): Promise<string[]> {
   return out;
 }
 
+const WRAPPERS = new Set(["RequireAuth", "ProtectedRoute", "PrivateRoute", "Suspense", "ErrorBoundary", "Navigate"]);
+
 function extractRoutesFromSource(text: string): RouteEntry[] {
   const cleaned = text.replace(/\/\/[^\n]*/g, "").replace(/\/\*[\s\S]*?\*\//g, "");
-  const re = /path:\s*["'`]([^"'`]+)["'`][^}]*?element:\s*<\s*([A-Za-z_$][\w$]*)\b/g;
+  const routeRe = /path:\s*["'`]([^"'`]+)["'`][^}]*?element:\s*([^]+?)(?=\s*},|\s*}\s*\])/g;
+  const tagRe = /<\s*([A-Za-z_$][\w$]*)\b/g;
   const routes: RouteEntry[] = [];
   let m: RegExpExecArray | null;
-  while ((m = re.exec(cleaned)) !== null) {
+  while ((m = routeRe.exec(cleaned)) !== null) {
     const path = m[1]!;
-    const element = m[2];
-    if (!element || element === "Navigate") continue;
+    const elementBlock = m[2] ?? "";
+    let element: string | undefined;
+    let tag: RegExpExecArray | null;
+    tagRe.lastIndex = 0;
+    while ((tag = tagRe.exec(elementBlock)) !== null) {
+      const name = tag[1]!;
+      if (!WRAPPERS.has(name)) {
+        element = name;
+        break;
+      }
+    }
+    if (!element) continue;
     routes.push({ path, element });
   }
   return routes;

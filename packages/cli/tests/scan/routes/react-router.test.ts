@@ -51,4 +51,19 @@ describe("parseReactRouterRoutes", () => {
   it("returns empty array when no router file found", async () => {
     expect(await parseReactRouterRoutes(root)).toEqual([]);
   });
+
+  it("unwraps RequireAuth and similar wrapper components", async () => {
+    writeRouter(`
+      export const router = createBrowserRouter([
+        { path: "/dashboard", element: <RequireAuth><Dashboard /></RequireAuth> },
+        { path: "/profile", element: <ProtectedRoute><Profile /></ProtectedRoute> },
+        { path: "/about", element: <About /> }
+      ]);
+    `);
+    const routes = await parseReactRouterRoutes(root);
+    const map = new Map(routes.map(r => [r.path, r.element]));
+    expect(map.get("/dashboard")).toBe("Dashboard");
+    expect(map.get("/profile")).toBe("Profile");
+    expect(map.get("/about")).toBe("About");
+  });
 });
