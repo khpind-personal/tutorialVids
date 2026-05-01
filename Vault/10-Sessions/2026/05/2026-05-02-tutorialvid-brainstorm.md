@@ -42,3 +42,26 @@ Key shape:
 - Memory at `/Users/hariprasadk/.claude/projects/-Users-hariprasadk-Documents-TutorialVid/memory/`.
 - `code-review-graph` MCP and `graphify` are reused from SW Workflows tooling — they apply to vibe-coded *target* apps as well, not just the plugin's own codebase.
 - Existing `~/.claude/plugins/whiteboard-brainstorm/` is the closest pattern reference for the plugin layout.
+
+## Plan 1 shipped — 2026-05-02
+
+All 17 tasks complete. 18 commits on `main`, tagged `v0.0.1-plan1`.
+
+### What shipped
+- pnpm workspace monorepo with TypeScript strict mode.
+- `@tutorialvid/cli` package: cache (hash + paths + store), state machine, Zod config schema + loader, scan pipeline (framework detector + RR7 routes parser + graphify CLI bridge + Playwright crawler + reconciler), scan orchestrator + CLI command wiring.
+- `@tutorialvid/plugin` skeleton: SKILL.md for `tutorialvid-create`, slash command `/tutorialvid`, plugin.json manifest.
+- `fixtures/sample-app`: Vite + React Router 7 + auth, used by integration + E2E tests.
+- 43+ passing tests across unit (cache, state, config, scan/*) + integration (crawl) + E2E (full scan command).
+
+### File paths to revisit for Plan 2 (Plan + Script stages + Gates 1–2)
+- `packages/cli/src/commands/` — add `plan.ts`, `script.ts`.
+- `packages/cli/src/plan/` — module picker, plan.json emitter.
+- `packages/cli/src/script/` — script-writer subagent dispatch + scene-director subagent dispatch.
+- `packages/plugin/agents/tutorialvid-script-writer.md` and `tutorialvid-scene-director.md`.
+- `packages/plugin/skills/tutorialvid-create/SKILL.md` — extend Plan-1 capability section.
+
+### Open follow-ups
+- Replace graphify CLI bridge with code-review-graph MCP transport when reliability of the MCP option is confirmed.
+- Action selector heuristic in crawler is intentionally minimal; expand in Plan 2 if scenes need richer hints.
+- Strict-mode bug fixed in route parser (`fix(scan): handle noUncheckedIndexedAccess in route regex match`) was caught only at build time of Task 12 — consider adding `pnpm typecheck` to Task 1 of future plans.
