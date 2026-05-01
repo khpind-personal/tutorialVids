@@ -9,6 +9,8 @@ beforeAll(async () => {
   server = execa("pnpm", ["--filter", "@tutorialvid/fixture-sample-app", "dev"], {
     stdout: "ignore", stderr: "ignore"
   });
+  // Suppress unhandled-rejection when port is already in use or on SIGTERM
+  server.catch(() => {});
   for (let i = 0; i < 30; i++) {
     try { if ((await fetch("http://localhost:5173/")).ok) return; } catch {}
     await wait(500);
@@ -16,7 +18,12 @@ beforeAll(async () => {
   throw new Error("sample-app dev server did not start in time");
 }, 60_000);
 
-afterAll(async () => { server?.kill("SIGTERM"); });
+afterAll(async () => {
+  if (server) {
+    server.kill("SIGTERM");
+    await server.catch(() => {}); // SIGTERM causes exit code 1 — suppress unhandled rejection
+  }
+});
 
 describe("crawl", () => {
   it("discovers /login, /dashboard, /profile after auth", async () => {

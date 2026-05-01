@@ -12,10 +12,10 @@ program
   .command("scan")
   .description("Reconcile code-graph + routes + crawl into a scan.json")
   .option("--cwd <path>", "project root", process.cwd())
-  .option("--config <path>", "config file path", ".tutorialvid/config.json")
   .action(async (opts) => {
-    logger.info({ opts }, "scan invoked (not implemented yet)");
-    process.exit(2);
+    const { scanCommand } = await import("./commands/scan.js");
+    const code = await scanCommand({ cwd: opts.cwd });
+    process.exit(code);
   });
 
 program.parseAsync(process.argv).catch((err) => {
