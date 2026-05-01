@@ -43,4 +43,15 @@ describe("crawl", () => {
     expect(routes).toEqual(expect.arrayContaining(["/dashboard", "/login", "/profile"]));
     expect(result.pages.find(p => p.route === "/dashboard")?.title.toLowerCase()).toContain("dashboard");
   }, 60_000);
+
+  it("flags auth-gated route as redirect-to-login when crawled without auth", async () => {
+    const result = await crawl({
+      baseUrl: "http://localhost:5173",
+      maxDepth: 1,
+      seedRoutes: ["/dashboard"]
+    });
+    expect(result.warnings.some(w =>
+      w.code === "redirect-to-login" && w.message.startsWith("/dashboard ")
+    )).toBe(true);
+  }, 60_000);
 });

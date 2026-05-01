@@ -14,6 +14,7 @@ export interface CrawlOpts {
   baseUrl: string;
   maxDepth?: number;
   auth?: CrawlAuth;
+  seedRoutes?: string[];
 }
 
 export interface CrawledPage {
@@ -106,9 +107,13 @@ export async function crawl(opts: CrawlOpts): Promise<CrawlResult> {
     const visited = new Map<string, CrawledPage>();
     const seeds: { route: string; depth: number }[] = [{ route: "/", depth: 0 }];
     if (opts.auth) seeds.push({ route: opts.auth.loginUrl, depth: 0 });
+    for (const seed of opts.seedRoutes ?? []) {
+      seeds.push({ route: seed, depth: 0 });
+    }
     const queue: { route: string; depth: number }[] = seeds;
     const maxDepth = opts.maxDepth ?? 3;
     const baseOrigin = new URL(opts.baseUrl).origin;
+    const loginUrl = opts.auth?.loginUrl ?? "/login";
 
     while (queue.length > 0) {
       const { route, depth } = queue.shift()!;
@@ -125,6 +130,12 @@ export async function crawl(opts: CrawlOpts): Promise<CrawlResult> {
       }
 
       const finalRoute = new URL(page.url()).pathname;
+      if (finalRoute !== route && finalRoute === loginUrl) {
+        warnings.push({
+          code: "redirect-to-login",
+          message: `${route} redirected to ${finalRoute}`
+        });
+      }
       const title = await page.title();
       const actions = await collectActions(page);
       visited.set(finalRoute, { route: finalRoute, title, primary_actions: actions });
