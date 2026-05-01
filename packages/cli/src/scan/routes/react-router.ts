@@ -26,8 +26,9 @@ function extractRoutesFromSource(text: string): RouteEntry[] {
   const routes: RouteEntry[] = [];
   let m: RegExpExecArray | null;
   while ((m = re.exec(cleaned)) !== null) {
-    const [, path, element] = m;
-    if (element === "Navigate") continue;
+    const path = m[1]!;
+    const element = m[2];
+    if (!element || element === "Navigate") continue;
     routes.push({ path, element });
   }
   return routes;
