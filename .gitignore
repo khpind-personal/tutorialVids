@@ -1,0 +1,33 @@
+# TutorialVid project gitignore
+
+# Plugin runtime cache (created in target vibe-coded apps, not here, but defensive)
+.tutorialvid/cache/
+.tutorialvid/storage-state.json
+.tutorialvid/state.json
+.tutorialvid/.seeded
+
+# Node
+node_modules/
+dist/
+build/
+.turbo/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# Test outputs
+coverage/
+.nyc_output/
