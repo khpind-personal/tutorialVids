@@ -4,10 +4,15 @@
   "description": "TutorialVid Node CLI engine",
   "license": "MIT",
   "type": "module",
-  "bin": { "tutorialvid": "./bin/tutorialvid" },
+  "bin": {
+    "tutorialvid": "./bin/tutorialvid"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist", "bin"],
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
@@ -18,12 +23,13 @@
   "dependencies": {
     "commander": "^12.1.0",
     "execa": "^9.4.0",
+    "glob": "^13.0.6",
     "pino": "^9.5.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
-    "vitest": "^2.1.0",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0"
   }
 }
