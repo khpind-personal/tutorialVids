@@ -30,6 +30,8 @@ export async function scanCommand(opts: ScanCommandOpts): Promise<number> {
       logger.info({ target, pages: result.pages.length, warnings: result.warnings.length }, "scan written");
     }
     await sm.markStageComplete("scan");
+    const { send } = await import("../ux/telemetry.js");
+    await send(config.telemetry.enabled, { stage: "scan", duration_ms: 0, segment_count: result.pages.length });
     return 0;
   } catch (err) {
     const { formatError, renderError } = await import("../ux/error.js");
