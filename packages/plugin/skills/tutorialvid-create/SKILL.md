@@ -16,29 +16,23 @@ Before doing anything else, verify:
 3. `GEMINI_API_KEY` env var is set. If missing, ask the user to set it before any TTS step.
 4. Dev server is reachable at `config.app.dev_url`.
 
-## Capability (v0.0.2)
+## Capability (v0.0.3)
 
-The pipeline now supports three stages: **scan → plan → script**. Each ends at a user-review gate.
+Pipeline supports five stages: **scan → plan → script → tts → record**, with Gates 1, 2, and (opt-in) 3.
 
 ### Flow
 
-1. **Scan** (Plan 1):
-   `tutorialvid scan --cwd <project-root>`
-   Reads `<project-root>/.tutorialvid/cache/scan/<hash>.json` and present:
-   - Framework detected
-   - Number of pages discovered
-   - Top 5 by importance
-   - Any warnings
+1. **Scan**: `tutorialvid scan --cwd <root>` — list framework, pages, top-5 by importance, warnings.
+2. **Plan — Gate 1**: `tutorialvid plan --cwd <root>` — markdown table, user approves/edits.
+3. **Script — Gate 2**: `tutorialvid script --cwd <root>` — needs `ANTHROPIC_API_KEY`.
+4. **TTS**: `tutorialvid tts --cwd <root>` — needs `GEMINI_API_KEY`. Synthesises mp3 + timing per segment.
+5. **Record — Gate 3 (opt-in)**: `tutorialvid record --cwd <root>` — drives Playwright per scene.json with auth waterfall + cursor track. If `config.record.gate_3_enabled: true`, prints raw clip paths for the user to mark redo.
 
-2. **Plan — Gate 1**:
-   Ask the user which pages to include (default: top-N by importance) and confirm depth/tone.
-   Run:
-   `tutorialvid plan --cwd <project-root> [--select id1,id2,...] [--top-n N]`
-   The CLI prints a markdown table summarizing the plan. **Show this verbatim to the user. Wait for their approval before proceeding.** If they edit selections, re-run with the new `--select`.
+### Auth
 
-3. **Script — Gate 2**:
-   `tutorialvid script --cwd <project-root>`
-   Requires `ANTHROPIC_API_KEY` in the environment. The CLI dispatches the `tutorialvid-script-writer` and `tutorialvid-scene-director` subagents per segment in parallel (bounded by `config.anthropic.max_concurrency`). Markdown output shows narration text + action counts. **Show this to the user. Wait for approval before TTS (next plugin version).**
+- A (recommended): provide login creds via env vars + selectors in `config.auth.credentials`. Plugin logs in via UI.
+- B (extra tokens): export storageState.json once, point `config.auth.storage_state_path` at it.
+- C: deferred to Plan 4 (inline tutorial login).
 
 ## Config bootstrap
 
@@ -46,7 +40,7 @@ If `.tutorialvid/config.json` is absent, gather these values interactively and w
 
 ## What this skill must NOT do
 
-- Manipulate mp4 or audio bytes.
+- Manipulate mp4 or audio bytes directly.
 - Hardcode API keys.
-- Skip cache-hit messaging — if the CLI logs `cache hit`, tell the user (no token spend on that artifact).
-- Run `script` without an `ANTHROPIC_API_KEY` set — surface the clear error message to the user instead.
+- Run `tts` without `GEMINI_API_KEY` or `record` without successful auth — surface the clear error.
+- Enable `gate_3_enabled` by default — only opt-in for High-depth tutorials.

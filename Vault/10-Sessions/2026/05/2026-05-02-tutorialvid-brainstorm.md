@@ -83,3 +83,27 @@ All 17 tasks complete. 18 commits on `main`, tagged `v0.0.1-plan1`.
 - `packages/cli/src/record/` — Playwright runner consuming scene.json + cursor track emitter + auth waterfall A→B→C
 - Add `cache/script/<id>/<hash>.{mp3,timing.json}` artifacts under tts.
 - Wire Gate 3 (recording opt-in) into the skill.
+
+## Plan 3 shipped — 2026-05-02
+
+13 tasks. Tag `v0.0.3-plan3`.
+
+### What shipped on top of Plan 2
+- Gemini TTS adapter (chunked SSML, voice + speed per tone, mp3 + heuristic timing)
+- TTS chunker + voice resolver (modular, unit-tested)
+- `tutorialvid tts` command — per-segment Gemini synthesis, writes mp3 + timing.json
+- Record auth waterfall (A creds + B storage state + C inline-stub)
+- CursorRecorder (event-based + dedupe identical moves)
+- Scene action runner with selector retry + cursor notes on click
+- detectAuthExpiry helper (status + login-redirect)
+- Gate 3 markdown formatter
+- `tutorialvid record` command — Playwright video + cursor track per segment, auth + seed wired
+- Skill extended with TTS + Record + Gate 3 (opt-in)
+
+### Plan 4 starting points (compose stage)
+- `packages/cli/src/compose/` — Remotion project generator from scene.json + cursor track + audio
+- `packages/cli/src/compose/cursor-overlay/` — render cursor as Remotion overlay (per-tone SVG, click ripple, idle hide)
+- `packages/cli/src/compose/zoom.ts` — apply scene.zoom directives via CSS transform
+- `packages/cli/src/compose/captions.ts` — burn captions from timing.json + emit sidecar SRT
+- `packages/cli/src/compose/ffmpeg.ts` — concat segments + intro/outro + duck-mix music
+- Wire Gate 4 (final draft preview at 480p watermarked) into the skill

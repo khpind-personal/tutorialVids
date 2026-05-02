@@ -26,3 +26,18 @@ Prereq: `ANTHROPIC_API_KEY` set, scan already produced.
 - [ ] Parallel fan-out is bounded by `config.anthropic.max_concurrency`.
 - [ ] `state.json.last_completed_stage` advances `scan` → `plan` → `script` on each successful run.
 - [ ] In Claude Code, `/tutorialvid` walks through scan → Gate 1 (plan) → Gate 2 (script) and pauses at each gate.
+
+## Plan 3 acceptance: tts + record + Gate 3
+
+Prereqs: `GEMINI_API_KEY` set, scan + plan + script already run, `TV_USER`/`TV_PASS` set, `localhost:5173` dev server up.
+
+- [ ] `tutorialvid tts --cwd <root>` synthesises one mp3 per chunk under `cache/script/<segment>/`. Real audio plays back.
+- [ ] Re-running `tutorialvid tts` with no script change is idempotent.
+- [ ] `tutorialvid record --cwd <root>` produces an mp4 + cursor.json per segment under `cache/record/<segment>/`.
+- [ ] Recording uses headless Chromium at 1920x1080 by default.
+- [ ] Setting `record.headless: false` opens a visible browser.
+- [ ] Selector retry kicks in when an `[data-test=...]` is briefly absent (mount delay).
+- [ ] Setting `record.gate_3_enabled: true` prints the Gate 3 markdown for the user.
+- [ ] Storage-state mode (B) loads cookies and skips the login flow.
+- [ ] Auth-expiry recovery: artificially clear the session mid-run; recorder re-authenticates and resumes.
+- [ ] Per-segment state advances `tts` then `record` to `ok`.
