@@ -37,4 +37,12 @@ describe("loadConfig", () => {
     const cfg = await loadConfig(root);
     expect(cfg.telemetry?.enabled).toBe(false);
   });
+  it("applies defaults for new anthropic + script blocks", async () => {
+    writeFileSync(join(root, ".tutorialvid/config.json"), JSON.stringify(valid));
+    const cfg = await loadConfig(root);
+    expect(cfg.anthropic.model).toBe("claude-sonnet-4-6");
+    expect(cfg.anthropic.max_concurrency).toBe(4);
+    expect(cfg.script.depth).toBe("medium");
+    expect(cfg.script.tone).toBe("friendly");
+  });
 });

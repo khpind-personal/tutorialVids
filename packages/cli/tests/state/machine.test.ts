@@ -45,4 +45,11 @@ describe("StateMachine", () => {
     await sm.load();
     await expect(sm.markStageComplete("nope" as Stage)).rejects.toThrow(/unknown stage/i);
   });
+  it("records the last command name", async () => {
+    const sm = new StateMachine(root);
+    await sm.load();
+    await sm.recordCommand("plan");
+    const s = await sm.load();
+    expect(s.last_command).toBe("plan");
+  });
 });

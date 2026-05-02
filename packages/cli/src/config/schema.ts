@@ -43,6 +43,16 @@ export const ConfigSchema = z.object({
     api_key_env: z.string(),
     language: z.string()
   }),
+  anthropic: z.object({
+    api_key_env: z.string().default("ANTHROPIC_API_KEY"),
+    model: z.string().default("claude-sonnet-4-6"),
+    max_concurrency: z.number().int().positive().default(4)
+  }).default({ api_key_env: "ANTHROPIC_API_KEY", model: "claude-sonnet-4-6", max_concurrency: 4 }),
+  script: z.object({
+    depth: z.enum(["low", "medium", "high"]).default("medium"),
+    tone: z.enum(["friendly", "pro", "hype", "founder", "documentary"]).default("friendly"),
+    language: z.string().default("en-US")
+  }).default({ depth: "medium", tone: "friendly", language: "en-US" }),
   telemetry: z.object({ enabled: z.boolean().default(false) }).default({ enabled: false })
 });
 

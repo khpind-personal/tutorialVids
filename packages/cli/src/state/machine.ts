@@ -65,4 +65,9 @@ export class StateMachine {
     if (!s.gates_passed.includes(gate)) s.gates_passed.push(gate);
     await this.save();
   }
+  async recordCommand(name: string): Promise<void> {
+    const s = await this.load();
+    s.last_command = name;
+    await this.save();
+  }
 }
