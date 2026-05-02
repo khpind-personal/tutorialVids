@@ -57,3 +57,14 @@ Prereqs: Plans 1-3 manually verified, mp3 + cursor + raw mp4 artifacts present.
 - [ ] Setting `compose.music_override_path` swaps the music track.
 - [ ] Setting `compose.music_volume: 0` removes music entirely.
 - [ ] Per-segment state advances `compose` to `ok`.
+
+## Plan 5 acceptance: finalize + polish
+
+- [ ] `tutorialvid finalize --cwd <root>` produces `cache/final/final.mp4` (full HD, no watermark) and `cache/final/final.srt`.
+- [ ] Per-segment audio durations come from ffprobe (visible in TTS log output as accurate ms, not heuristic estimates).
+- [ ] Cursor on click in the rendered video appears at the actual button centre (not 0,0).
+- [ ] Setting `auth.show_login_in_tutorial: true` causes the recorder to insert an `s00_login` segment as the first scene, with the password masked as bullets in the typed text.
+- [ ] Triggering an error (unset env, missing artifact, bad selector) prints the 3-line ✖/why/next surface — not a raw stack trace.
+- [ ] Setting `telemetry.enabled: true` logs a structured `telemetry event` line per stage.
+- [ ] Intro and outro look animated (fade in + scale on intro; fade in/out on outro) — not static drawtext frames.
+- [ ] Plugin v1.0.0 SKILL.md walks through all 7 commands.

@@ -132,3 +132,37 @@ All 17 tasks complete. 18 commits on `main`, tagged `v0.0.1-plan1`.
 - Auth mode C (inline tutorial login) — record the login flow as the first segment when this mode is selected
 - Telemetry opt-in (already in config; needs sender)
 - Error UX polish: format errors as `what happened, why, what to do next` per spec §10
+
+## Plan 5 shipped — 2026-05-02 — PHASE 1 COMPLETE
+
+9 tasks. Tag `v0.1.0-plan5`. Plugin v1.0.0.
+
+### What shipped on top of Plan 4
+- ffprobe-derived audio durations (replaces heuristic timing in tts/gemini.ts)
+- Real cursor coords on click via Playwright `boundingBox().centre` (replaces 0,0 placeholder)
+- Inline-login scene generator (auth mode C — synthesised SceneJson with masked password, no LLM call)
+- Error UX: `formatError` + `renderError` produce 3-line ✖/why/next surface; wired into all 6 command catch blocks
+- Opt-in telemetry stub (logs structured events when `config.telemetry.enabled`)
+- Remotion-rendered animated intro/outro (replaces ffmpeg drawtext)
+- `tutorialvid finalize` command — promotes HD stitch to `cache/final/final.mp4` (no watermark) + `cache/final/final.srt`
+- Music sourcing guide (`packages/plugin/templates/music/README.md`) for vibe coders to source CC0 tracks
+
+### Phase 1 final summary
+- Tags: v0.0.1-plan1, v0.0.2-plan2, v0.0.3-plan3, v0.0.4-plan4, **v0.1.0-plan5**
+- Commands: 7 (scan, plan, script, tts, record, compose, finalize)
+- Gates: 4 (Plan, Script, Recording opt-in, Final draft)
+- Tones: 5 (Friendly, Pro, Hype, Founder, Documentary)
+- Depths: 3 (Low, Medium, High)
+- Cursor styles: 5 (per-tone SVGs)
+- Tests: 124+ across unit + integration + E2E
+
+### Post-v1 (not in Phase 1, future specs)
+- **Phase 2: marketing video distillation** — separate spec, consumes Phase 1 outputs (highlight_score, raw clips, separate audio tracks, safe-zone framing) and re-cuts into short-form video.
+- Plugin marketplace publication.
+- Real CC0 music *files* (placeholders ship; sourcing guide ships).
+- Voice cloning for tone-specific narrators.
+- Multi-language narration.
+- Mobile responsive recording.
+- Real-time progress streaming during long renders.
+- Inline-login scene routed through script-writer subagent for tone-specific wording.
+- Real telemetry network sender (post privacy/legal review).
