@@ -16,7 +16,8 @@ A vibe-coder's tutorial-video plugin. This vault is the durable knowledge layer 
 ## Active
 
 - [[50-Product/specs/2026-05-02-tutorialvid-design|Design Spec — Phase 1 (2026-05-02)]] — approved.
-- [[50-Product/specs/2026-05-02-tutorialvid-plan-1-foundation-and-scan|Plan 1 — Foundation + Scan (2026-05-02)]] — written, ready for execution.
+- [[50-Product/specs/2026-05-02-tutorialvid-plan-1-foundation-and-scan|Plan 1 — Foundation + Scan (2026-05-02)]] — ✅ shipped (tag `v0.0.1-plan1`, 21 commits, 45 tests).
+- [[50-Product/specs/2026-05-02-tutorialvid-plan-2-plan-and-script|Plan 2 — Plan + Script + Gates 1–2 (2026-05-02)]] — written, ready for execution.
 - [[20-Decisions/2026-05-02-tutorialvid-architecture|Architecture decisions, 2026-05-02]]
 - [[10-Sessions/2026/05/2026-05-02-tutorialvid-brainstorm|Brainstorm session, 2026-05-02]]
 

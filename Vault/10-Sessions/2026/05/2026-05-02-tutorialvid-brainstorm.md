@@ -65,3 +65,21 @@ All 17 tasks complete. 18 commits on `main`, tagged `v0.0.1-plan1`.
 - Replace graphify CLI bridge with code-review-graph MCP transport when reliability of the MCP option is confirmed.
 - Action selector heuristic in crawler is intentionally minimal; expand in Plan 2 if scenes need richer hints.
 - Strict-mode bug fixed in route parser (`fix(scan): handle noUncheckedIndexedAccess in route regex match`) was caught only at build time of Task 12 — consider adding `pnpm typecheck` to Task 1 of future plans.
+
+## Plan 2 shipped — 2026-05-02
+
+13 tasks. Tag `v0.0.2-plan2`.
+
+### What shipped on top of Plan 1
+- Anthropic SDK dispatcher with prompt caching + retry
+- Plugin agents `tutorialvid-script-writer` + `tutorialvid-scene-director` (frontmatter + system prompt)
+- `tutorialvid plan` command — scan + user choices → plan.json + Gate 1 markdown
+- `tutorialvid script` command — parallel per-segment fan-out via Anthropic, writes scene.json/txt/ssml per segment
+- Skill extended with Plan + Script gates
+- Vitest fileParallelism disabled (port 5173 collision fix)
+
+### Plan 3 starting points
+- `packages/cli/src/tts/` — Gemini adapter with chunked SSML synthesis + per-word timing emit
+- `packages/cli/src/record/` — Playwright runner consuming scene.json + cursor track emitter + auth waterfall A→B→C
+- Add `cache/script/<id>/<hash>.{mp3,timing.json}` artifacts under tts.
+- Wire Gate 3 (recording opt-in) into the skill.
