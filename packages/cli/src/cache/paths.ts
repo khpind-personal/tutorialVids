@@ -6,6 +6,7 @@ export function cachePaths(projectRoot: string) {
   return {
     base,
     cache,
+    discovery: (hash: string) => join(cache, "discovery", `${hash}.json`),
     scan: (hash: string) => join(cache, "scan", `${hash}.json`),
     plan: (hash: string) => join(cache, "plan", `${hash}.json`),
     script: (segmentId: string, hash: string, ext: string) =>
@@ -15,7 +16,10 @@ export function cachePaths(projectRoot: string) {
     compose: (segmentId: string, hash: string) =>
       join(cache, "compose", segmentId, `${hash}.mp4`),
     final: (hash: string) => join(cache, "final", `${hash}.mp4`),
+    finalRole: (roleId: string, hash: string) =>
+      join(cache, "final", `${roleId}.${hash}.mp4`),
     state: () => join(base, "state.json"),
-    storageState: () => join(base, "storage-state.json")
+    storageState: () => join(base, "storage-state.json"),
+    storageStateRole: (roleId: string) => join(base, `storage-state-${roleId}.json`)
   };
 }

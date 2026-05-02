@@ -5,7 +5,7 @@ import { CacheStore } from "../cache/store.js";
 import { StateMachine } from "../state/machine.js";
 import { logger } from "../logger.js";
 
-export interface ScanCommandOpts { cwd: string; }
+export interface ScanCommandOpts { cwd: string; routesFrom?: string; }
 
 export async function scanCommand(opts: ScanCommandOpts): Promise<number> {
   const projectRoot = opts.cwd;
@@ -20,7 +20,7 @@ export async function scanCommand(opts: ScanCommandOpts): Promise<number> {
   const sm = new StateMachine(projectRoot);
   await sm.load();
   try {
-    const { result, hash } = await runScan(projectRoot, config);
+    const { result, hash } = await runScan(projectRoot, config, opts.routesFrom);
     const target = paths.scan(hash);
     const existing = await store.readJson(target);
     if (existing) {

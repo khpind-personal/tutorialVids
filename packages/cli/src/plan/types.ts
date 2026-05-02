@@ -13,6 +13,9 @@ export interface Segment {
   target_duration_s: number;
   importance: number;
   requires_auth: boolean;
+  role: string;
+  role_label?: string;
+  is_common?: boolean;
 }
 
 export interface Plan {
@@ -22,6 +25,7 @@ export interface Plan {
   tone: Tone;
   language: string;
   segments: Segment[];
+  roles: { id: string; label: string }[];
   created_at: string;
 }
 

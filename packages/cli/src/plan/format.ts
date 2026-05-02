@@ -11,12 +11,12 @@ export function formatPlanMarkdown(plan: Plan): string {
   const lines = [
     `# TutorialVid Plan — Gate 1`,
     ``,
-    `**${plan.segments.length} segments** · depth: **${plan.depth}** · tone: **${plan.tone}** · total estimated **${fmtDuration(total)}**`,
+    `**${plan.segments.length} segments** · ${plan.roles.length} roles · depth: **${plan.depth}** · tone: **${plan.tone}** · total estimated **${fmtDuration(total)}**`,
     ``,
-    `| ID | Route | Title | Auth | Importance | Duration |`,
-    `|----|-------|-------|------|------------|----------|`,
+    `| ID | Route | Title | Role | Auth | Importance | Duration |`,
+    `|----|-------|-------|------|------|------------|----------|`,
     ...plan.segments.map((s) =>
-      `| ${s.id} | ${s.page_route} | ${s.page_title} | ${s.requires_auth ? "yes" : "no"} | ${s.importance} | ${fmtDuration(s.target_duration_s)} |`
+      `| ${s.id} | ${s.page_route} | ${s.page_title} | ${s.is_common ? "common" : (s.role_label ?? s.role)} | ${s.requires_auth ? "yes" : "no"} | ${s.importance} | ${fmtDuration(s.target_duration_s)} |`
     ),
     ``,
     `Approve, edit, or cancel before proceeding to script generation.`

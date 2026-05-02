@@ -40,6 +40,9 @@ export async function directScene(input: DirectSceneInput): Promise<DirectSceneR
   const scene: SceneJson = {
     segment_id: input.segment.id,
     page_id: input.segment.page_id,
+    role: input.segment.role,
+    ...(input.segment.role_label ? { role_label: input.segment.role_label } : {}),
+    ...(input.segment.is_common ? { is_common: true } : {}),
     depth: input.segment.depth,
     tone: input.segment.tone,
     target_duration_s: input.segment.target_duration_s,

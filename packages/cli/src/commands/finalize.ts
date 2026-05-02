@@ -1,4 +1,4 @@
-import { copyFile, mkdir } from "node:fs/promises";
+import { copyFile, mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { loadConfig } from "../config/load.js";
 import { cachePaths } from "../cache/paths.js";
@@ -26,20 +26,45 @@ export async function finalizeCommand(opts: FinalizeCommandOpts): Promise<number
   await sm.recordCommand("finalize");
 
   try {
-    const hdSource = join(paths.cache, "compose", "_stitch", "stitched-hd.mp4");
     const finalDir = join(paths.cache, "final");
     await mkdir(finalDir, { recursive: true });
-    const finalOut = join(finalDir, "final.mp4");
-    await copyFile(hdSource, finalOut);
+    const composeDir = join(paths.cache, "compose");
 
-    const draftSrt = join(finalDir, "draft.srt");
-    const finalSrt = join(finalDir, "final.srt");
-    await copyFile(draftSrt, finalSrt);
+    let stitchDirs: string[] = [];
+    try {
+      const entries = await readdir(composeDir);
+      stitchDirs = entries.filter((e) => e.startsWith("_stitch"));
+    } catch { stitchDirs = []; }
+
+    if (stitchDirs.length === 0) {
+      throw new Error(`no _stitch_<role> dirs under ${composeDir}; run compose first`);
+    }
+
+    const promoted: { role: string; mp4: string; srt: string }[] = [];
+
+    for (const dir of stitchDirs) {
+      const role = dir === "_stitch" ? "common" : dir.replace(/^_stitch_/, "");
+      const hdSource = join(composeDir, dir, "stitched-hd.mp4");
+      const finalMp4 = role === "common" && stitchDirs.length === 1
+        ? join(finalDir, "final.mp4")
+        : join(finalDir, `final.${role}.mp4`);
+      await copyFile(hdSource, finalMp4);
+
+      const draftSrt = role === "common" && stitchDirs.length === 1
+        ? join(finalDir, "draft.srt")
+        : join(finalDir, `draft.${role}.srt`);
+      const finalSrt = role === "common" && stitchDirs.length === 1
+        ? join(finalDir, "final.srt")
+        : join(finalDir, `final.${role}.srt`);
+      try { await copyFile(draftSrt, finalSrt); } catch {}
+
+      promoted.push({ role, mp4: finalMp4, srt: finalSrt });
+    }
 
     await sm.markStageComplete("final");
-    logger.info({ final_mp4: finalOut, final_srt: finalSrt }, "finalize complete");
-    process.stdout.write(`\n✓ Final video: ${finalOut}\n  Captions: ${finalSrt}\n`);
-    // Mark unused parameter to satisfy linter
+    logger.info({ promoted }, "finalize complete");
+    const lines = promoted.map((p) => `\n✓ Final video [${p.role}]: ${p.mp4}\n  Captions: ${p.srt}`);
+    process.stdout.write(lines.join("") + "\n");
     void config;
     return 0;
   } catch (err) {

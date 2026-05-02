@@ -9,11 +9,14 @@ const plan: Plan = {
   tone: "friendly",
   language: "en-US",
   created_at: "2026-05-02T00:00:00Z",
+  roles: [],
   segments: [
     { id: "s01_dashboard", page_id: "dashboard", page_route: "/dashboard", page_title: "Dashboard",
-      depth: "medium", tone: "friendly", target_duration_s: 75, importance: 5, requires_auth: true },
+      depth: "medium", tone: "friendly", target_duration_s: 75, importance: 5, requires_auth: true,
+      role: "common", is_common: true },
     { id: "s02_profile", page_id: "profile", page_route: "/profile", page_title: "Profile",
-      depth: "medium", tone: "friendly", target_duration_s: 75, importance: 1, requires_auth: true }
+      depth: "medium", tone: "friendly", target_duration_s: 75, importance: 1, requires_auth: true,
+      role: "common", is_common: true }
   ]
 };
 

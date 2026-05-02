@@ -24,6 +24,9 @@ export interface SceneAction {
 export interface SceneJson {
   segment_id: string;
   page_id: string;
+  role: string;
+  role_label?: string;
+  is_common?: boolean;
   depth: "low" | "medium" | "high";
   tone: string;
   target_duration_s: number;

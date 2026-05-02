@@ -1,7 +1,7 @@
 import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
 
-export type AgentRole = "writer" | "director";
+export type AgentRole = "writer" | "director" | "author";
 
 export interface WorkFile {
   segment_id: string;
@@ -48,4 +48,14 @@ export function validateNarrationResult(x: unknown): boolean {
 export function validateSceneResult(x: unknown): boolean {
   const s = x as { actions?: unknown[] };
   return !!s && Array.isArray(s.actions) && s.actions.length > 0;
+}
+
+export function validateAuthorResult(x: unknown): boolean {
+  const r = x as { narration?: unknown; actions?: unknown };
+  return (
+    !!r &&
+    validateNarrationResult(r.narration) &&
+    Array.isArray(r.actions) &&
+    (r.actions as unknown[]).length > 0
+  );
 }

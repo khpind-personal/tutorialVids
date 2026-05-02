@@ -51,10 +51,11 @@ async function computeScanHash(projectRoot: string, config: Config): Promise<str
   return hashInputs({ gitSha, lockSha, dev_url: config.app.dev_url });
 }
 
-export async function runScan(projectRoot: string, config: Config): Promise<{ result: ScanResult; hash: string }> {
-  const framework = await detectFramework(projectRoot, config.app.framework_hint);
-  logger.info({ framework }, "framework detected");
-  const [routes, graph] = await Promise.all([parseRoutes(framework, projectRoot), readGraph(projectRoot)]);
+export async function runScan(projectRoot: string, config: Config, routesFrom?: string): Promise<{ result: ScanResult; hash: string }> {
+  const routeRoot = routesFrom ?? projectRoot;
+  const framework = await detectFramework(routeRoot, config.app.framework_hint);
+  logger.info({ framework, route_root: routeRoot }, "framework detected");
+  const [routes, graph] = await Promise.all([parseRoutes(framework, routeRoot), readGraph(routeRoot)]);
   let crawlResult;
   try {
     const auth = await resolveAuth(config);

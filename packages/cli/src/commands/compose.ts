@@ -148,12 +148,13 @@ export async function composeCommand(opts: ComposeCommandOpts): Promise<number> 
         formatComposeMarkdown({
           draft_path: result.draft_path,
           segments: result.segments,
+          drafts: result.drafts,
           total_duration_ms: result.total_duration_ms,
         }) + "\n"
       );
     }
 
-    logger.info({ draft: result.draft_path, srt: result.srt_path }, "compose stage complete");
+    logger.info({ drafts: result.drafts.length, draft: result.draft_path, srt: result.srt_path }, "compose stage complete");
     return 0;
   } catch (err) {
     const { formatError, renderError } = await import("../ux/error.js");

@@ -20,8 +20,10 @@ const plan: Plan = {
   framework: "react-router", base_url: "http://x:5173",
   depth: "medium", tone: "friendly", language: "en-US",
   created_at: "2026-05-02T00:00:00Z",
+  roles: [],
   segments: [{ id: "s01_dashboard", page_id: "dashboard", page_route: "/dashboard", page_title: "Dashboard",
-    depth: "medium", tone: "friendly", target_duration_s: 75, importance: 5, requires_auth: true }]
+    depth: "medium", tone: "friendly", target_duration_s: 75, importance: 5, requires_auth: true,
+    role: "common", is_common: true }]
 };
 
 function makeAgent(p: string, name: string, body: string) {
@@ -30,14 +32,14 @@ function makeAgent(p: string, name: string, body: string) {
 }
 
 describe("prepareWorkFiles", () => {
-  it("writes 2 work files per segment (writer + director)", async () => {
+  it("writes 1 work file per segment for the segment-author agent", async () => {
     const pluginRoot = join(root, "plugin");
-    makeAgent(join(pluginRoot, "agents"), "tutorialvid-script-writer", "you are writer");
-    makeAgent(join(pluginRoot, "agents"), "tutorialvid-scene-director", "you are director");
+    makeAgent(join(pluginRoot, "agents"), "tutorialvid-segment-author", "you are author");
     const cacheRoot = join(root, "cache");
     const result = await prepareWorkFiles({ plan, scan, pluginRoot, cacheRoot });
-    expect(result.workFiles.length).toBe(2);
+    expect(result.workFiles.length).toBe(1);
+    expect(result.workFiles[0]?.role).toBe("author");
     const dirs = await readdir(join(cacheRoot, "script", "_work"));
-    expect(dirs.sort()).toEqual(["s01_dashboard.director.json", "s01_dashboard.writer.json"]);
+    expect(dirs).toEqual(["s01_dashboard.author.json"]);
   });
 });

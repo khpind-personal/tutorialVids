@@ -73,6 +73,7 @@ describe("e2e: tts + record", () => {
     mkdirSync(scriptDir, { recursive: true });
     writeFileSync(join(scriptDir, "fakehash.scene.json"), JSON.stringify({
       segment_id: "s01_dashboard", page_id: "dashboard",
+      role: "common", is_common: true,
       depth: "medium", tone: "friendly", target_duration_s: 75,
       actions: [{ t_ms: 0, type: "nav", url: "/dashboard" }],
       narration: { text: "Hello.", ssml: "<speak>Hello.</speak>", alignments: [] }

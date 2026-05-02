@@ -4,7 +4,8 @@ import type { SceneJson } from "../../src/script/types.js";
 import type { CursorTrack } from "../../src/record/types.js";
 
 const scene: SceneJson = {
-  segment_id: "s01_x", page_id: "x", depth: "medium", tone: "friendly", target_duration_s: 10,
+  segment_id: "s01_x", page_id: "x", role: "common", is_common: true,
+  depth: "medium", tone: "friendly", target_duration_s: 10,
   actions: [
     { t_ms: 0, type: "nav", url: "/x" },
     { t_ms: 1000, type: "click", selector: "[data-test=btn]",

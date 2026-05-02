@@ -8,11 +8,13 @@ import { runPlan } from "../plan/index.js";
 import { formatPlanMarkdown } from "../plan/format.js";
 import { logger } from "../logger.js";
 import type { ScanResult } from "../scan/types.js";
+import type { Discovery } from "../discovery/types.js";
 
 export interface PlanCommandOpts {
   cwd: string;
   selected?: string[];
   topN?: number;
+  roles?: string[];
   printMarkdown?: boolean;
 }
 
@@ -21,6 +23,15 @@ async function readLatestScan(scanDir: string): Promise<ScanResult> {
   if (entries.length === 0) throw new Error("no scan.json found in cache; run 'tutorialvid scan' first");
   const target = join(scanDir, entries.sort().pop()!);
   return JSON.parse(await readFile(target, "utf8")) as ScanResult;
+}
+
+async function readLatestDiscovery(discoveryDir: string): Promise<Discovery | undefined> {
+  try {
+    const entries = await readdir(discoveryDir);
+    if (entries.length === 0) return undefined;
+    const target = join(discoveryDir, entries.sort().pop()!);
+    return JSON.parse(await readFile(target, "utf8")) as Discovery;
+  } catch { return undefined; }
 }
 
 export async function planCommand(opts: PlanCommandOpts): Promise<number> {
@@ -39,10 +50,13 @@ export async function planCommand(opts: PlanCommandOpts): Promise<number> {
 
   try {
     const scan = await readLatestScan(join(paths.cache, "scan"));
+    const discovery = await readLatestDiscovery(join(paths.cache, "discovery"));
     const { plan, hash } = await runPlan({
       scan, config,
       selectedPageIds: opts.selected ?? [],
-      ...(opts.topN !== undefined ? { defaultTopN: opts.topN } : {})
+      ...(opts.topN !== undefined ? { defaultTopN: opts.topN } : {}),
+      ...(discovery ? { discovery } : {}),
+      ...(opts.roles && opts.roles.length > 0 ? { selectedRoles: opts.roles } : {})
     });
 
     const target = paths.plan(hash);

@@ -9,12 +9,35 @@ program
   .version("0.0.1");
 
 program
+  .command("discovery")
+  .description("Phase 0 — ingest project markdown + per-role accessibility crawl into discovery.json (Gate 0)")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--roles-file <path>", "override path to tutorialvid.roles.json")
+  .option("--context-dir <path>", "extra docs dir to ingest (repeatable)", (v: string, prev: string[] = []) => [...prev, v], [])
+  .option("--routes-from <path>", "alternative source dir to parse routes from (defaults to --cwd)")
+  .option("--skip-crawl", "skip per-role Playwright crawl (for tests / offline runs)")
+  .option("--no-markdown", "suppress Gate 0 markdown")
+  .action(async (opts) => {
+    const { discoveryCommand } = await import("./commands/discovery.js");
+    const code = await discoveryCommand({
+      cwd: opts.cwd,
+      ...(opts.rolesFile ? { rolesFile: opts.rolesFile } : {}),
+      ...(opts.contextDir && opts.contextDir.length ? { contextDir: opts.contextDir } : {}),
+      ...(opts.routesFrom ? { routesFrom: opts.routesFrom } : {}),
+      ...(opts.skipCrawl ? { skipCrawl: true } : {}),
+      printMarkdown: opts.markdown !== false
+    });
+    process.exit(code);
+  });
+
+program
   .command("scan")
   .description("Reconcile code-graph + routes + crawl into a scan.json")
   .option("--cwd <path>", "project root", process.cwd())
+  .option("--routes-from <path>", "alternative source dir to parse routes from (defaults to --cwd)")
   .action(async (opts) => {
     const { scanCommand } = await import("./commands/scan.js");
-    const code = await scanCommand({ cwd: opts.cwd });
+    const code = await scanCommand({ cwd: opts.cwd, ...(opts.routesFrom ? { routesFrom: opts.routesFrom } : {}) });
     process.exit(code);
   });
 
@@ -24,6 +47,7 @@ program
   .option("--cwd <path>", "project root", process.cwd())
   .option("--select <ids>", "comma-separated page ids to include", (v: string) => v.split(",").map(s => s.trim()).filter(Boolean), [])
   .option("--top-n <n>", "default number of pages when no selection", (v: string) => parseInt(v, 10))
+  .option("--roles <ids>", "comma-separated role ids to include (default: all from discovery)", (v: string) => v.split(",").map(s => s.trim()).filter(Boolean), [])
   .option("--no-markdown", "suppress markdown output")
   .action(async (opts) => {
     const { planCommand } = await import("./commands/plan.js");
@@ -31,6 +55,7 @@ program
       cwd: opts.cwd,
       selected: opts.select,
       topN: opts.topN,
+      roles: opts.roles,
       printMarkdown: opts.markdown !== false
     });
     process.exit(code);

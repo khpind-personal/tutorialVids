@@ -11,7 +11,8 @@ beforeEach(() => dispatchMock.mockReset());
 
 const seg: Segment = {
   id: "s01_dashboard", page_id: "dashboard", page_route: "/dashboard", page_title: "Dashboard",
-  depth: "medium", tone: "friendly", target_duration_s: 75, importance: 5, requires_auth: true
+  depth: "medium", tone: "friendly", target_duration_s: 75, importance: 5, requires_auth: true,
+  role: "common", is_common: true
 };
 const actions: ActionHint[] = [{ selector: "[data-test=link-profile]", label: "Profile", kind: "link" }];
 const narration: Narration = {

@@ -14,6 +14,8 @@ export function buildInlineLoginScene(input: InlineLoginInput): SceneJson {
   return {
     segment_id: "s00_login",
     page_id: "login",
+    role: "common",
+    is_common: true,
     depth: "low",
     tone: input.tone,
     target_duration_s: 25,

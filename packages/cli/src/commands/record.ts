@@ -8,8 +8,18 @@ import { formatRecordMarkdown } from "../record/format.js";
 import { logger } from "../logger.js";
 import type { SceneJson } from "../script/types.js";
 import type { ScanResult } from "../scan/types.js";
+import type { Discovery } from "../discovery/types.js";
 
 export interface RecordCommandOpts { cwd: string; printMarkdown?: boolean; }
+
+async function readLatestDiscovery(discoveryDir: string): Promise<Discovery | undefined> {
+  try {
+    const entries = await readdir(discoveryDir);
+    if (entries.length === 0) return undefined;
+    const target = join(discoveryDir, entries.sort().pop()!);
+    return JSON.parse(await readFile(target, "utf8")) as Discovery;
+  } catch { return undefined; }
+}
 
 async function loadAllScenes(scriptDir: string): Promise<SceneJson[]> {
   const segDirs = await readdir(scriptDir);
@@ -46,9 +56,11 @@ export async function recordCommand(opts: RecordCommandOpts): Promise<number> {
 
   let scan: ScanResult;
   let scenes: SceneJson[];
+  let discovery: Discovery | undefined;
   try {
     scan = await readLatestScan(join(paths.cache, "scan"));
     scenes = await loadAllScenes(join(paths.cache, "script"));
+    discovery = await readLatestDiscovery(join(paths.cache, "discovery"));
   } catch (err) {
     logger.error({ err: (err as Error).message }, "missing scan or script artifacts; run earlier stages first");
     return 1;
@@ -61,7 +73,8 @@ export async function recordCommand(opts: RecordCommandOpts): Promise<number> {
       scenes, baseUrl: scan.base_url, config,
       outDirRoot: join(paths.cache, "record"),
       ...(credentials ? { authCredentials: credentials } : {}),
-      ...(config.auth.storage_state_path ? { storageStatePath: config.auth.storage_state_path } : {})
+      ...(config.auth.storage_state_path ? { storageStatePath: config.auth.storage_state_path } : {}),
+      ...(discovery ? { discovery } : {})
     });
 
     for (const r of results) {

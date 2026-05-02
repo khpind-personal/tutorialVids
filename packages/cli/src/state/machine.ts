@@ -1,10 +1,10 @@
 import { join } from "node:path";
 import { mkdir, writeFile, readFile, access } from "node:fs/promises";
 
-export const STAGES = ["scan", "plan", "script", "tts", "record", "compose", "final"] as const;
+export const STAGES = ["discovery", "scan", "plan", "script", "tts", "record", "compose", "final"] as const;
 export type Stage = typeof STAGES[number];
 
-export const GATES = ["plan", "script", "recording", "final-draft"] as const;
+export const GATES = ["discovery", "plan", "script", "recording", "final-draft"] as const;
 export type Gate = typeof GATES[number];
 
 export type SegmentStageStatus = "pending" | "ok" | "failed" | "skipped";
