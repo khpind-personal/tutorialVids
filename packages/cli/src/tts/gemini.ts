@@ -62,9 +62,8 @@ export async function synthesiseChunk(input: SynthesiseInput): Promise<Synthesis
       const audioBuf = Buffer.from(data, "base64");
       await writeFile(target, audioBuf);
 
-      const wpm = 150 * input.speed;
-      const wordCount = input.chunk.text.split(/\s+/).filter(Boolean).length;
-      const duration_ms = Math.round((wordCount / wpm) * 60_000);
+      const { probeDurationMs } = await import("../ffprobe.js");
+      const duration_ms = await probeDurationMs(target);
       const timing = evenWordTiming(input.chunk.text, duration_ms);
 
       return { mp3_path: target, duration_ms, timing };

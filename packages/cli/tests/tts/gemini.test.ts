@@ -12,6 +12,10 @@ vi.mock("@google/genai", () => ({
   }
 }));
 
+vi.mock("../../src/ffprobe.js", () => ({
+  probeDurationMs: vi.fn().mockResolvedValue(1500)
+}));
+
 beforeEach(() => {
   generateMock.mockReset();
   process.env.GEMINI_API_KEY = "test-key";
@@ -42,7 +46,7 @@ describe("synthesiseChunk", () => {
       outDir
     });
     expect(r.mp3_path).toMatch(/0\.mp3$/);
-    expect(r.duration_ms).toBeGreaterThanOrEqual(0);
+    expect(r.duration_ms).toBe(1500);
     expect(generateMock).toHaveBeenCalledOnce();
   });
 
