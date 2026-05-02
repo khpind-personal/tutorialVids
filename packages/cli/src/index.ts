@@ -36,6 +36,22 @@ program
     process.exit(code);
   });
 
+program
+  .command("script")
+  .description("Generate per-segment narration + scene.json via Anthropic subagents")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--plugin-root <path>", "override plugin package root (for tests)")
+  .option("--no-markdown", "suppress markdown output")
+  .action(async (opts) => {
+    const { scriptCommand } = await import("./commands/script.js");
+    const code = await scriptCommand({
+      cwd: opts.cwd,
+      pluginRoot: opts.pluginRoot,
+      printMarkdown: opts.markdown !== false
+    });
+    process.exit(code);
+  });
+
 program.parseAsync(process.argv).catch((err) => {
   logger.error({ err }, "CLI fatal error");
   process.exit(1);
