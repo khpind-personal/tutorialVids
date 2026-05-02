@@ -89,6 +89,16 @@ program
     process.exit(code);
   });
 
+program
+  .command("finalize")
+  .description("Promote the HD stitch to final.mp4 + final.srt (no watermark)")
+  .option("--cwd <path>", "project root", process.cwd())
+  .action(async (opts) => {
+    const { finalizeCommand } = await import("./commands/finalize.js");
+    const code = await finalizeCommand({ cwd: opts.cwd });
+    process.exit(code);
+  });
+
 program.parseAsync(process.argv).catch((err) => {
   logger.error({ err }, "CLI fatal error");
   process.exit(1);
