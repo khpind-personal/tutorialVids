@@ -73,6 +73,22 @@ program
     process.exit(code);
   });
 
+program
+  .command("compose")
+  .description("Render per-segment Remotion compositions + stitch + watermark draft (Gate 4)")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--plugin-root <path>", "override plugin package root")
+  .option("--no-markdown", "suppress Gate 4 markdown")
+  .action(async (opts) => {
+    const { composeCommand } = await import("./commands/compose.js");
+    const code = await composeCommand({
+      cwd: opts.cwd,
+      pluginRoot: opts.pluginRoot,
+      printMarkdown: opts.markdown !== false,
+    });
+    process.exit(code);
+  });
+
 program.parseAsync(process.argv).catch((err) => {
   logger.error({ err }, "CLI fatal error");
   process.exit(1);
