@@ -25,6 +25,33 @@ const DEFAULT_BACKOFF = 800;
 
 async function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms)); }
 
+function pcmToWav(pcm: Buffer, sampleRate: number, channels = 1, bitsPerSample = 16): Buffer {
+  const byteRate = sampleRate * channels * bitsPerSample / 8;
+  const blockAlign = channels * bitsPerSample / 8;
+  const dataSize = pcm.length;
+  const header = Buffer.alloc(44);
+  header.write("RIFF", 0);
+  header.writeUInt32LE(36 + dataSize, 4);
+  header.write("WAVE", 8);
+  header.write("fmt ", 12);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(1, 20);
+  header.writeUInt16LE(channels, 22);
+  header.writeUInt32LE(sampleRate, 24);
+  header.writeUInt32LE(byteRate, 28);
+  header.writeUInt16LE(blockAlign, 32);
+  header.writeUInt16LE(bitsPerSample, 34);
+  header.write("data", 36);
+  header.writeUInt32LE(dataSize, 40);
+  return Buffer.concat([header, pcm]);
+}
+
+function rateFromMime(mime?: string): number {
+  if (!mime) return 24000;
+  const m = mime.match(/rate=(\d+)/);
+  return m ? parseInt(m[1]!, 10) : 24000;
+}
+
 function evenWordTiming(text: string, durationMs: number): WordTiming[] {
   const words = text.split(/\s+/).filter((w) => w.length > 0);
   if (words.length === 0) return [];
@@ -42,14 +69,16 @@ export async function synthesiseChunk(input: SynthesiseInput): Promise<Synthesis
   let attempt = 0;
   while (true) {
     try {
+      // Gemini 2.5 TTS preview accepts a plain instruction prompt; SSML break/prosody tags are
+      // not consistently honoured and can cause early truncation. Send plaintext with a tone hint.
+      const prompt = `Read aloud in a warm, friendly, professional tutorial voice at a natural pace:\n\n${input.chunk.text}`;
       const resp = await client.models.generateContent({
         model: input.model,
-        contents: [{ role: "user", parts: [{ text: input.chunk.ssml }] }],
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
         config: {
           responseModalities: ["AUDIO"],
           speechConfig: {
             voiceConfig: { prebuiltVoiceConfig: { voiceName: input.voice } },
-            speakingRate: input.speed,
             languageCode: input.language
           }
         }
@@ -57,9 +86,12 @@ export async function synthesiseChunk(input: SynthesiseInput): Promise<Synthesis
 
       const part = (resp as { candidates?: Array<{ content?: { parts?: Array<{ inlineData?: { data?: string; mimeType?: string } }> } }> }).candidates?.[0]?.content?.parts?.[0];
       const data = part?.inlineData?.data;
+      const mime = part?.inlineData?.mimeType;
       if (!data) throw new Error(`Gemini response had no audio data`);
 
-      const audioBuf = Buffer.from(data, "base64");
+      const raw = Buffer.from(data, "base64");
+      const isPcm = !mime || /pcm|L16|L24/i.test(mime);
+      const audioBuf = isPcm ? pcmToWav(raw, rateFromMime(mime)) : raw;
       await writeFile(target, audioBuf);
 
       const { probeDurationMs } = await import("../ffprobe.js");

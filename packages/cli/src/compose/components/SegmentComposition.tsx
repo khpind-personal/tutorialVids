@@ -3,6 +3,8 @@ import { ZoomLayer } from "./ZoomLayer.js";
 import { CursorOverlay } from "./CursorOverlay.js";
 import { Callout } from "./Callout.js";
 import { CaptionBar } from "./CaptionBar.js";
+import { Spotlight } from "./Spotlight.js";
+import { HighlightFrame } from "./HighlightFrame.js";
 import type { TimelineKeyframe } from "../types.js";
 import type { CursorTrack } from "../../record/types.js";
 import type { SrtWord } from "../srt.js";
@@ -25,6 +27,10 @@ export function SegmentComposition(props: SegmentCompositionProps) {
       <ZoomLayer keyframes={props.keyframes}>
         <OffthreadVideo src={props.rawClipPath} muted />
       </ZoomLayer>
+      {/* Spotlight + HighlightFrame render in screen-space (apply zoom transform manually)
+          so the focal box stays pixel-perfect to the on-screen element regardless of zoom. */}
+      <Spotlight keyframes={props.keyframes} viewport={{ width: 1920, height: 1080 }} />
+      <HighlightFrame keyframes={props.keyframes} viewport={{ width: 1920, height: 1080 }} />
       <CursorOverlay
         track={props.cursorTrack}
         svgPath={props.cursorSvgPath}

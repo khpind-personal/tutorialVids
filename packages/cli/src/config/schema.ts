@@ -42,7 +42,7 @@ export const ConfigSchema = z.object({
     provider: z.literal("gemini"),
     api_key_env: z.string(),
     language: z.string(),
-    model: z.string().default("gemini-2.5-flash-tts"),
+    model: z.string().default("gemini-2.5-flash-preview-tts"),
     voices: z.object({
       friendly: z.string().default("Aoede"),
       pro: z.string().default("Charon"),

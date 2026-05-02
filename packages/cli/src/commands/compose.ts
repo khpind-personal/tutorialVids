@@ -18,6 +18,14 @@ export interface ComposeCommandOpts {
   printMarkdown?: boolean;
 }
 
+interface LiveBboxEntry {
+  t_ms: number;
+  beat?: string;
+  selector: string;
+  bbox: { x: number; y: number; w: number; h: number } | null;
+  scroll: { x: number; y: number };
+}
+
 async function loadSegmentArtifacts(scriptDir: string, recordDir: string) {
   const segDirs = await readdir(scriptDir);
   const scenes: SceneJson[] = [];
@@ -26,6 +34,7 @@ async function loadSegmentArtifacts(scriptDir: string, recordDir: string) {
   const audioDurations: Record<string, number> = {};
   const captionWords: Record<string, { word: string; start_ms: number; end_ms: number }[]> = {};
   const rawClips: Record<string, string> = {};
+  const liveBboxes: Record<string, LiveBboxEntry[]> = {};
 
   for (const seg of segDirs) {
     const scriptSeg = join(scriptDir, seg);
@@ -60,10 +69,28 @@ async function loadSegmentArtifacts(scriptDir: string, recordDir: string) {
       const recFiles = await readdir(recordSeg);
       const cursorFile = recFiles.find((f) => f.endsWith(".cursor.json"));
       const mp4 = recFiles.find((f) => f.endsWith(".mp4") || f.endsWith(".webm"));
+      const bboxFile = recFiles.find((f) => f.endsWith(".bboxes.json"));
 
       if (cursorFile) cursors[seg] = JSON.parse(await readFile(join(recordSeg, cursorFile), "utf8"));
       if (mp4) rawClips[seg] = join(recordSeg, mp4);
+      if (bboxFile) liveBboxes[seg] = JSON.parse(await readFile(join(recordSeg, bboxFile), "utf8"));
     } catch {}
+  }
+
+  // Apply live bboxes to scene actions where matching by t_ms — overrides director-computed bbox.
+  // Both highlight AND zoom (when scale !== 1.0) use the live bbox so the camera anchors on the
+  // exact element Playwright resolved at record time.
+  for (const scene of scenes) {
+    const live = liveBboxes[scene.segment_id];
+    if (!live || live.length === 0) continue;
+    for (const action of scene.actions as Array<{ t_ms: number; highlight?: { bbox?: unknown; target_selector?: string }; zoom?: { scale?: number; bbox?: unknown } }>) {
+      const match = live.find((b) => b.t_ms === action.t_ms && b.bbox);
+      if (!match || !match.bbox) continue;
+      if (action.highlight) action.highlight.bbox = match.bbox;
+      if (action.zoom && typeof action.zoom.scale === "number" && action.zoom.scale !== 1.0) {
+        action.zoom.bbox = match.bbox;
+      }
+    }
   }
 
   return { scenes, cursors, audioPaths, audioDurations, captionWords, rawClips };

@@ -4,8 +4,17 @@ import type { CursorTrack } from "../record/types.js";
 export interface TimelineKeyframe {
   t_ms: number;
   zoom?: { scale: number; x_pct: number; y_pct: number };
-  callout?: { text: string; anchor: "left" | "right" | "top" | "bottom"; visible: boolean };
+  callout?: { text: string; anchor: "left" | "right" | "top" | "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right"; visible: boolean; max_width?: number };
   ripple?: { x_pct: number; y_pct: number };
+  highlight?: {
+    bbox: { x: number; y: number; w: number; h: number };
+    style: "spotlight" | "glow" | "both";
+    visible: boolean;
+    intensity?: number;
+    pad?: number;
+    radius?: number;
+    pulse?: boolean;
+  };
 }
 
 export interface SegmentTimeline {

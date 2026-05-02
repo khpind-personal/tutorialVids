@@ -3,7 +3,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { applyAuth, type AuthCredentials } from "./auth.js";
 import { CursorRecorder } from "./cursor.js";
-import { runActions } from "./runner.js";
+import { runActions, type LiveBbox } from "./runner.js";
 import { runSeed } from "./seed.js";
 import type { SceneJson } from "../script/types.js";
 import type { Config } from "../config/schema.js";
@@ -36,7 +36,8 @@ export async function runRecord(input: RunRecordInput): Promise<RecordSegmentRes
       await mkdir(segDir, { recursive: true });
       const context = await browser.newContext({
         recordVideo: { dir: segDir, size: input.config.record.viewport },
-        viewport: input.config.record.viewport
+        viewport: input.config.record.viewport,
+        ...(input.storageStatePath ? { storageState: input.storageStatePath } : {})
       });
       const page = await context.newPage();
 
@@ -51,6 +52,7 @@ export async function runRecord(input: RunRecordInput): Promise<RecordSegmentRes
 
       const cursor = new CursorRecorder();
       cursor.start();
+      const liveBboxes: LiveBbox[] = [];
       const start = Date.now();
       let mp4_path = "";
       let cursor_track_path = "";
@@ -61,7 +63,8 @@ export async function runRecord(input: RunRecordInput): Promise<RecordSegmentRes
           actions: scene.actions,
           retry: input.config.record.selector_retry,
           retryBackoffMs: input.config.record.selector_retry_backoff_ms,
-          cursor
+          cursor,
+          liveBboxes
         });
       } finally {
         const track = cursor.stop();
@@ -72,6 +75,8 @@ export async function runRecord(input: RunRecordInput): Promise<RecordSegmentRes
         const hash = hashInputs({ segment_id: scene.segment_id, scene_actions: scene.actions.length, base_url: input.baseUrl });
         cursor_track_path = join(segDir, `${hash}.cursor.json`);
         await writeFile(cursor_track_path, JSON.stringify(track, null, 2));
+        const bboxes_path = join(segDir, `${hash}.bboxes.json`);
+        await writeFile(bboxes_path, JSON.stringify(liveBboxes, null, 2));
       }
       results.push({ segment_id: scene.segment_id, mp4_path, cursor_track_path, duration_ms });
     }

@@ -2,6 +2,14 @@ import type { Page } from "playwright";
 import type { SceneAction } from "../script/types.js";
 import type { CursorRecorder } from "./cursor.js";
 
+export interface LiveBbox {
+  t_ms: number;
+  beat?: string;
+  selector: string;
+  bbox: { x: number; y: number; w: number; h: number } | null;
+  scroll: { x: number; y: number };
+}
+
 export interface RunActionsInput {
   page: Page;
   baseUrl: string;
@@ -9,6 +17,9 @@ export interface RunActionsInput {
   retry: number;
   retryBackoffMs: number;
   cursor: CursorRecorder;
+  // Sink for live bboxes captured at action time. Optional — if provided, runner pushes one entry
+  // per action that has a target_selector, holding the element's CSS-px bbox at the moment t_ms is reached.
+  liveBboxes?: LiveBbox[];
 }
 
 async function sleep(ms: number) {
@@ -38,7 +49,33 @@ async function withSelectorRetry<T>(
 }
 
 export async function runActions(input: RunActionsInput): Promise<void> {
+  const start = Date.now();
   for (const a of input.actions) {
+    const targetElapsed = typeof a.t_ms === "number" ? a.t_ms : 0;
+    const actualElapsed = Date.now() - start;
+    const delay = targetElapsed - actualElapsed;
+    if (delay > 0) await sleep(delay);
+
+    // BEFORE running the action, capture live bbox for any highlight target_selector.
+    // This pins the bbox to the EXACT moment the highlight will show in the video.
+    const hl = (a as { highlight?: { target_selector?: string }; beat?: string }).highlight;
+    const targetSel = hl?.target_selector;
+    if (targetSel && input.liveBboxes) {
+      try {
+        const bbox = await input.page.locator(targetSel).first().boundingBox({ timeout: 1000 });
+        const scroll = await input.page.evaluate(() => ({ x: window.scrollX || 0, y: window.scrollY || 0 }));
+        input.liveBboxes.push({
+          t_ms: targetElapsed,
+          ...((a as { beat?: string }).beat ? { beat: (a as { beat?: string }).beat as string } : {}),
+          selector: targetSel,
+          bbox: bbox ? { x: Math.round(bbox.x), y: Math.round(bbox.y), w: Math.round(bbox.width), h: Math.round(bbox.height) } : null,
+          scroll
+        });
+      } catch {
+        input.liveBboxes.push({ t_ms: targetElapsed, selector: targetSel, bbox: null, scroll: { x: 0, y: 0 } });
+      }
+    }
+
     switch (a.type) {
       case "nav": {
         if (!a.url) throw new Error("nav action missing url");

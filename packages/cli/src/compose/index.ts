@@ -45,7 +45,8 @@ export async function runCompose(input: RunComposeInput): Promise<RunComposeOutp
   await Promise.all(input.scenes.map((scene) => limit(async () => {
     const cursor = input.cursors[scene.segment_id];
     const audio = input.audioPaths[scene.segment_id] ?? [];
-    const durMs = input.audioDurations[scene.segment_id] ?? scene.target_duration_s * 1000;
+    const audioMs = input.audioDurations[scene.segment_id] ?? 0;
+    const durMs = Math.max(audioMs, scene.target_duration_s * 1000);
     const captions = input.captionWords[scene.segment_id] ?? [];
     const rawClip = input.rawClips[scene.segment_id];
     if (!cursor || !rawClip) {
