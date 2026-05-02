@@ -1,0 +1,9 @@
+{
+  "name": "minimal",
+  "duration_s": 3,
+  "background": "#FFFFFF",
+  "logo": { "anchor": "center", "max_width_pct": 30, "max_height_pct": 30 },
+  "title_text": "{{app.name}}",
+  "title_color": "#1F2937",
+  "title_font_size": 64
+}

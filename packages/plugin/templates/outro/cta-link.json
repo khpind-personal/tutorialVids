@@ -1,0 +1,11 @@
+{
+  "name": "cta-link",
+  "duration_s": 5,
+  "background": "#1F2937",
+  "title_text": "Try it free at",
+  "title_color": "#FFFFFF",
+  "title_font_size": 48,
+  "cta_text": "{{compose.outro_cta}}",
+  "cta_color": "#7C3AED",
+  "cta_font_size": 56
+}
