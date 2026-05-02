@@ -72,14 +72,27 @@ export async function runActions(input: RunActionsInput): Promise<void> {
       }
       case "click": {
         if (!a.selector) throw new Error("click action missing selector");
-        await withSelectorRetry(
-          () => input.page.click(a.selector!),
+        const sel = a.selector;
+        const box = await withSelectorRetry(
+          async () => {
+            const handle = await input.page.waitForSelector(sel, { timeout: 5000 });
+            return handle ? await handle.boundingBox() : null;
+          },
           input.retry,
           input.retryBackoffMs,
-          a.selector
+          sel
         );
-        input.cursor.note("down", 0, 0);
-        input.cursor.note("up", 0, 0);
+        const x = box ? Math.round(box.x + box.width / 2) : 0;
+        const y = box ? Math.round(box.y + box.height / 2) : 0;
+        input.cursor.note("move", x, y);
+        await withSelectorRetry(
+          () => input.page.click(sel),
+          input.retry,
+          input.retryBackoffMs,
+          sel
+        );
+        input.cursor.note("down", x, y);
+        input.cursor.note("up", x, y);
         break;
       }
     }

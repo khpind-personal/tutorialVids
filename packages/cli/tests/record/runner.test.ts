@@ -31,6 +31,9 @@ beforeEach(() => {
 
 describe("runActions", () => {
   it("executes nav + click in order", async () => {
+    waitForSelectorMock.mockResolvedValue({
+      boundingBox: async () => ({ x: 100, y: 50, width: 80, height: 30 }),
+    });
     const actions: SceneAction[] = [
       { t_ms: 0, type: "nav", url: "/dashboard" },
       { t_ms: 1000, type: "click", selector: "[data-test=x]" },
@@ -67,6 +70,9 @@ describe("runActions", () => {
   });
 
   it("throws SelectorTimeout after exhausting retries", async () => {
+    waitForSelectorMock.mockResolvedValue({
+      boundingBox: async () => ({ x: 0, y: 0, width: 10, height: 10 }),
+    });
     clickMock.mockRejectedValue(new Error("not found"));
     const actions: SceneAction[] = [
       { t_ms: 0, type: "click", selector: "[data-test=missing]" },
