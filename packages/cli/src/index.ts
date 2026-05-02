@@ -52,6 +52,16 @@ program
     process.exit(code);
   });
 
+program
+  .command("tts")
+  .description("Synthesise per-segment narration via Gemini TTS")
+  .option("--cwd <path>", "project root", process.cwd())
+  .action(async (opts) => {
+    const { ttsCommand } = await import("./commands/tts.js");
+    const code = await ttsCommand({ cwd: opts.cwd });
+    process.exit(code);
+  });
+
 program.parseAsync(process.argv).catch((err) => {
   logger.error({ err }, "CLI fatal error");
   process.exit(1);
