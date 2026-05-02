@@ -62,6 +62,17 @@ program
     process.exit(code);
   });
 
+program
+  .command("record")
+  .description("Record per-segment Playwright video + cursor track from scene.json")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--no-markdown", "suppress Gate 3 markdown output")
+  .action(async (opts) => {
+    const { recordCommand } = await import("./commands/record.js");
+    const code = await recordCommand({ cwd: opts.cwd, printMarkdown: opts.markdown !== false });
+    process.exit(code);
+  });
+
 program.parseAsync(process.argv).catch((err) => {
   logger.error({ err }, "CLI fatal error");
   process.exit(1);
