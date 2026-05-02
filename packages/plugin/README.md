@@ -16,3 +16,7 @@ In Claude Code, install via the plugin's repository URL or marketplace listing.
 
 - Slash command `/tutorialvid` triggers the skill
 - Skill drives `tutorialvid scan` and summarizes the result
+
+## Music
+
+The plugin ships 5 silent placeholder mp3s in `templates/music/`. Replace them with real CC0 tracks before publishing — see `templates/music/README.md` for sourcing guidance and per-tone recommendations.
