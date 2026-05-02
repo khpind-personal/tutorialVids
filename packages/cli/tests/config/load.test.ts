@@ -45,4 +45,13 @@ describe("loadConfig", () => {
     expect(cfg.script.depth).toBe("medium");
     expect(cfg.script.tone).toBe("friendly");
   });
+  it("provides default voice + speed mapping per tone and record defaults", async () => {
+    writeFileSync(join(root, ".tutorialvid/config.json"), JSON.stringify(valid));
+    const cfg = await loadConfig(root);
+    expect(cfg.tts.voices.friendly).toBe("Aoede");
+    expect(cfg.tts.speed_per_tone.documentary).toBe(0.95);
+    expect(cfg.tts.chunk_max_chars).toBe(800);
+    expect(cfg.record.headless).toBe(true);
+    expect(cfg.record.viewport.width).toBe(1920);
+  });
 });

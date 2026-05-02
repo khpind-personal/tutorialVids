@@ -41,7 +41,23 @@ export const ConfigSchema = z.object({
   tts: z.object({
     provider: z.literal("gemini"),
     api_key_env: z.string(),
-    language: z.string()
+    language: z.string(),
+    model: z.string().default("gemini-2.5-flash-tts"),
+    voices: z.object({
+      friendly: z.string().default("Aoede"),
+      pro: z.string().default("Charon"),
+      hype: z.string().default("Fenrir"),
+      founder: z.string().default("Orus"),
+      documentary: z.string().default("Kore")
+    }).default({ friendly: "Aoede", pro: "Charon", hype: "Fenrir", founder: "Orus", documentary: "Kore" }),
+    speed_per_tone: z.object({
+      friendly: z.number().default(1.0),
+      pro: z.number().default(1.05),
+      hype: z.number().default(1.10),
+      founder: z.number().default(1.0),
+      documentary: z.number().default(0.95)
+    }).default({ friendly: 1.0, pro: 1.05, hype: 1.10, founder: 1.0, documentary: 0.95 }),
+    chunk_max_chars: z.number().int().positive().default(800)
   }),
   anthropic: z.object({
     api_key_env: z.string().default("ANTHROPIC_API_KEY"),
@@ -53,6 +69,24 @@ export const ConfigSchema = z.object({
     tone: z.enum(["friendly", "pro", "hype", "founder", "documentary"]).default("friendly"),
     language: z.string().default("en-US")
   }).default({ depth: "medium", tone: "friendly", language: "en-US" }),
+  record: z.object({
+    headless: z.boolean().default(true),
+    viewport: z.object({
+      width: z.number().int().positive().default(1920),
+      height: z.number().int().positive().default(1080)
+    }).default({ width: 1920, height: 1080 }),
+    selector_retry: z.number().int().nonnegative().default(3),
+    selector_retry_backoff_ms: z.number().int().nonnegative().default(500),
+    cursor_poll_hz: z.number().int().positive().default(60),
+    auth_recover: z.boolean().default(true),
+    gate_3_enabled: z.boolean().default(false),
+    max_segment_concurrency: z.number().int().positive().default(1)
+  }).default({
+    headless: true, viewport: { width: 1920, height: 1080 },
+    selector_retry: 3, selector_retry_backoff_ms: 500,
+    cursor_poll_hz: 60, auth_recover: true,
+    gate_3_enabled: false, max_segment_concurrency: 1
+  }),
   telemetry: z.object({ enabled: z.boolean().default(false) }).default({ enabled: false })
 });
 
