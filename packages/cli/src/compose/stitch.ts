@@ -1,6 +1,8 @@
 import { mkdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
-import ffmpeg from "fluent-ffmpeg";
+import { join, resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { renderMedia, selectComposition } from "@remotion/renderer";
+import { bundle } from "@remotion/bundler";
 import { concatSegments, duckMixMusic } from "./ffmpeg.js";
 
 export interface StitchInput {
@@ -30,30 +32,36 @@ interface OutroSpec extends IntroSpec {
   cta_font_size: number;
 }
 
-function run(chain: ReturnType<typeof ffmpeg>): Promise<void> {
-  return new Promise((resolve, reject) => {
-    chain.on("end", () => resolve()).on("error", (e: Error) => reject(e)).run();
+const here = dirname(fileURLToPath(import.meta.url));
+const ENTRY = resolve(here, "../../src/compose-entry.tsx");
+let cachedBundle: string | null = null;
+
+async function ensureBundle(): Promise<string> {
+  if (cachedBundle) return cachedBundle;
+  cachedBundle = await bundle({ entryPoint: ENTRY });
+  return cachedBundle;
+}
+
+async function renderIntro(opts: { title: string; bg: string; fg: string; fontSize: number; durationS: number; out: string; }): Promise<void> {
+  const serveUrl = await ensureBundle();
+  const inputProps = { title: opts.title, background: opts.bg, titleColor: opts.fg, fontSize: opts.fontSize };
+  const composition = await selectComposition({ serveUrl, id: "Intro", inputProps: inputProps as unknown as Record<string, unknown> });
+  await renderMedia({
+    composition: { ...composition, durationInFrames: Math.round(opts.durationS * composition.fps) },
+    serveUrl, codec: "h264", outputLocation: opts.out,
+    inputProps: inputProps as unknown as Record<string, unknown>
   });
 }
 
-async function renderTitleCard(opts: {
-  text: string; subtext?: string; bg: string; fg: string; subFg?: string;
-  durationS: number; fontSize: number; subFontSize?: number;
-  out: string; resolution: { width: number; height: number };
-}): Promise<void> {
-  const chain = ffmpeg();
-  chain.input(`color=c=${opts.bg.replace("#", "0x")}:s=${opts.resolution.width}x${opts.resolution.height}:d=${opts.durationS}`);
-  chain.inputOptions(["-f", "lavfi"]);
-  const filters: { filter: string; options: Record<string, string | number> }[] = [
-    { filter: "drawtext", options: { text: opts.text, fontsize: opts.fontSize, fontcolor: opts.fg, x: "(w-tw)/2", y: "(h-th)/2 - 50" } }
-  ];
-  if (opts.subtext) {
-    filters.push({ filter: "drawtext", options: { text: opts.subtext, fontsize: opts.subFontSize ?? 32, fontcolor: opts.subFg ?? opts.fg, x: "(w-tw)/2", y: "(h-th)/2 + 50" } });
-  }
-  chain.videoFilters(filters);
-  chain.outputOptions(["-pix_fmt", "yuv420p", "-t", String(opts.durationS)]);
-  chain.output(opts.out);
-  await run(chain);
+async function renderOutro(opts: { title: string; cta: string; bg: string; fg: string; ctaFg: string; titleFontSize: number; ctaFontSize: number; durationS: number; out: string; }): Promise<void> {
+  const serveUrl = await ensureBundle();
+  const inputProps = { title: opts.title, cta: opts.cta, background: opts.bg, titleColor: opts.fg, ctaColor: opts.ctaFg, titleFontSize: opts.titleFontSize, ctaFontSize: opts.ctaFontSize };
+  const composition = await selectComposition({ serveUrl, id: "Outro", inputProps: inputProps as unknown as Record<string, unknown> });
+  await renderMedia({
+    composition: { ...composition, durationInFrames: Math.round(opts.durationS * composition.fps) },
+    serveUrl, codec: "h264", outputLocation: opts.out,
+    inputProps: inputProps as unknown as Record<string, unknown>
+  });
 }
 
 export async function stitchFinal(input: StitchInput): Promise<string> {
@@ -63,17 +71,17 @@ export async function stitchFinal(input: StitchInput): Promise<string> {
 
   const introMp4 = join(input.workDir, "intro.mp4");
   const outroMp4 = join(input.workDir, "outro.mp4");
-  await renderTitleCard({
-    text: intro.title_text.replace("{{app.name}}", input.appName),
-    bg: intro.background, fg: intro.title_color, durationS: intro.duration_s, fontSize: intro.title_font_size,
-    out: introMp4, resolution: input.resolution
+  await renderIntro({
+    title: intro.title_text.replace("{{app.name}}", input.appName),
+    bg: intro.background, fg: intro.title_color, fontSize: intro.title_font_size,
+    durationS: intro.duration_s, out: introMp4
   });
-  await renderTitleCard({
-    text: outro.title_text,
-    subtext: outro.cta_text.replace("{{compose.outro_cta}}", input.outroCta ?? "example.com"),
-    bg: outro.background, fg: outro.title_color, subFg: outro.cta_color,
-    durationS: outro.duration_s, fontSize: outro.title_font_size, subFontSize: outro.cta_font_size,
-    out: outroMp4, resolution: input.resolution
+  await renderOutro({
+    title: outro.title_text,
+    cta: outro.cta_text.replace("{{compose.outro_cta}}", input.outroCta ?? "example.com"),
+    bg: outro.background, fg: outro.title_color, ctaFg: outro.cta_color,
+    titleFontSize: outro.title_font_size, ctaFontSize: outro.cta_font_size,
+    durationS: outro.duration_s, out: outroMp4
   });
 
   const concatOut = join(input.workDir, "concat.mp4");
