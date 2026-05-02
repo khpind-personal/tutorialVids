@@ -37,25 +37,31 @@ export async function planCommand(opts: PlanCommandOpts): Promise<number> {
   await sm.load();
   await sm.recordCommand("plan");
 
-  const scan = await readLatestScan(join(paths.cache, "scan"));
-  const { plan, hash } = await runPlan({
-    scan, config,
-    selectedPageIds: opts.selected ?? [],
-    ...(opts.topN !== undefined ? { defaultTopN: opts.topN } : {})
-  });
+  try {
+    const scan = await readLatestScan(join(paths.cache, "scan"));
+    const { plan, hash } = await runPlan({
+      scan, config,
+      selectedPageIds: opts.selected ?? [],
+      ...(opts.topN !== undefined ? { defaultTopN: opts.topN } : {})
+    });
 
-  const target = paths.plan(hash);
-  const existing = await store.readJson(target);
-  if (existing) {
-    logger.info({ target }, "plan cache hit");
-  } else {
-    await store.writeJson(target, plan);
-    logger.info({ target, segments: plan.segments.length }, "plan written");
-  }
-  await sm.markStageComplete("plan");
+    const target = paths.plan(hash);
+    const existing = await store.readJson(target);
+    if (existing) {
+      logger.info({ target }, "plan cache hit");
+    } else {
+      await store.writeJson(target, plan);
+      logger.info({ target, segments: plan.segments.length }, "plan written");
+    }
+    await sm.markStageComplete("plan");
 
-  if (opts.printMarkdown !== false) {
-    process.stdout.write(formatPlanMarkdown(plan) + "\n");
+    if (opts.printMarkdown !== false) {
+      process.stdout.write(formatPlanMarkdown(plan) + "\n");
+    }
+    return 0;
+  } catch (err) {
+    const { formatError, renderError } = await import("../ux/error.js");
+    process.stderr.write(renderError(formatError(err, "plan")));
+    return 1;
   }
-  return 0;
 }

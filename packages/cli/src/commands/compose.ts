@@ -97,9 +97,8 @@ export async function composeCommand(opts: ComposeCommandOpts): Promise<number> 
 
   const pluginRoot = opts.pluginRoot ?? DEFAULT_PLUGIN_ROOT;
 
-  let result;
   try {
-    result = await runCompose({
+    const result = await runCompose({
       scenes: arts.scenes,
       cursors: arts.cursors,
       audioPaths: arts.audioPaths,
@@ -111,26 +110,27 @@ export async function composeCommand(opts: ComposeCommandOpts): Promise<number> 
       cacheRoot: paths.cache,
       appName: config.app.name,
     });
+
+    for (const seg of result.segments) {
+      await sm.markSegmentStage(seg.id, "compose", "ok");
+    }
+    await sm.markStageComplete("compose");
+
+    if (opts.printMarkdown !== false) {
+      process.stdout.write(
+        formatComposeMarkdown({
+          draft_path: result.draft_path,
+          segments: result.segments,
+          total_duration_ms: result.total_duration_ms,
+        }) + "\n"
+      );
+    }
+
+    logger.info({ draft: result.draft_path, srt: result.srt_path }, "compose stage complete");
+    return 0;
   } catch (err) {
-    logger.error({ err: (err as Error).message }, "compose stage failed");
+    const { formatError, renderError } = await import("../ux/error.js");
+    process.stderr.write(renderError(formatError(err, "compose")));
     return 1;
   }
-
-  for (const seg of result.segments) {
-    await sm.markSegmentStage(seg.id, "compose", "ok");
-  }
-  await sm.markStageComplete("compose");
-
-  if (opts.printMarkdown !== false) {
-    process.stdout.write(
-      formatComposeMarkdown({
-        draft_path: result.draft_path,
-        segments: result.segments,
-        total_duration_ms: result.total_duration_ms,
-      }) + "\n"
-    );
-  }
-
-  logger.info({ draft: result.draft_path, srt: result.srt_path }, "compose stage complete");
-  return 0;
 }

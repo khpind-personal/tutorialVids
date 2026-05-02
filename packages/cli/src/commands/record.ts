@@ -56,27 +56,27 @@ export async function recordCommand(opts: RecordCommandOpts): Promise<number> {
 
   const credentials = config.auth.credentials;
 
-  let results;
   try {
-    results = await runRecord({
+    const results = await runRecord({
       scenes, baseUrl: scan.base_url, config,
       outDirRoot: join(paths.cache, "record"),
       ...(credentials ? { authCredentials: credentials } : {}),
       ...(config.auth.storage_state_path ? { storageStatePath: config.auth.storage_state_path } : {})
     });
+
+    for (const r of results) {
+      await sm.markSegmentStage(r.segment_id, "record", "ok");
+    }
+    await sm.markStageComplete("record");
+
+    if (config.record.gate_3_enabled && opts.printMarkdown !== false) {
+      process.stdout.write(formatRecordMarkdown(results) + "\n");
+    }
+    logger.info({ segments: results.length }, "record stage complete");
+    return 0;
   } catch (err) {
-    logger.error({ err: (err as Error).message }, "record stage failed");
+    const { formatError, renderError } = await import("../ux/error.js");
+    process.stderr.write(renderError(formatError(err, "record")));
     return 1;
   }
-
-  for (const r of results) {
-    await sm.markSegmentStage(r.segment_id, "record", "ok");
-  }
-  await sm.markStageComplete("record");
-
-  if (config.record.gate_3_enabled && opts.printMarkdown !== false) {
-    process.stdout.write(formatRecordMarkdown(results) + "\n");
-  }
-  logger.info({ segments: results.length }, "record stage complete");
-  return 0;
 }

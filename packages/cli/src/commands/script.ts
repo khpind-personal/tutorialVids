@@ -52,29 +52,29 @@ export async function scriptCommand(opts: ScriptCommandOpts): Promise<number> {
 
   const pluginRoot = opts.pluginRoot ?? DEFAULT_PLUGIN_ROOT;
 
-  let artifacts;
   try {
-    artifacts = await runScript({ plan, scan, config, pluginRoot });
+    const artifacts = await runScript({ plan, scan, config, pluginRoot });
+
+    for (const a of artifacts) {
+      const sceneTarget = paths.script(a.scene.segment_id, a.hash, "scene.json");
+      await mkdir(dirname(sceneTarget), { recursive: true });
+      await store.writeJson(sceneTarget, a.scene);
+      const txtTarget = paths.script(a.scene.segment_id, a.hash, "txt");
+      await writeFile(txtTarget, a.scene.narration.text, "utf8");
+      const ssmlTarget = paths.script(a.scene.segment_id, a.hash, "ssml");
+      await writeFile(ssmlTarget, a.scene.narration.ssml, "utf8");
+      await sm.markSegmentStage(a.scene.segment_id, "script", "ok");
+    }
+    await sm.markStageComplete("script");
+
+    if (opts.printMarkdown !== false) {
+      process.stdout.write(formatScriptMarkdown(artifacts.map((a) => a.scene)) + "\n");
+    }
+    logger.info({ segments: artifacts.length }, "script written");
+    return 0;
   } catch (err) {
-    logger.error({ err: (err as Error).message }, "script generation failed");
+    const { formatError, renderError } = await import("../ux/error.js");
+    process.stderr.write(renderError(formatError(err, "script")));
     return 1;
   }
-
-  for (const a of artifacts) {
-    const sceneTarget = paths.script(a.scene.segment_id, a.hash, "scene.json");
-    await mkdir(dirname(sceneTarget), { recursive: true });
-    await store.writeJson(sceneTarget, a.scene);
-    const txtTarget = paths.script(a.scene.segment_id, a.hash, "txt");
-    await writeFile(txtTarget, a.scene.narration.text, "utf8");
-    const ssmlTarget = paths.script(a.scene.segment_id, a.hash, "ssml");
-    await writeFile(ssmlTarget, a.scene.narration.ssml, "utf8");
-    await sm.markSegmentStage(a.scene.segment_id, "script", "ok");
-  }
-  await sm.markStageComplete("script");
-
-  if (opts.printMarkdown !== false) {
-    process.stdout.write(formatScriptMarkdown(artifacts.map((a) => a.scene)) + "\n");
-  }
-  logger.info({ segments: artifacts.length }, "script written");
-  return 0;
 }

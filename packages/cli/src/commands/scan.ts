@@ -19,15 +19,21 @@ export async function scanCommand(opts: ScanCommandOpts): Promise<number> {
   const store = new CacheStore(paths);
   const sm = new StateMachine(projectRoot);
   await sm.load();
-  const { result, hash } = await runScan(projectRoot, config);
-  const target = paths.scan(hash);
-  const existing = await store.readJson(target);
-  if (existing) {
-    logger.info({ target }, "scan cache hit");
-  } else {
-    await store.writeJson(target, result);
-    logger.info({ target, pages: result.pages.length, warnings: result.warnings.length }, "scan written");
+  try {
+    const { result, hash } = await runScan(projectRoot, config);
+    const target = paths.scan(hash);
+    const existing = await store.readJson(target);
+    if (existing) {
+      logger.info({ target }, "scan cache hit");
+    } else {
+      await store.writeJson(target, result);
+      logger.info({ target, pages: result.pages.length, warnings: result.warnings.length }, "scan written");
+    }
+    await sm.markStageComplete("scan");
+    return 0;
+  } catch (err) {
+    const { formatError, renderError } = await import("../ux/error.js");
+    process.stderr.write(renderError(formatError(err, "scan")));
+    return 1;
   }
-  await sm.markStageComplete("scan");
-  return 0;
 }

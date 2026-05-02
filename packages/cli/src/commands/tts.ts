@@ -45,28 +45,34 @@ export async function ttsCommand(opts: TtsCommandOpts): Promise<number> {
     return 1;
   }
 
-  for (const scene of scenes) {
-    try {
-      const r = await runTts({
-        ssml: scene.narration.ssml,
-        tone: scene.tone as "friendly" | "pro" | "hype" | "founder" | "documentary",
-        voices: config.tts.voices,
-        speeds: config.tts.speed_per_tone,
-        apiKeyEnv: config.tts.api_key_env,
-        model: config.tts.model,
-        language: config.tts.language,
-        chunkMaxChars: config.tts.chunk_max_chars,
-        outDir: join(paths.cache, "script", scene.segment_id)
-      });
-      await store.writeJson(paths.script(scene.segment_id, "tts", "timing.json"), { duration_ms: r.duration_ms, timing: r.timing, chunks: r.chunks });
-      await sm.markSegmentStage(scene.segment_id, "tts", "ok");
-      logger.info({ segment: scene.segment_id, duration_ms: r.duration_ms, chunks: r.chunks.length }, "tts written");
-    } catch (err) {
-      logger.error({ err: (err as Error).message, segment: scene.segment_id }, "tts segment failed");
-      await sm.markSegmentStage(scene.segment_id, "tts", "failed", (err as Error).message);
-      return 1;
+  try {
+    for (const scene of scenes) {
+      try {
+        const r = await runTts({
+          ssml: scene.narration.ssml,
+          tone: scene.tone as "friendly" | "pro" | "hype" | "founder" | "documentary",
+          voices: config.tts.voices,
+          speeds: config.tts.speed_per_tone,
+          apiKeyEnv: config.tts.api_key_env,
+          model: config.tts.model,
+          language: config.tts.language,
+          chunkMaxChars: config.tts.chunk_max_chars,
+          outDir: join(paths.cache, "script", scene.segment_id)
+        });
+        await store.writeJson(paths.script(scene.segment_id, "tts", "timing.json"), { duration_ms: r.duration_ms, timing: r.timing, chunks: r.chunks });
+        await sm.markSegmentStage(scene.segment_id, "tts", "ok");
+        logger.info({ segment: scene.segment_id, duration_ms: r.duration_ms, chunks: r.chunks.length }, "tts written");
+      } catch (err) {
+        logger.error({ err: (err as Error).message, segment: scene.segment_id }, "tts segment failed");
+        await sm.markSegmentStage(scene.segment_id, "tts", "failed", (err as Error).message);
+        return 1;
+      }
     }
+    await sm.markStageComplete("tts");
+    return 0;
+  } catch (err) {
+    const { formatError, renderError } = await import("../ux/error.js");
+    process.stderr.write(renderError(formatError(err, "tts")));
+    return 1;
   }
-  await sm.markStageComplete("tts");
-  return 0;
 }
