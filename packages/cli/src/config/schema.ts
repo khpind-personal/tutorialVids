@@ -87,6 +87,31 @@ export const ConfigSchema = z.object({
     cursor_poll_hz: 60, auth_recover: true,
     gate_3_enabled: false, max_segment_concurrency: 1
   }),
+  compose: z.object({
+    draft_resolution: z.string().regex(/^\d+x\d+$/).default("854x480"),
+    final_resolution: z.string().regex(/^\d+x\d+$/).default("1920x1080"),
+    fps: z.number().int().positive().default(30),
+    watermark_text: z.string().default("DRAFT — TutorialVid"),
+    music_volume: z.number().min(0).max(1).default(0.15),
+    intro_template: z.string().default("minimal"),
+    outro_template: z.string().default("cta-link"),
+    outro_cta: z.string().optional(),
+    music_override_path: z.string().optional(),
+    cursor_size_px: z.number().int().positive().default(48),
+    cursor_idle_hide_ms: z.number().int().positive().default(2000),
+    parallel_segment_renders: z.number().int().positive().default(2)
+  }).default({
+    draft_resolution: "854x480",
+    final_resolution: "1920x1080",
+    fps: 30,
+    watermark_text: "DRAFT — TutorialVid",
+    music_volume: 0.15,
+    intro_template: "minimal",
+    outro_template: "cta-link",
+    cursor_size_px: 48,
+    cursor_idle_hide_ms: 2000,
+    parallel_segment_renders: 2
+  }),
   telemetry: z.object({ enabled: z.boolean().default(false) }).default({ enabled: false })
 });
 

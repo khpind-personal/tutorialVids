@@ -54,4 +54,12 @@ describe("loadConfig", () => {
     expect(cfg.record.headless).toBe(true);
     expect(cfg.record.viewport.width).toBe(1920);
   });
+  it("provides compose defaults", async () => {
+    writeFileSync(join(root, ".tutorialvid/config.json"), JSON.stringify(valid));
+    const cfg = await loadConfig(root);
+    expect(cfg.compose.draft_resolution).toBe("854x480");
+    expect(cfg.compose.fps).toBe(30);
+    expect(cfg.compose.music_volume).toBe(0.15);
+    expect(cfg.compose.cursor_size_px).toBe(48);
+  });
 });
