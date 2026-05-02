@@ -107,3 +107,28 @@ All 17 tasks complete. 18 commits on `main`, tagged `v0.0.1-plan1`.
 - `packages/cli/src/compose/captions.ts` — burn captions from timing.json + emit sidecar SRT
 - `packages/cli/src/compose/ffmpeg.ts` — concat segments + intro/outro + duck-mix music
 - Wire Gate 4 (final draft preview at 480p watermarked) into the skill
+
+## Plan 4 shipped — 2026-05-02
+
+12 tasks. Tag `v0.0.4-plan4`.
+
+### What shipped on top of Plan 3
+- Remotion 4.x integration (CLI gets JSX support via tsconfig)
+- 5 Remotion components (CursorOverlay, ZoomLayer, Callout, CaptionBar, SegmentComposition)
+- Remotion entrypoint + per-segment renderMedia orchestrator (parallel via p-limit)
+- ffmpeg helpers (concat, watermark, duck-mix, downscale) via fluent-ffmpeg + @ffmpeg-installer
+- Stitch helpers: intro+outro title cards (ffmpeg drawtext) + concat-with-music
+- Compose orchestrator + Gate 4 markdown formatter
+- `tutorialvid compose` command — runs full pipeline, emits `cache/final/draft.mp4` (480p watermarked) + `draft.srt`
+- Plugin templates: 5 cursor SVGs (per-tone palette), 5 silent mp3 placeholders, intro/outro JSON specs
+- Skill v0.0.4 documents all 6 stages + 4 gates
+
+### Plan 5 starting points (finalize + polish)
+- `packages/cli/src/commands/finalize.ts` — full HD render (no watermark) + finalize SRT + stage state advance to `final`
+- Replace silent mp3 placeholders with 5 real CC0 / royalty-free tracks (Pixabay, Free Music Archive)
+- Replace ffmpeg drawtext intro/outro with proper Remotion-rendered animated intros (logo placement, motion)
+- Real per-word audio timing via ffprobe (currently even-distribution heuristic)
+- Real cursor coords on click events (currently 0,0 placeholder in record/runner.ts)
+- Auth mode C (inline tutorial login) — record the login flow as the first segment when this mode is selected
+- Telemetry opt-in (already in config; needs sender)
+- Error UX polish: format errors as `what happened, why, what to do next` per spec §10

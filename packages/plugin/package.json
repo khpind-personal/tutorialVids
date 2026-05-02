@@ -1,6 +1,6 @@
 {
   "name": "@tutorialvid/plugin",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "TutorialVid Claude Code plugin (orchestrator)",
   "license": "MIT",
   "private": false,

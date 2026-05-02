@@ -41,3 +41,19 @@ Prereqs: `GEMINI_API_KEY` set, scan + plan + script already run, `TV_USER`/`TV_P
 - [ ] Storage-state mode (B) loads cookies and skips the login flow.
 - [ ] Auth-expiry recovery: artificially clear the session mid-run; recorder re-authenticates and resumes.
 - [ ] Per-segment state advances `tts` then `record` to `ok`.
+
+## Plan 4 acceptance: compose + Gate 4
+
+Prereqs: Plans 1-3 manually verified, mp3 + cursor + raw mp4 artifacts present.
+
+- [ ] `tutorialvid compose --cwd <root>` produces `cache/compose/<segment>/<hash>.mp4` per segment.
+- [ ] `cache/final/draft.mp4` exists at 854x480 with `DRAFT — TutorialVid` watermark visible top-right.
+- [ ] `cache/final/draft.srt` is a valid SRT file (open in any caption tool).
+- [ ] Cursor SVG matches the segment's tone (e.g. friendly = purple).
+- [ ] Zoom on click is visible during the 200/600/200 ms window.
+- [ ] Callouts appear at the action's t_ms and disappear after duration_ms.
+- [ ] Background music is audible at ~15% volume under TTS narration.
+- [ ] Intro shows `app.name`; outro shows `compose.outro_cta`.
+- [ ] Setting `compose.music_override_path` swaps the music track.
+- [ ] Setting `compose.music_volume: 0` removes music entirely.
+- [ ] Per-segment state advances `compose` to `ok`.
