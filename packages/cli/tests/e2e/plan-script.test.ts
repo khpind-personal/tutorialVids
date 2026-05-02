@@ -61,12 +61,19 @@ describe("e2e: plan + script", () => {
     const planRun = await execa("node", [cliBin, "plan", "--cwd", target, "--top-n", "2"], { reject: false });
     expect(planRun.exitCode, planRun.stderr).toBe(0);
 
-    // 3. script — boundary check: no API key, command must exit non-zero with clear error
+    // 3. script (dispatcher mode) — should succeed without API key, prints instructions
     const scriptRun = await execa("node", [cliBin, "script", "--cwd", target, "--plugin-root", pluginRoot], {
       env: { ...process.env, FAKE_ANTHROPIC_KEY: "" }, reject: false
     });
-    expect(scriptRun.exitCode).not.toBe(0);
-    expect(scriptRun.stderr + scriptRun.stdout).toMatch(/FAKE_ANTHROPIC_KEY|api.*key/i);
+    expect(scriptRun.exitCode).toBe(0);
+    expect(scriptRun.stdout).toMatch(/script-prepare|script-consume|subagent/i);
+
+    // 4. script --standalone — boundary check: no API key, command must exit non-zero with clear error
+    const scriptStandaloneRun = await execa("node", [cliBin, "script", "--cwd", target, "--plugin-root", pluginRoot, "--standalone"], {
+      env: { ...process.env, FAKE_ANTHROPIC_KEY: "" }, reject: false
+    });
+    expect(scriptStandaloneRun.exitCode).not.toBe(0);
+    expect(scriptStandaloneRun.stderr + scriptStandaloneRun.stdout).toMatch(/FAKE_ANTHROPIC_KEY|api.*key/i);
 
     // verify cache + state still healthy
     const planFiles = await readdir(join(target, ".tutorialvid/cache/plan"));

@@ -38,17 +38,36 @@ program
 
 program
   .command("script")
-  .description("Generate per-segment narration + scene.json via Anthropic subagents")
+  .description("Prepare per-segment work files for skill-driven Claude Code subagent dispatch")
   .option("--cwd <path>", "project root", process.cwd())
-  .option("--plugin-root <path>", "override plugin package root (for tests)")
+  .option("--plugin-root <path>", "override plugin package root")
   .option("--no-markdown", "suppress markdown output")
+  .option("--standalone", "use Anthropic SDK directly (requires ANTHROPIC_API_KEY)")
   .action(async (opts) => {
     const { scriptCommand } = await import("./commands/script.js");
-    const code = await scriptCommand({
-      cwd: opts.cwd,
-      pluginRoot: opts.pluginRoot,
-      printMarkdown: opts.markdown !== false
-    });
+    const code = await scriptCommand({ cwd: opts.cwd, pluginRoot: opts.pluginRoot, printMarkdown: opts.markdown !== false, standalone: !!opts.standalone });
+    process.exit(code);
+  });
+
+program
+  .command("script-prepare")
+  .description("Emit per-segment work files for skill subagent dispatch")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--plugin-root <path>", "override plugin package root")
+  .action(async (opts) => {
+    const { scriptPrepareCommand } = await import("./commands/script-prepare.js");
+    const code = await scriptPrepareCommand({ cwd: opts.cwd, pluginRoot: opts.pluginRoot });
+    process.exit(code);
+  });
+
+program
+  .command("script-consume")
+  .description("Read subagent result files + persist scene.json/txt/ssml")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--no-markdown", "suppress Gate 2 markdown")
+  .action(async (opts) => {
+    const { scriptConsumeCommand } = await import("./commands/script-consume.js");
+    const code = await scriptConsumeCommand({ cwd: opts.cwd, printMarkdown: opts.markdown !== false });
     process.exit(code);
   });
 

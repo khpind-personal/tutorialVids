@@ -8,6 +8,7 @@ import { StateMachine } from "../state/machine.js";
 import { runScript } from "../script/index.js";
 import { formatScriptMarkdown } from "../script/format.js";
 import { logger } from "../logger.js";
+import { scriptPrepareCommand } from "./script-prepare.js";
 import type { ScanResult } from "../scan/types.js";
 import type { Plan } from "../plan/types.js";
 
@@ -15,6 +16,7 @@ export interface ScriptCommandOpts {
   cwd: string;
   pluginRoot?: string;
   printMarkdown?: boolean;
+  standalone?: boolean;
 }
 
 async function readLatestJson<T>(dir: string): Promise<T> {
@@ -26,7 +28,7 @@ async function readLatestJson<T>(dir: string): Promise<T> {
 
 const DEFAULT_PLUGIN_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../../plugin");
 
-export async function scriptCommand(opts: ScriptCommandOpts): Promise<number> {
+export async function scriptStandaloneCommand(opts: ScriptCommandOpts): Promise<number> {
   const projectRoot = opts.cwd;
   let config;
   try { config = await loadConfig(projectRoot); }
@@ -77,4 +79,17 @@ export async function scriptCommand(opts: ScriptCommandOpts): Promise<number> {
     process.stderr.write(renderError(formatError(err, "script")));
     return 1;
   }
+}
+
+export async function scriptCommand(opts: ScriptCommandOpts): Promise<number> {
+  if (opts.standalone) return scriptStandaloneCommand(opts);
+  process.stdout.write(
+    `\nRunning script-prepare. To complete the script stage:\n` +
+    `  1. Read each ${opts.cwd}/.tutorialvid/cache/script/_work/<segment>.<role>.json\n` +
+    `  2. Dispatch the named agent (subagent_type) with the system_prompt + user_payload\n` +
+    `  3. Save each LLM JSON output to .tutorialvid/cache/script/_result/<segment>.<role>.json\n` +
+    `  4. Run \`tutorialvid script-consume --cwd ${opts.cwd}\`\n\n` +
+    `Or use --standalone to call Anthropic SDK directly (requires ANTHROPIC_API_KEY).\n\n`
+  );
+  return scriptPrepareCommand({ cwd: opts.cwd, ...(opts.pluginRoot ? { pluginRoot: opts.pluginRoot } : {}) });
 }
