@@ -68,3 +68,13 @@ Prereqs: Plans 1-3 manually verified, mp3 + cursor + raw mp4 artifacts present.
 - [ ] Setting `telemetry.enabled: true` logs a structured `telemetry event` line per stage.
 - [ ] Intro and outro look animated (fade in + scale on intro; fade in/out on outro) — not static drawtext frames.
 - [ ] Plugin v1.0.0 SKILL.md walks through all 7 commands.
+
+## Plan 6 acceptance: Claude Code subagent dispatch for script stage
+
+- [ ] `tutorialvid script-prepare --cwd <root>` writes `cache/script/_work/<segment>.{writer,director}.json` files.
+- [ ] Each work file contains `agent_name`, `system_prompt`, `user_payload`.
+- [ ] Skill loop: dispatch writer Task subagents per segment → save outputs to `_result/<segment>.writer.json` → dispatch director subagents (consuming writer results) → save outputs to `_result/<segment>.director.json`.
+- [ ] `tutorialvid script-consume --cwd <root>` validates each result, writes `cache/script/<segment>/<hash>.scene.json/txt/ssml`, prints Gate 2 markdown.
+- [ ] Default `tutorialvid script` (no flag) inside Claude Code: works without `ANTHROPIC_API_KEY`.
+- [ ] `tutorialvid script --standalone` falls back to Anthropic SDK and requires `ANTHROPIC_API_KEY`.
+- [ ] Both modes produce identical scene.json structure for the same plan + same LLM model.

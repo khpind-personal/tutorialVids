@@ -166,3 +166,17 @@ All 17 tasks complete. 18 commits on `main`, tagged `v0.0.1-plan1`.
 - Real-time progress streaming during long renders.
 - Inline-login scene routed through script-writer subagent for tone-specific wording.
 - Real telemetry network sender (post privacy/legal review).
+
+## Plan 6 shipped — 2026-05-02 — Claude Code subagent dispatch
+
+6 tasks. Tag `v0.1.1-plan6`. Plugin v1.1.0.
+
+### What changed
+- Script stage no longer requires a separate `ANTHROPIC_API_KEY` when run from inside Claude Code.
+- New CLI commands: `script-prepare` (emit work files) + `script-consume` (read result files + persist).
+- Skill orchestrates Task subagent dispatch between prepare and consume.
+- `tutorialvid script --standalone` keeps the Anthropic SDK path for CI / headless use.
+- No regression: 134 prior tests still pass; +10 new tests for work-io + prepare + consume = 134 total.
+
+### Why this matters
+Vibe coder using Claude Code already pays for Anthropic via the subscription. Forcing a second `ANTHROPIC_API_KEY` for the script stage doubled their bill and added friction. Plan 6 inverts: skill is the LLM dispatcher inside Claude Code; CLI is purely engine.
