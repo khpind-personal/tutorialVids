@@ -16,20 +16,29 @@ Before doing anything else, verify:
 3. `GEMINI_API_KEY` env var is set. If missing, ask the user to set it before any TTS step.
 4. Dev server is reachable at `config.app.dev_url`.
 
-## Plan-1 capability
+## Capability (v0.0.2)
 
-This skill currently supports **only the scan stage**. Later stages will land in subsequent plugin versions.
+The pipeline now supports three stages: **scan → plan → script**. Each ends at a user-review gate.
 
-Run:
+### Flow
 
-`tutorialvid scan --cwd <project-root>`
+1. **Scan** (Plan 1):
+   `tutorialvid scan --cwd <project-root>`
+   Reads `<project-root>/.tutorialvid/cache/scan/<hash>.json` and present:
+   - Framework detected
+   - Number of pages discovered
+   - Top 5 by importance
+   - Any warnings
 
-Then read `<project-root>/.tutorialvid/cache/scan/<hash>.json` and present a short summary to the user:
+2. **Plan — Gate 1**:
+   Ask the user which pages to include (default: top-N by importance) and confirm depth/tone.
+   Run:
+   `tutorialvid plan --cwd <project-root> [--select id1,id2,...] [--top-n N]`
+   The CLI prints a markdown table summarizing the plan. **Show this verbatim to the user. Wait for their approval before proceeding.** If they edit selections, re-run with the new `--select`.
 
-- Framework detected
-- Number of pages discovered
-- Top 5 pages by importance score
-- Any warnings
+3. **Script — Gate 2**:
+   `tutorialvid script --cwd <project-root>`
+   Requires `ANTHROPIC_API_KEY` in the environment. The CLI dispatches the `tutorialvid-script-writer` and `tutorialvid-scene-director` subagents per segment in parallel (bounded by `config.anthropic.max_concurrency`). Markdown output shows narration text + action counts. **Show this to the user. Wait for approval before TTS (next plugin version).**
 
 ## Config bootstrap
 
@@ -37,6 +46,7 @@ If `.tutorialvid/config.json` is absent, gather these values interactively and w
 
 ## What this skill must NOT do
 
-- Manipulate mp4 or audio bytes directly.
-- Hardcode credentials. Always reference env vars by name.
-- Skip cache-hit messaging. If the CLI says "cache hit", tell the user.
+- Manipulate mp4 or audio bytes.
+- Hardcode API keys.
+- Skip cache-hit messaging — if the CLI logs `cache hit`, tell the user (no token spend on that artifact).
+- Run `script` without an `ANTHROPIC_API_KEY` set — surface the clear error message to the user instead.

@@ -1,6 +1,6 @@
 {
   "name": "tutorialvid",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Turn a running vibe-coded web app into a polished tutorial video.",
   "skills": ["tutorialvid-create"],
   "commands": ["tutorialvid"]
