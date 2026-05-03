@@ -64,9 +64,13 @@ export async function duckMixMusic(input: DuckMixInput): Promise<void> {
   await run(chain);
 }
 
-export async function downscaleTo480p(inPath: string, outPath: string): Promise<void> {
+export async function downscaleTo(inPath: string, outPath: string, w: number, h: number): Promise<void> {
   const chain = ffmpeg(inPath);
-  chain.videoFilters([{ filter: "scale", options: { w: 854, h: 480 } }]);
+  chain.videoFilters([{ filter: "scale", options: { w, h } }]);
   chain.output(outPath);
   await run(chain);
+}
+
+export async function downscaleTo480p(inPath: string, outPath: string): Promise<void> {
+  await downscaleTo(inPath, outPath, 854, 480);
 }

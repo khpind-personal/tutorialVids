@@ -88,7 +88,7 @@ export const ConfigSchema = z.object({
     gate_3_enabled: false, max_segment_concurrency: 1
   }),
   compose: z.object({
-    draft_resolution: z.string().regex(/^\d+x\d+$/).default("854x480"),
+    draft_resolution: z.string().regex(/^\d+x\d+$/).default("1920x1080"),
     final_resolution: z.string().regex(/^\d+x\d+$/).default("1920x1080"),
     fps: z.number().int().positive().default(30),
     watermark_text: z.string().default("DRAFT — TutorialVid"),
@@ -101,7 +101,7 @@ export const ConfigSchema = z.object({
     cursor_idle_hide_ms: z.number().int().positive().default(2000),
     parallel_segment_renders: z.number().int().positive().default(2)
   }).default({
-    draft_resolution: "854x480",
+    draft_resolution: "1920x1080",
     final_resolution: "1920x1080",
     fps: 30,
     watermark_text: "DRAFT — TutorialVid",

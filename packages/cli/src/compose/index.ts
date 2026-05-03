@@ -3,7 +3,7 @@ import { join, dirname } from "node:path";
 import pLimit from "p-limit";
 import { renderSegment } from "./render.js";
 import { stitchFinal } from "./stitch.js";
-import { applyWatermark, downscaleTo480p } from "./ffmpeg.js";
+import { applyWatermark, downscaleTo } from "./ffmpeg.js";
 import { wordsToSrt } from "./srt.js";
 import { hashInputs } from "../cache/hash.js";
 import type { Config } from "../config/schema.js";
@@ -140,10 +140,17 @@ export async function runCompose(input: RunComposeInput): Promise<RunComposeOutp
       ...(hasNarration ? {} : { skipMusic: true })
     });
 
-    const draftScaled = join(draftDir, `draft-no-wm.${safeRole}.mp4`);
     const draftFinal = join(draftDir, `draft.${safeRole}.mp4`);
-    await downscaleTo480p(stitchedHd, draftScaled);
-    await applyWatermark(draftScaled, draftFinal, input.config.compose.watermark_text);
+    const draftRes = parseRes(input.config.compose.draft_resolution);
+    const skipDownscale =
+      draftRes.width >= finalRes.width && draftRes.height >= finalRes.height;
+    if (skipDownscale) {
+      await applyWatermark(stitchedHd, draftFinal, input.config.compose.watermark_text);
+    } else {
+      const draftScaled = join(draftDir, `draft-no-wm.${safeRole}.mp4`);
+      await downscaleTo(stitchedHd, draftScaled, draftRes.width, draftRes.height);
+      await applyWatermark(draftScaled, draftFinal, input.config.compose.watermark_text);
+    }
 
     drafts.push({
       role,

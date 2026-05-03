@@ -124,8 +124,16 @@ export function buildTimeline(input: BuildTimelineInput): Timeline {
       }
     }
     if (a.callout) {
-      kfs.push({ t_ms: a.t_ms, callout: { text: a.callout.text, anchor: a.callout.anchor, visible: true } });
-      kfs.push({ t_ms: a.t_ms + a.callout.duration_ms, callout: { text: a.callout.text, anchor: a.callout.anchor, visible: false } });
+      const hl = (a as { highlight?: { bbox?: { x: number; y: number; w: number; h: number } } }).highlight;
+      const cbbox = hl?.bbox;
+      const base = {
+        text: a.callout.text,
+        anchor: a.callout.anchor,
+        ...(a.callout.max_width !== undefined ? { max_width: a.callout.max_width } : {}),
+        ...(cbbox ? { bbox: cbbox } : {})
+      };
+      kfs.push({ t_ms: a.t_ms, callout: { ...base, visible: true } });
+      kfs.push({ t_ms: a.t_ms + a.callout.duration_ms, callout: { ...base, visible: false } });
     }
   }
 
