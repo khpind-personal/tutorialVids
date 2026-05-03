@@ -9,6 +9,16 @@ program
   .version("0.0.1");
 
 program
+  .command("status")
+  .description("Show pipeline progress + next-step hint.")
+  .option("--cwd <path>", "project root", process.cwd())
+  .action(async (opts) => {
+    const { statusCommand } = await import("./commands/status.js");
+    const code = await statusCommand({ cwd: opts.cwd });
+    process.exit(code);
+  });
+
+program
   .command("discovery")
   .description("Phase 0 — ingest project markdown + per-role accessibility crawl into discovery.json (Gate 0)")
   .option("--cwd <path>", "project root", process.cwd())
