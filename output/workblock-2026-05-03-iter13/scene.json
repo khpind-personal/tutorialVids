@@ -1,0 +1,251 @@
+{
+  "segment_id": "s01_dashboard_coordinator",
+  "page_id": "dashboard",
+  "role": "coordinator",
+  "role_label": "Coordinator",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 75,
+  "actions": [
+    {
+      "t_ms": 0,
+      "type": "nav",
+      "url": "/dashboard"
+    },
+    {
+      "t_ms": 0,
+      "type": "wait",
+      "selector": "h1:has-text('Dashboard')",
+      "beat": "1-establish-wide",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 4000,
+        "out_ms": 0
+      }
+    },
+    {
+      "t_ms": 4500,
+      "type": "wait",
+      "selector": "h3:has-text('Suggested Tasks')",
+      "beat": "2-suggested-tasks-overview",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 8000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+        "style": "both",
+        "duration_ms": 8000,
+        "intensity": 0.5,
+        "pad": 6,
+        "radius": 12,
+        "pulse": true
+      },
+      "callout": {
+        "text": "5 tasks ready to pick up",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 300
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 12500,
+      "type": "wait",
+      "selector": "text=Layout Design",
+      "beat": "3-card-anatomy",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=(//div[normalize-space()='Layout Design'])[1]/ancestor::div[3]",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 8,
+        "radius": 12,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Size, priority, deadline",
+        "anchor": "auto",
+        "duration_ms": 4800,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 21500,
+      "type": "wait",
+      "selector": "button:has-text('Pick Up')",
+      "beat": "4-pick-up-cta-zoom",
+      "zoom": {
+        "scale": 1.6,
+        "in_ms": 700,
+        "hold_ms": 6900,
+        "out_ms": 700
+      },
+      "highlight": {
+        "target_selector": "button:has-text('Pick Up')",
+        "style": "both",
+        "duration_ms": 7500,
+        "intensity": 0.6,
+        "pad": 4,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Claim it in one click",
+        "anchor": "auto",
+        "duration_ms": 4500,
+        "max_width": 280
+      },
+      "highlight_score": 10
+    },
+    {
+      "t_ms": 30000,
+      "type": "wait",
+      "selector": "a[href='/coordinator']",
+      "beat": "5-coordinator-queue",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 8500,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/coordinator']",
+        "style": "both",
+        "duration_ms": 8500,
+        "intensity": 0.55,
+        "pad": 6,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "9 items need your call",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 10
+    },
+    {
+      "t_ms": 38500,
+      "type": "wait",
+      "selector": "text=On Hold 21",
+      "beat": "6-status-strip",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 8,
+        "radius": 10,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Team pulse at a glance",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 8
+    },
+    {
+      "t_ms": 47500,
+      "type": "wait",
+      "selector": "a[href='/review']",
+      "beat": "7-review-submissions",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/review']",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 4,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "5 drafts waiting on you",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 300
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 56500,
+      "type": "wait",
+      "selector": "h1:has-text('Dashboard')",
+      "beat": "8-pull-back-wide",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 18500,
+        "out_ms": 0
+      }
+    },
+    {
+      "t_ms": 75000,
+      "type": "wait",
+      "selector": "main"
+    }
+  ],
+  "narration": {
+    "text": "This is your Coordinator Dashboard, the control room for keeping the build-out pipeline moving. Your job is to triage incoming work, reassign when someone's blocked, and clear bottlenecks before they snowball. Start with Suggested Tasks. Five cards are ready to be picked up, and each one shows the size, the priority, and the deadline at a glance. When a card looks right for the team, the Pick Up button claims it in a single click and moves it into Active Task. Over in the sidebar, your Coordinator Queue is the number that matters most: nine items are waiting on your call right now, decisions only you can make. The status counters across the top give you the team pulse, including twenty-one tasks On Hold that probably need a nudge. Below that, Review Submissions is sitting on five drafts already waiting for sign-off, so designers don't stall on you. Use Active Task, My Backlog, Team Board, and Notifications in the sidebar to switch contexts as the day evolves. From this one screen you can triage, reassign, unblock, and approve without ever losing the thread.",
+    "ssml": "<speak>This is your Coordinator Dashboard, the control room for keeping the build-out pipeline moving. <break time='200ms'/> Your job is to triage incoming work, reassign when someone's blocked, and clear bottlenecks before they snowball. <break time='300ms'/> Start with Suggested Tasks. Five cards are ready to be picked up, and each one shows the size, the priority, and the deadline at a glance. <break time='250ms'/> When a card looks right for the team, the Pick Up button claims it in a single click and moves it into Active Task. <break time='300ms'/> Over in the sidebar, your Coordinator Queue is the number that matters most: nine items are waiting on your call right now, decisions only you can make. <break time='300ms'/> The status counters across the top give you the team pulse, including twenty-one tasks On Hold that probably need a nudge. <break time='250ms'/> Below that, Review Submissions is sitting on five drafts already waiting for sign-off, so designers don't stall on you. <break time='300ms'/> Use Active Task, My Backlog, Team Board, and Notifications in the sidebar to switch contexts as the day evolves. <break time='250ms'/> From this one screen you can triage, reassign, unblock, and approve without ever losing the thread.</speak>",
+    "alignments": [
+      {
+        "phrase": "This is your Coordinator Dashboard",
+        "action_t_ms": 500
+      },
+      {
+        "phrase": "Start with Suggested Tasks",
+        "action_t_ms": 4500
+      },
+      {
+        "phrase": "the size, the priority, and the deadline",
+        "action_t_ms": 13000
+      },
+      {
+        "phrase": "the Pick Up button claims it in a single click",
+        "action_t_ms": 22000
+      },
+      {
+        "phrase": "your Coordinator Queue is the number that matters most",
+        "action_t_ms": 30500
+      },
+      {
+        "phrase": "twenty-one tasks On Hold",
+        "action_t_ms": 39500
+      },
+      {
+        "phrase": "Review Submissions is sitting on five drafts",
+        "action_t_ms": 48500
+      },
+      {
+        "phrase": "triage, reassign, unblock, and approve",
+        "action_t_ms": 58000
+      }
+    ]
+  }
+}

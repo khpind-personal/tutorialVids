@@ -51,13 +51,35 @@ export async function applyWatermark(inPath: string, outPath: string, text: stri
 
 export interface DuckMixInput { videoIn: string; musicIn: string; out: string; musicVolume: number; }
 
+async function probeDurationS(path: string): Promise<number> {
+  return new Promise((resolve) => {
+    (ffmpeg as unknown as { ffprobe: (p: string, cb: (err: Error | null, data: { format?: { duration?: number } }) => void) => void }).ffprobe(path, (err, data) => {
+      if (err || !data?.format?.duration) { resolve(0); return; }
+      resolve(data.format.duration);
+    });
+  });
+}
+
+const MIN_USABLE_MUSIC_S = 10;
+
 export async function duckMixMusic(input: DuckMixInput): Promise<void> {
+  const musicDur = await probeDurationS(input.musicIn);
+  if (musicDur < MIN_USABLE_MUSIC_S) {
+    // Music is a placeholder (~1s silent CC0 stub). Skip the mix; copy video+narration straight through.
+    const chain = ffmpeg(input.videoIn);
+    chain.outputOptions(["-c", "copy"]);
+    chain.output(input.out);
+    await run(chain);
+    return;
+  }
+  // Loop the music to cover the full video duration, lower its volume, mix with narration.
+  // Plain amix (no ducking) — sidechaincompress was unreliable when music was shorter than video.
   const chain = ffmpeg();
   chain.input(input.videoIn);
-  chain.input(input.musicIn);
+  chain.input(input.musicIn).inputOptions(["-stream_loop", "-1"]);
   chain.complexFilter([
     `[1:a]volume=${input.musicVolume}[music_low]`,
-    `[0:a][music_low]sidechaincompress=threshold=0.05:ratio=8:attack=5:release=200[mix]`
+    `[0:a][music_low]amix=inputs=2:duration=first:dropout_transition=0[mix]`
   ], ["mix"]);
   chain.outputOptions(["-map", "0:v", "-map", "[mix]", "-c:v", "copy", "-shortest"]);
   chain.output(input.out);
