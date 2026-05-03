@@ -4,7 +4,7 @@ import { loadConfig } from "../config/load.js";
 import { cachePaths } from "../cache/paths.js";
 import { CacheStore } from "../cache/store.js";
 import { StateMachine } from "../state/machine.js";
-import { runTts } from "../tts/index.js";
+import { runTts, runTtsBeats } from "../tts/index.js";
 import { logger } from "../logger.js";
 import type { SceneJson } from "../script/types.js";
 
@@ -48,20 +48,36 @@ export async function ttsCommand(opts: TtsCommandOpts): Promise<number> {
   try {
     for (const scene of scenes) {
       try {
-        const r = await runTts({
-          ssml: scene.narration.ssml,
-          tone: scene.tone as "friendly" | "pro" | "hype" | "founder" | "documentary",
-          voices: config.tts.voices,
-          speeds: config.tts.speed_per_tone,
-          apiKeyEnv: config.tts.api_key_env,
-          model: config.tts.model,
-          language: config.tts.language,
-          chunkMaxChars: config.tts.chunk_max_chars,
-          outDir: join(paths.cache, "script", scene.segment_id)
+        const hasBeatPhrases = scene.actions.some((a) => typeof a.narration_phrase === "string" && a.narration_phrase.trim().length > 0);
+        const tone = scene.tone as "friendly" | "pro" | "hype" | "founder" | "documentary";
+        const r = hasBeatPhrases
+          ? await runTtsBeats({
+              scene, tone,
+              voices: config.tts.voices,
+              speeds: config.tts.speed_per_tone,
+              apiKeyEnv: config.tts.api_key_env,
+              model: config.tts.model,
+              language: config.tts.language,
+              outDir: join(paths.cache, "script", scene.segment_id)
+            })
+          : await runTts({
+              ssml: scene.narration.ssml, tone,
+              voices: config.tts.voices,
+              speeds: config.tts.speed_per_tone,
+              apiKeyEnv: config.tts.api_key_env,
+              model: config.tts.model,
+              language: config.tts.language,
+              chunkMaxChars: config.tts.chunk_max_chars,
+              outDir: join(paths.cache, "script", scene.segment_id)
+            });
+        await store.writeJson(paths.script(scene.segment_id, "tts", "timing.json"), {
+          mode: r.mode,
+          duration_ms: r.duration_ms,
+          timing: r.timing,
+          chunks: r.chunks
         });
-        await store.writeJson(paths.script(scene.segment_id, "tts", "timing.json"), { duration_ms: r.duration_ms, timing: r.timing, chunks: r.chunks });
         await sm.markSegmentStage(scene.segment_id, "tts", "ok");
-        logger.info({ segment: scene.segment_id, duration_ms: r.duration_ms, chunks: r.chunks.length }, "tts written");
+        logger.info({ segment: scene.segment_id, mode: r.mode, duration_ms: r.duration_ms, chunks: r.chunks.length }, "tts written");
       } catch (err) {
         logger.error({ err: (err as Error).message, segment: scene.segment_id }, "tts segment failed");
         await sm.markSegmentStage(scene.segment_id, "tts", "failed", (err as Error).message);

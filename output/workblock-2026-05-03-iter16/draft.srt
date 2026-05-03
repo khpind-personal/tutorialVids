@@ -1,0 +1,83 @@
+1
+00:00:00,000 --> 00:00:02,731
+Welcome to your Coordinator dashboard.
+
+2
+00:00:05,000 --> 00:00:06,827
+Suggested Tasks lists fresh work
+
+3
+00:00:06,827 --> 00:00:08,654
+you can claim — five
+
+4
+00:00:08,654 --> 00:00:10,480
+cards waiting on your call
+
+5
+00:00:10,480 --> 00:00:18,097
+right now. Click Pick Up
+
+6
+00:00:18,097 --> 00:00:19,926
+on any card to claim
+
+7
+00:00:19,926 --> 00:00:21,754
+it instantly — size, priority
+
+8
+00:00:21,754 --> 00:00:28,807
+and deadline shown. Your Coordinator
+
+9
+00:00:28,807 --> 00:00:30,824
+Queue shows nine items needing
+
+10
+00:00:30,824 --> 00:00:32,841
+triage decisions before they reach
+
+11
+00:00:32,841 --> 00:00:39,881
+the design team. Review Submissions
+
+12
+00:00:39,881 --> 00:00:42,085
+holds five drafts already waiting
+
+13
+00:00:42,085 --> 00:00:44,289
+on your approval before work
+
+14
+00:00:44,289 --> 00:00:50,903
+moves forward downstream. The status
+
+15
+00:00:50,903 --> 00:00:53,160
+strip surfaces approved, on hold,
+
+16
+00:00:53,160 --> 00:00:55,417
+and active counts so you
+
+17
+00:00:55,417 --> 00:01:01,678
+spot bottlenecks fast. Team Board
+
+18
+00:01:01,678 --> 00:01:03,374
+and Block Health track who
+
+19
+00:01:03,374 --> 00:01:09,471
+is loaded right now. From
+
+20
+00:01:09,471 --> 00:01:11,828
+here you triage, unblock, and
+
+21
+00:01:11,828 --> 00:01:12,771
+keep flowing.

@@ -134,6 +134,22 @@ program
   });
 
 program
+  .command("verify")
+  .description("Gate 5 — A/V/SRT sync QC against scene beats. Required before finalize.")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--no-markdown", "suppress Gate 5 markdown")
+  .option("--fail-on-warning", "exit non-zero on warnings (default: errors only)")
+  .action(async (opts) => {
+    const { verifyCommand } = await import("./commands/verify.js");
+    const code = await verifyCommand({
+      cwd: opts.cwd,
+      printMarkdown: opts.markdown !== false,
+      failOnWarning: !!opts.failOnWarning
+    });
+    process.exit(code);
+  });
+
+program
   .command("finalize")
   .description("Promote the HD stitch to final.mp4 + final.srt (no watermark)")
   .option("--cwd <path>", "project root", process.cwd())
