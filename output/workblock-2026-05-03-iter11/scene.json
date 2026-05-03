@@ -1,0 +1,257 @@
+{
+  "segment_id": "s01_dashboard_coordinator",
+  "page_id": "dashboard",
+  "role": "coordinator",
+  "role_label": "Coordinator",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 75,
+  "actions": [
+    {
+      "t_ms": 0,
+      "type": "nav",
+      "url": "/dashboard",
+      "beat": "0-nav"
+    },
+    {
+      "t_ms": 0,
+      "type": "wait",
+      "selector": "h1:has-text('Dashboard')",
+      "beat": "1-establish-wide",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 4000,
+        "out_ms": 0
+      }
+    },
+    {
+      "t_ms": 4500,
+      "type": "wait",
+      "selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+      "beat": "2-suggested-tasks",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 8000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+        "style": "both",
+        "duration_ms": 8000,
+        "intensity": 0.5,
+        "pad": 6,
+        "radius": 12,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Fresh work to claim",
+        "anchor": "bottom-right",
+        "duration_ms": 5000,
+        "max_width": 300
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 12500,
+      "type": "wait",
+      "selector": "xpath=(//div[normalize-space()='Layout Design'])[1]/ancestor::div[3]",
+      "beat": "3-task-card-anatomy",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=(//div[normalize-space()='Layout Design'])[1]/ancestor::div[3]",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 8,
+        "radius": 12,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Size, priority, deadline",
+        "anchor": "top-right",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 21500,
+      "type": "wait",
+      "selector": "button:has-text('Pick Up')",
+      "beat": "4-pick-up-button-zoom",
+      "zoom": {
+        "scale": 1.7,
+        "in_ms": 700,
+        "hold_ms": 6800,
+        "out_ms": 700
+      },
+      "highlight": {
+        "target_selector": "button:has-text('Pick Up')",
+        "style": "both",
+        "duration_ms": 7500,
+        "intensity": 0.6,
+        "pad": 4,
+        "radius": 18,
+        "pulse": true
+      },
+      "callout": {
+        "text": "One click, it's yours",
+        "anchor": "top-left",
+        "duration_ms": 4500,
+        "max_width": 280
+      },
+      "highlight_score": 10
+    },
+    {
+      "t_ms": 30000,
+      "type": "wait",
+      "selector": "a[href='/coordinator']",
+      "beat": "5-coordinator-queue",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 8500,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/coordinator']",
+        "style": "both",
+        "duration_ms": 8500,
+        "intensity": 0.55,
+        "pad": 6,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "9 items need your call",
+        "anchor": "top-right",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 10
+    },
+    {
+      "t_ms": 38500,
+      "type": "wait",
+      "selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+      "beat": "6-status-strip",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+        "style": "spotlight",
+        "duration_ms": 9000,
+        "intensity": 0.45,
+        "pad": 8,
+        "radius": 10,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Team pulse, at a glance",
+        "anchor": "top-right",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 8
+    },
+    {
+      "t_ms": 47500,
+      "type": "wait",
+      "selector": "a[href='/review']",
+      "beat": "7-review-submissions",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/review']",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 4,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Drafts waiting on you",
+        "anchor": "top-left",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 56500,
+      "type": "wait",
+      "selector": "h1:has-text('Dashboard')",
+      "beat": "8-pull-back-wide",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 4500,
+        "out_ms": 0
+      }
+    },
+    {
+      "t_ms": 75000,
+      "type": "wait",
+      "selector": "main",
+      "beat": "9-tail"
+    }
+  ],
+  "narration": {
+    "text": "This is your Coordinator Dashboard. The control room for everything moving through the pipeline. Right at the center, Suggested Tasks — fresh work waiting for someone to claim. Each card shows size, priority, and deadline so you can triage at a glance. To grab one, just hit Pick Up — one click and it's yours. Over in the sidebar, your Coordinator Queue is calling — nine items need your call right now. Below that, Review Submissions collects drafts ready for your eyes. The status strip up top gives you the team pulse — Approved, On Hold, in motion. From here you can jump into Block Health, the Team Board, or Project Tracker any time. This is home base — start your day here.",
+    "ssml": "<speak>This is your Coordinator Dashboard.<break time='250ms'/> The control room for everything moving through the pipeline.<break time='400ms'/> Right at the center, Suggested Tasks<break time='200ms'/> — fresh work waiting for someone to claim.<break time='350ms'/> Each card shows size, priority, and deadline so you can triage at a glance.<break time='400ms'/> To grab one, just hit Pick Up<break time='200ms'/> — one click and it's yours.<break time='400ms'/> Over in the sidebar, your Coordinator Queue is calling<break time='200ms'/> — nine items need your call right now.<break time='400ms'/> Below that, Review Submissions collects drafts ready for your eyes.<break time='400ms'/> The status strip up top gives you the team pulse<break time='200ms'/> — Approved, On Hold, in motion.<break time='400ms'/> From here you can jump into Block Health, the Team Board, or Project Tracker any time.<break time='350ms'/> This is home base<break time='200ms'/> — start your day here.</speak>",
+    "alignments": [
+      {
+        "phrase": "This is your Coordinator Dashboard",
+        "action_t_ms": 500
+      },
+      {
+        "phrase": "Suggested Tasks",
+        "action_t_ms": 4500
+      },
+      {
+        "phrase": "Each card shows size, priority, and deadline",
+        "action_t_ms": 13000
+      },
+      {
+        "phrase": "hit Pick Up",
+        "action_t_ms": 22000
+      },
+      {
+        "phrase": "Coordinator Queue is calling",
+        "action_t_ms": 30500
+      },
+      {
+        "phrase": "nine items need your call right now",
+        "action_t_ms": 32000
+      },
+      {
+        "phrase": "team pulse",
+        "action_t_ms": 39500
+      },
+      {
+        "phrase": "Review Submissions collects drafts",
+        "action_t_ms": 48000
+      },
+      {
+        "phrase": "home base",
+        "action_t_ms": 58000
+      }
+    ]
+  }
+}

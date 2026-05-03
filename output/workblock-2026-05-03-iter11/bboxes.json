@@ -1,0 +1,92 @@
+[
+  {
+    "t_ms": 4500,
+    "beat": "2-suggested-tasks",
+    "selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+    "bbox": {
+      "x": 260,
+      "y": 90,
+      "w": 1632,
+      "h": 527
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 12500,
+    "beat": "3-task-card-anatomy",
+    "selector": "xpath=(//div[normalize-space()='Layout Design'])[1]/ancestor::div[3]",
+    "bbox": {
+      "x": 260,
+      "y": 130,
+      "w": 808,
+      "h": 152
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 21500,
+    "beat": "4-pick-up-button-zoom",
+    "selector": "button:has-text('Pick Up')",
+    "bbox": {
+      "x": 958,
+      "y": 227,
+      "w": 89,
+      "h": 36
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 30000,
+    "beat": "5-coordinator-queue",
+    "selector": "a[href='/coordinator']",
+    "bbox": {
+      "x": 6,
+      "y": 404,
+      "w": 219,
+      "h": 30
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 38500,
+    "beat": "6-status-strip",
+    "selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+    "bbox": {
+      "x": 260,
+      "y": 637,
+      "w": 1632,
+      "h": 31
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 47500,
+    "beat": "7-review-submissions",
+    "selector": "a[href='/review']",
+    "bbox": {
+      "x": 1353,
+      "y": 711,
+      "w": 539,
+      "h": 39
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  }
+]
