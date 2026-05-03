@@ -1,0 +1,147 @@
+1
+00:00:00,000 --> 00:00:01,639
+This is your Coordinator Dashboard,
+
+2
+00:00:01,639 --> 00:00:03,278
+the control room for keeping
+
+3
+00:00:03,278 --> 00:00:04,918
+the build-out pipeline moving. Your
+
+4
+00:00:04,918 --> 00:00:06,557
+job is to triage incoming
+
+5
+00:00:06,557 --> 00:00:08,196
+work, reassign when someone's blocked,
+
+6
+00:00:08,196 --> 00:00:09,835
+and clear bottlenecks before they
+
+7
+00:00:09,835 --> 00:00:11,474
+snowball. Start with Suggested Tasks.
+
+8
+00:00:11,474 --> 00:00:13,113
+Five cards are ready to
+
+9
+00:00:13,113 --> 00:00:14,753
+be picked up, and each
+
+10
+00:00:14,753 --> 00:00:16,392
+one shows the size, the
+
+11
+00:00:16,392 --> 00:00:18,031
+priority, and the deadline at
+
+12
+00:00:18,031 --> 00:00:19,670
+a glance. When a card
+
+13
+00:00:19,670 --> 00:00:21,309
+looks right for the team,
+
+14
+00:00:21,309 --> 00:00:22,949
+the Pick Up button claims
+
+15
+00:00:22,949 --> 00:00:24,588
+it in a single click
+
+16
+00:00:24,588 --> 00:00:26,227
+and moves it into Active
+
+17
+00:00:26,227 --> 00:00:27,866
+Task. Over in the sidebar,
+
+18
+00:00:27,866 --> 00:00:29,505
+your Coordinator Queue is the
+
+19
+00:00:29,505 --> 00:00:31,145
+number that matters most: nine
+
+20
+00:00:31,145 --> 00:00:32,784
+items are waiting on your
+
+21
+00:00:32,784 --> 00:00:34,423
+call right now, decisions only
+
+22
+00:00:34,423 --> 00:00:36,062
+you can make. The status
+
+23
+00:00:36,062 --> 00:00:37,701
+counters across the top give
+
+24
+00:00:37,701 --> 00:00:39,340
+you the team pulse, including
+
+25
+00:00:39,340 --> 00:00:40,980
+twenty-one tasks On Hold that
+
+26
+00:00:40,980 --> 00:00:42,693
+probably need a nudge. Below
+
+27
+00:00:42,693 --> 00:00:44,701
+that, Review Submissions is sitting
+
+28
+00:00:44,701 --> 00:00:46,710
+on five drafts already waiting
+
+29
+00:00:46,710 --> 00:00:48,718
+for sign-off, so designers don't
+
+30
+00:00:48,718 --> 00:00:50,726
+stall on you. Use Active
+
+31
+00:00:50,726 --> 00:00:52,735
+Task, My Backlog, Team Board,
+
+32
+00:00:52,735 --> 00:00:54,743
+and Notifications in the sidebar
+
+33
+00:00:54,743 --> 00:00:56,752
+to switch contexts as the
+
+34
+00:00:56,752 --> 00:00:58,760
+day evolves. From this one
+
+35
+00:00:58,760 --> 00:01:00,769
+screen you can triage, reassign,
+
+36
+00:01:00,769 --> 00:01:02,777
+unblock, and approve without ever
+
+37
+00:01:02,777 --> 00:01:03,982
+losing the thread.

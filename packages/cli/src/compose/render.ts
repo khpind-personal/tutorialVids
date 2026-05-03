@@ -61,6 +61,7 @@ export async function renderSegment(input: ComposeInput): Promise<ComposeResult>
   const inputProps = {
     rawClipPath: toUrl(input.raw_clip_path),
     audioPaths: input.audio_paths.map(toUrl),
+    audioOffsetsMs: input.audio_offsets_ms ?? input.audio_paths.map(() => 0),
     cursorTrack: input.cursor,
     cursorSvgPath: toUrl(input.cursor_svg_path),
     cursorSize: input.cursor_size_px,

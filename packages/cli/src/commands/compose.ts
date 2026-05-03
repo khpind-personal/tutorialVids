@@ -31,6 +31,7 @@ async function loadSegmentArtifacts(scriptDir: string, recordDir: string) {
   const scenes: SceneJson[] = [];
   const cursors: Record<string, CursorTrack> = {};
   const audioPaths: Record<string, string[]> = {};
+  const audioOffsets: Record<string, number[]> = {};
   const audioDurations: Record<string, number> = {};
   const captionWords: Record<string, { word: string; start_ms: number; end_ms: number }[]> = {};
   const rawClips: Record<string, string> = {};
@@ -59,9 +60,22 @@ async function loadSegmentArtifacts(scriptDir: string, recordDir: string) {
       ) as {
         duration_ms: number;
         timing: { word: string; start_ms: number; end_ms: number }[];
+        chunks?: { index: number; mp3_path: string; duration_ms: number }[];
       };
       audioDurations[seg] = t.duration_ms;
       captionWords[seg] = t.timing;
+      if (t.chunks && t.chunks.length > 0) {
+        const sorted = [...t.chunks].sort((a, b) => a.index - b.index);
+        const offsets: number[] = [];
+        let cursor = 0;
+        for (const c of sorted) {
+          offsets.push(cursor);
+          cursor += c.duration_ms;
+        }
+        audioOffsets[seg] = offsets;
+      } else {
+        audioOffsets[seg] = audio.map(() => 0);
+      }
     }
 
     try {
@@ -93,7 +107,7 @@ async function loadSegmentArtifacts(scriptDir: string, recordDir: string) {
     }
   }
 
-  return { scenes, cursors, audioPaths, audioDurations, captionWords, rawClips };
+  return { scenes, cursors, audioPaths, audioOffsets, audioDurations, captionWords, rawClips };
 }
 
 export async function composeCommand(opts: ComposeCommandOpts): Promise<number> {
@@ -129,6 +143,7 @@ export async function composeCommand(opts: ComposeCommandOpts): Promise<number> 
       scenes: arts.scenes,
       cursors: arts.cursors,
       audioPaths: arts.audioPaths,
+      audioOffsets: arts.audioOffsets,
       audioDurations: arts.audioDurations,
       captionWords: arts.captionWords,
       rawClips: arts.rawClips,

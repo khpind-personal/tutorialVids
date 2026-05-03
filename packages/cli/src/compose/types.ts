@@ -38,6 +38,7 @@ export interface ComposeInput {
   scene: SceneJson;
   cursor: CursorTrack;
   audio_paths: string[];
+  audio_offsets_ms?: number[];
   audio_duration_ms: number;
   caption_words: { word: string; start_ms: number; end_ms: number }[];
   raw_clip_path: string;
