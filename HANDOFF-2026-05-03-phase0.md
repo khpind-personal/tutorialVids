@@ -102,7 +102,7 @@ Two pre-existing bugs found and fixed during this run:
 
 ## Open
 
-- `team_member` couldn't reach `/dashboard` in the live discovery crawl — JWT was fresh and worked when I logged in via Playwright MCP, but the headless crawl hit `/login` redirect. Likely an RBAC interceptor that kicks unrecognized roles. Worth reproducing manually before assuming the access matrix is wrong; the architecture is sound.
+- `team_member` redirect to `/login` — diagnosed. Decoded both JWTs side-by-side: coordinator's `resource_access["sw-buildx-api"].roles` has 18 entries (Cmt_R_V, Dsh_R_V, CQ_R_V, Tsk_R_V, …); team_member's has zero. The `testteammember@yopmail.com` user in pre-prod Keycloak isn't a member of any group that maps to `sw-buildx-api` roles, so the backend 401s and the frontend axios interceptor clears tokens + redirects to login. **Not a TutorialVid bug** — this is a Keycloak/group assignment in pre-prod. To get a real two-role render, either (a) assign testteammember to the appropriate group in Keycloak, (b) use a different team_member account that has the buildx roles, or (c) try `testteamlead@yopmail.com` first.
 - TTS quota (Gemini 2.5 Flash Preview free tier) still blocks a full 5-segment compose pass. Unchanged — Issue 2 from prior handoff. `GEMINI_API_KEY` not set in this session's shell either; couldn't run TTS to verify the audio + caption + duckmix path with the new role-aware artifacts. The narration JSON (text + ssml + alignments) is ready to feed straight into TTS once a key is set.
 
 ## Resume
