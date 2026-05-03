@@ -51,7 +51,10 @@ The narration must be **per-beat**, not a single paragraph. Every teaching beat 
 
 The pipeline reads `narration_phrase` per action and synthesizes one audio chunk per beat, placed in compose at exactly `action.t_ms`. So:
 
-- **Time the phrase to fit the beat — with safety margin.** Word duration through Gemini TTS averages ~480-520 ms (slower than the theoretical 400 ms/word at 150 wpm because of natural prosody, sentence-final pauses, and the model's pacing). Use **500 ms per word** for budgeting and aim for **65-75% utilisation** of the beat window so there is breathing room. If a beat starts at 4000 ms and the next at 12500 ms, the window is 8500 ms → phrase ≤ ~12-14 words. NEVER push to the upper limit; the verify gate (Gate 5) rejects scenes whose phrase audio overlaps the next beat.
+- **You no longer set absolute t_ms grids.** A `pace` stage runs after TTS and re-grids each action's `t_ms` based on the measured audio duration of its phrase plus a small breath gap (~350 ms between phrases, ~250 ms before/after a zoom beat). Pacing is automatic — the final segment runs as fast as the narration allows, with subtle gaps. Tight by construction.
+- **Pick t_ms in increasing order, but treat them as ordering hints.** The `pace` stage will overwrite them. Use sane round numbers (0, 5000, 12000, 20000, …) so the scene reads cleanly when reviewed; the actual playback positions will be derived from TTS measurements.
+- **Do NOT artificially pad phrases** to fit a target_duration_s budget. Write the right number of words for the meaning. The shorter the phrase, the faster the segment plays. `target_duration_s` becomes an **output** of pacing, not an input.
+- **Phrase length still matters.** ~480-520 ms per word through Gemini TTS. A 12-word phrase is ~6 s of audio. Keep phrases punchy — avoid run-on clauses; favour two short sentences over one long one if it helps the rhythm.
 - **Phrase = exactly what the TTS will read.** Plain text. No SSML, no markup. No filler words. Sentence-case, punctuated.
 - **Each phrase references the focal element by its visible label** (use the same name the user sees on screen — e.g. "Coordinator Queue", "Pick Up", "Suggested Tasks"). The selector for the same beat highlights that element. Voice and visual lock together by construction.
 

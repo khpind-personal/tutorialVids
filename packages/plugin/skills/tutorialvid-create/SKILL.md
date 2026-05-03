@@ -20,7 +20,9 @@ Before doing anything else, verify:
 
 ## Capability (v1.3.0+)
 
-Pipeline supports nine commands forming the full Phase 1 flow: **discovery → scan → plan → script → tts → record → compose → verify → finalize**, with Gates 0, 1, 2, 3 (opt-in), 4, and 5.
+Pipeline supports ten commands forming the full Phase 1 flow: **discovery → scan → plan → script → tts → pace → record → compose → verify → finalize**, with Gates 0, 1, 2, 3 (opt-in), 4, and 5.
+
+The `pace` stage is **mandatory** when scenes carry per-beat `narration_phrase` (the default in v1.3+). It re-grids each action's `t_ms` from the measured TTS chunk durations + small breath gaps (~350 ms between phrases) so the visual paces match the narration. Without it, the scene plays at the author's pre-TTS estimated grid and the result is slow / silent-gap-heavy.
 
 Gate 5 (verify) is **mandatory and automatic**. The skill must run `tutorialvid verify` after compose and before finalize on every run. Do not skip it. If verify exits non-zero, stop the pipeline and surface the issues to the user — the audio/visual/subtitle alignment is broken and finalize would ship a defective video.
 
@@ -54,13 +56,15 @@ Gate 5 (verify) is **mandatory and automatic**. The skill must run `tutorialvid 
 
    For headless / standalone use (CI, no Claude Code session): `tutorialvid script --standalone --cwd <root>` still uses the legacy split (writer + director) via the Anthropic SDK and requires `ANTHROPIC_API_KEY`. The standalone path does not yet emit role-aware narration; prefer the skill-driven flow.
 
-5. **TTS**: `tutorialvid tts --cwd <root>` — needs `GEMINI_API_KEY`. **Beat-driven by default**: synthesises one mp3 per scene action that carries `narration_phrase`, placed in compose at exactly that beat's `t_ms`. Each phrase becomes its own audio chunk with `action_t_ms` recorded in `tts.timing.json`. Falls back to legacy SSML chunking if a scene has no per-beat phrases (back-compat for older scenes).
+5. **TTS**: `tutorialvid tts --cwd <root>` — needs `GEMINI_API_KEY`. **Beat-driven by default**: synthesises one mp3 per scene action that carries `narration_phrase`. Each phrase becomes its own audio chunk with `action_t_ms` recorded in `tts.timing.json`. Falls back to legacy SSML chunking if a scene has no per-beat phrases (back-compat for older scenes).
 
-6. **Record — Gate 3 (opt-in)**: `tutorialvid record --cwd <root>` — Playwright video + cursor track + per-segment auth selection. Each segment uses the storage_state / credentials of its role from discovery; common segments fall back to the project default. Live bbox capture writes `<hash>.bboxes.json` alongside the webm so highlight + zoom anchor on real on-screen elements (no static bbox in scene.json).
+6. **Pace** (auto-mandatory when phrases present): `tutorialvid pace --cwd <root>` — re-grids each action's `t_ms` from the measured TTS chunk durations + small breath gaps (~350 ms between phrases, ~250 ms before/after a zoom beat). Updates scene.json + tts.timing.json + scene.target_duration_s. The result: visual beats land exactly when each phrase lands. Tight, engaging pacing without silent gaps.
 
-7. **Compose — Gate 4**: `tutorialvid compose --cwd <root>` — Remotion per-segment compositions + ffmpeg stitch, **grouped by role**. Emits one watermarked draft per role at `cache/final/draft.<role>.mp4` (and `draft.<role>.srt`); common segments are concatenated into every role's draft. Single-role / common-only projects fall back to `cache/final/draft.mp4` for back-compat. Audio chunks are placed at their action's `t_ms` (beat-driven) so narration plays exactly when the matching scene beat is on screen — voice and visual lock together.
+7. **Record — Gate 3 (opt-in)**: `tutorialvid record --cwd <root>` — Playwright video + cursor track + per-segment auth selection. Each segment uses the storage_state / credentials of its role from discovery; common segments fall back to the project default. Live bbox capture writes `<hash>.bboxes.json` alongside the webm so highlight + zoom anchor on real on-screen elements (no static bbox in scene.json).
 
-8. **Verify — Gate 5 (mandatory)**: `tutorialvid verify --cwd <root>` — automated A/V/SRT sync QC. Six rules:
+8. **Compose — Gate 4**: `tutorialvid compose --cwd <root>` — Remotion per-segment compositions + ffmpeg stitch, **grouped by role**. Emits one watermarked draft per role at `cache/final/draft.<role>.mp4` (and `draft.<role>.srt`); common segments are concatenated into every role's draft. Single-role / common-only projects fall back to `cache/final/draft.mp4` for back-compat. Audio chunks are placed at their action's `t_ms` (beat-driven) so narration plays exactly when the matching scene beat is on screen — voice and visual lock together.
+
+9. **Verify — Gate 5 (mandatory)**: `tutorialvid verify --cwd <root>` — automated A/V/SRT sync QC. Six rules:
    - `audio-overruns-video` (error): last audio chunk ends before target_duration_s.
    - `beat-without-audio` (error): every action with `narration_phrase` has a matching audio chunk within ±300 ms.
    - `audio-overlap` (error): no two chunks play simultaneously.
@@ -70,7 +74,7 @@ Gate 5 (verify) is **mandatory and automatic**. The skill must run `tutorialvid 
    - `highlight-without-phrase` (warn): every highlighted beat has a phrase explaining it.
    Skill MUST run this after compose. Errors block finalize; surface to the user. Warnings can ship if user accepts.
 
-9. **Finalize**: `tutorialvid finalize --cwd <root>` — promotes each role's HD stitch to `cache/final/final.<role>.mp4` (no watermark). Single-role / common-only flows produce `cache/final/final.mp4`. **Only run after `verify` passes.**
+10. **Finalize**: `tutorialvid finalize --cwd <root>` — promotes each role's HD stitch to `cache/final/final.<role>.mp4` (no watermark). Single-role / common-only flows produce `cache/final/final.mp4`. **Only run after `verify` passes.**
 
 ### Auth
 
