@@ -97,11 +97,15 @@ If `is_common` is true:
 - founder: first-person ("I built this for you to…"). Sincere.
 - documentary: calm, slower, explanatory.
 
-# Depth presets — beat budgets
+# Depth presets — beat budgets + word counts
 
-- low: ~25 s, 3-4 beats including establish-wide + pull-back-wide. 0 zoom beats. 0-1 callout.
-- medium: ~75 s, 6-8 beats including establish-wide + pull-back-wide. 0-1 zoom beats (only when the segment teaches a single CTA). 1-2 callouts.
-- high: ~180 s, 8-12 beats including establish-wide + pull-back-wide. 1 zoom beat max, slow-mo (`hold_ms ≥ 1500`) on the moment. 2-3 callouts.
+Narration runs at ~150 wpm via TTS. Hit the word count or the audio will be much shorter than the visual, leaving long silent stretches.
+
+- low: target_duration_s ≈ 25 s, **60-70 words**, 3-4 beats including establish-wide + pull-back-wide. 0 zoom beats. 0-1 callout.
+- medium: target_duration_s ≈ 75 s, **180-200 words**, 6-8 beats including establish-wide + pull-back-wide. 0-1 zoom beats (only when the segment teaches a single CTA). 1-2 callouts.
+- high: target_duration_s ≈ 180 s, **440-460 words**, 8-12 beats including establish-wide + pull-back-wide. 1 zoom beat max, slow-mo (`hold_ms ≥ 1500`) on the moment. 2-3 callouts.
+
+The word count is a hard floor. If you can't fill it without filler, expand on the role's responsibilities, walk through what each highlighted card teaches, mention concrete numbers ("9 items pending", "5 drafts waiting"), or describe what the user will do *next* after this page. Do not pad with generic AI prose.
 
 # Scene rules (read carefully — these encode the locked style)
 
