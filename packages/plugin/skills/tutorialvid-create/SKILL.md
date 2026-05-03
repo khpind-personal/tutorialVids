@@ -1,6 +1,6 @@
 ---
 name: tutorialvid-create
-description: Use when the user wants to create a tutorial video for their running web app. Drives the TutorialVid pipeline: discovery → scan → plan → script → tts → record → compose → finalize, with user-review gates between stages. Requires `@tutorialvid/cli` installed and a Gemini API key.
+description: Use when the user wants to create a tutorial video for their running web app. Drives the TutorialVid pipeline: discovery → scan → plan → script → tts → record → compose → verify → finalize, with user-review gates between stages and an automated A/V/SRT sync QC gate before finalize. Requires `@tutorialvid/cli` installed and a Gemini API key.
 ---
 
 # tutorialvid-create
@@ -18,9 +18,11 @@ Before doing anything else, verify:
 5. `ANTHROPIC_API_KEY` is only needed for `tutorialvid script --standalone` (CI / headless). When run inside Claude Code, the skill dispatches Task subagents using the existing session auth.
 6. Dev server is reachable at `config.app.dev_url`.
 
-## Capability (v1.2.0+)
+## Capability (v1.3.0+)
 
-Pipeline supports eight commands forming the full Phase 1 flow: **discovery → scan → plan → script → tts → record → compose → finalize**, with Gates 0, 1, 2, 3 (opt-in), and 4.
+Pipeline supports nine commands forming the full Phase 1 flow: **discovery → scan → plan → script → tts → record → compose → verify → finalize**, with Gates 0, 1, 2, 3 (opt-in), 4, and 5.
+
+Gate 5 (verify) is **mandatory and automatic**. The skill must run `tutorialvid verify` after compose and before finalize on every run. Do not skip it. If verify exits non-zero, stop the pipeline and surface the issues to the user — the audio/visual/subtitle alignment is broken and finalize would ship a defective video.
 
 ### Flow
 
@@ -52,13 +54,23 @@ Pipeline supports eight commands forming the full Phase 1 flow: **discovery → 
 
    For headless / standalone use (CI, no Claude Code session): `tutorialvid script --standalone --cwd <root>` still uses the legacy split (writer + director) via the Anthropic SDK and requires `ANTHROPIC_API_KEY`. The standalone path does not yet emit role-aware narration; prefer the skill-driven flow.
 
-5. **TTS**: `tutorialvid tts --cwd <root>` — needs `GEMINI_API_KEY`. mp3 + per-word timing per segment (ffprobe-derived).
+5. **TTS**: `tutorialvid tts --cwd <root>` — needs `GEMINI_API_KEY`. **Beat-driven by default**: synthesises one mp3 per scene action that carries `narration_phrase`, placed in compose at exactly that beat's `t_ms`. Each phrase becomes its own audio chunk with `action_t_ms` recorded in `tts.timing.json`. Falls back to legacy SSML chunking if a scene has no per-beat phrases (back-compat for older scenes).
 
 6. **Record — Gate 3 (opt-in)**: `tutorialvid record --cwd <root>` — Playwright video + cursor track + per-segment auth selection. Each segment uses the storage_state / credentials of its role from discovery; common segments fall back to the project default. Live bbox capture writes `<hash>.bboxes.json` alongside the webm so highlight + zoom anchor on real on-screen elements (no static bbox in scene.json).
 
-7. **Compose — Gate 4**: `tutorialvid compose --cwd <root>` — Remotion per-segment compositions + ffmpeg stitch, **grouped by role**. Emits one watermarked draft per role at `cache/final/draft.<role>.mp4` (and `draft.<role>.srt`); common segments are concatenated into every role's draft. Single-role / common-only projects fall back to `cache/final/draft.mp4` for back-compat.
+7. **Compose — Gate 4**: `tutorialvid compose --cwd <root>` — Remotion per-segment compositions + ffmpeg stitch, **grouped by role**. Emits one watermarked draft per role at `cache/final/draft.<role>.mp4` (and `draft.<role>.srt`); common segments are concatenated into every role's draft. Single-role / common-only projects fall back to `cache/final/draft.mp4` for back-compat. Audio chunks are placed at their action's `t_ms` (beat-driven) so narration plays exactly when the matching scene beat is on screen — voice and visual lock together.
 
-8. **Finalize**: `tutorialvid finalize --cwd <root>` — promotes each role's HD stitch to `cache/final/final.<role>.mp4` (no watermark). Single-role / common-only flows produce `cache/final/final.mp4`.
+8. **Verify — Gate 5 (mandatory)**: `tutorialvid verify --cwd <root>` — automated A/V/SRT sync QC. Six rules:
+   - `audio-overruns-video` (error): last audio chunk ends before target_duration_s.
+   - `beat-without-audio` (error): every action with `narration_phrase` has a matching audio chunk within ±300 ms.
+   - `audio-overlap` (error): no two chunks play simultaneously.
+   - `phrase-overruns-beat` (warn): each phrase fits inside its beat's window before the next beat starts.
+   - `tts-pacing` (warn): aggregate wpm in 110-200 comfort band.
+   - `silent-gap` (warn): >30% of segment without narration.
+   - `highlight-without-phrase` (warn): every highlighted beat has a phrase explaining it.
+   Skill MUST run this after compose. Errors block finalize; surface to the user. Warnings can ship if user accepts.
+
+9. **Finalize**: `tutorialvid finalize --cwd <root>` — promotes each role's HD stitch to `cache/final/final.<role>.mp4` (no watermark). Single-role / common-only flows produce `cache/final/final.mp4`. **Only run after `verify` passes.**
 
 ### Auth
 

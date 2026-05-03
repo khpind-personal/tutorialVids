@@ -58,21 +58,29 @@ async function loadSegmentArtifacts(scriptDir: string, recordDir: string) {
       const t = JSON.parse(
         await readFile(join(scriptSeg, timingFile), "utf8")
       ) as {
+        mode?: "beat" | "chunked";
         duration_ms: number;
         timing: { word: string; start_ms: number; end_ms: number }[];
-        chunks?: { index: number; mp3_path: string; duration_ms: number }[];
+        chunks?: { index: number; mp3_path: string; duration_ms: number; action_t_ms?: number }[];
       };
       audioDurations[seg] = t.duration_ms;
       captionWords[seg] = t.timing;
       if (t.chunks && t.chunks.length > 0) {
         const sorted = [...t.chunks].sort((a, b) => a.index - b.index);
-        const offsets: number[] = [];
-        let cursor = 0;
-        for (const c of sorted) {
-          offsets.push(cursor);
-          cursor += c.duration_ms;
+        const isBeat = t.mode === "beat" || sorted.every((c) => typeof c.action_t_ms === "number");
+        if (isBeat) {
+          audioOffsets[seg] = sorted.map((c) => c.action_t_ms ?? 0);
+          // Re-pair audioPaths to match chunk order, using mp3_path from timing.
+          audioPaths[seg] = sorted.map((c) => c.mp3_path);
+        } else {
+          const offsets: number[] = [];
+          let cursor = 0;
+          for (const c of sorted) {
+            offsets.push(cursor);
+            cursor += c.duration_ms;
+          }
+          audioOffsets[seg] = offsets;
         }
-        audioOffsets[seg] = offsets;
       } else {
         audioOffsets[seg] = audio.map(() => 0);
       }

@@ -34,6 +34,7 @@ Return a single JSON object (no surrounding prose, no markdown fences) with this
       "beat": "<short kebab-id-of-beat>",
       "selector"?: "...",
       "url"?: "...", "text"?: "...",
+      "narration_phrase"?: "<line spoken DURING this beat — required on every teaching beat>",
       "zoom"?: { "scale": <num>, "in_ms": <int>, "hold_ms": <int>, "out_ms": <int> },
       "ripple"?: <bool>,
       "callout"?: { "text": "...", "anchor": "auto"|"top-left"|"top-right"|"bottom-left"|"bottom-right"|"left"|"right"|"top"|"bottom", "duration_ms": <int>, "max_width": <int> },
@@ -46,7 +47,15 @@ Return a single JSON object (no surrounding prose, no markdown fences) with this
 
 # Alignment contract (HARD)
 
-For every alignments[i] entry, there MUST exist an action whose `t_ms` matches `action_t_ms` (±200 ms) AND whose `selector` (or `highlight.target_selector`) corresponds to a visible element whose label is named in `phrase`. If the narration says "click the Pick Up button", the matching action's selector resolves to the Pick Up button — not a different control on the same page. The director side and the writer side of you are the same brain — never let them disagree.
+The narration must be **per-beat**, not a single paragraph. Every teaching beat (anything that is not the initial nav, the final tail, or a pure pacing pause) MUST carry its own `narration_phrase` — the exact line the TTS will read **at that beat's t_ms**. The full `narration.text` is the concatenation of those phrases (in t_ms order) and exists only for archive / search.
+
+The pipeline reads `narration_phrase` per action and synthesizes one audio chunk per beat, placed in compose at exactly `action.t_ms`. So:
+
+- **Time the phrase to fit the beat — with safety margin.** Word duration through Gemini TTS averages ~480-520 ms (slower than the theoretical 400 ms/word at 150 wpm because of natural prosody, sentence-final pauses, and the model's pacing). Use **500 ms per word** for budgeting and aim for **65-75% utilisation** of the beat window so there is breathing room. If a beat starts at 4000 ms and the next at 12500 ms, the window is 8500 ms → phrase ≤ ~12-14 words. NEVER push to the upper limit; the verify gate (Gate 5) rejects scenes whose phrase audio overlaps the next beat.
+- **Phrase = exactly what the TTS will read.** Plain text. No SSML, no markup. No filler words. Sentence-case, punctuated.
+- **Each phrase references the focal element by its visible label** (use the same name the user sees on screen — e.g. "Coordinator Queue", "Pick Up", "Suggested Tasks"). The selector for the same beat highlights that element. Voice and visual lock together by construction.
+
+`alignments[]` is now derived from beats: each phrase-bearing action contributes `{ phrase: action.narration_phrase, action_t_ms: action.t_ms }` to the alignments array. Author may emit it for back-compat but the pipeline reconstructs it from the actions.
 
 # Context preservation — VISUAL STYLE LOCK (read this twice)
 
@@ -115,12 +124,13 @@ The word count is a hard floor. If you can't fill it without filler, expand on t
    {
      "t_ms": <ms>, "type": "wait", "beat": "<n>-<short-name>",
      "selector": "<element-the-narration-references>",
+     "narration_phrase": "<exact line TTS will speak at this beat — must fit (next_beat.t_ms - this.t_ms) at 150 wpm>",
      "zoom": { "scale": 1.0, "in_ms": 0, "hold_ms": <5000-12000>, "out_ms": 0 },
      "highlight": {
        "target_selector": "<card-level-selector-from-Selector-rules>",
        "style": "both", "duration_ms": <hold_ms>, "intensity": 0.5, "pad": 6, "radius": 12, "pulse": true
      },
-     "callout": { "text": "<≤6 words>", "anchor": "top-right", "duration_ms": 4500, "max_width": 320 }
+     "callout": { "text": "<≤6 words>", "anchor": "auto", "duration_ms": 4500, "max_width": 320 }
    }
    ```
 3. Zoom beat (max one per segment): `zoom.scale` 1.4–1.7, `zoom.in_ms`/`out_ms` 600–800, `hold_ms` 5000–7000. Set both `selector` AND `highlight.target_selector` to the same anchor so the live bbox capture works for both the zoom anchor and the spotlight. Use `style: "both"`, `pulse: true`, `intensity: 0.6`.
