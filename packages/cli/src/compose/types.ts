@@ -4,7 +4,13 @@ import type { CursorTrack } from "../record/types.js";
 export interface TimelineKeyframe {
   t_ms: number;
   zoom?: { scale: number; x_pct: number; y_pct: number };
-  callout?: { text: string; anchor: "left" | "right" | "top" | "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right"; visible: boolean; max_width?: number };
+  callout?: {
+    text: string;
+    anchor: "auto" | "left" | "right" | "top" | "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+    visible: boolean;
+    max_width?: number;
+    bbox?: { x: number; y: number; w: number; h: number };
+  };
   ripple?: { x_pct: number; y_pct: number };
   highlight?: {
     bbox: { x: number; y: number; w: number; h: number };

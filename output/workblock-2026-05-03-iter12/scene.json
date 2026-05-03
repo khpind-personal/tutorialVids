@@ -1,0 +1,247 @@
+{
+  "segment_id": "s01_dashboard_coordinator",
+  "page_id": "dashboard",
+  "role": "coordinator",
+  "role_label": "Coordinator",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 75,
+  "actions": [
+    {
+      "t_ms": 0,
+      "type": "nav",
+      "url": "/dashboard"
+    },
+    {
+      "t_ms": 0,
+      "type": "wait",
+      "selector": "h1:has-text('Dashboard')",
+      "beat": "1-establish-wide",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 600,
+        "hold_ms": 3300,
+        "out_ms": 600
+      }
+    },
+    {
+      "t_ms": 4500,
+      "type": "wait",
+      "selector": "a[href='/coordinator']",
+      "beat": "2-coordinator-queue",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 8000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/coordinator']",
+        "style": "both",
+        "duration_ms": 8000,
+        "intensity": 0.55,
+        "pad": 6,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "9 items need your call",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 12500,
+      "type": "wait",
+      "selector": "h3:has-text('Suggested Tasks')",
+      "beat": "3-suggested-tasks",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 6,
+        "radius": 12,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Work ready to claim",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 21500,
+      "type": "wait",
+      "selector": "text=Layout Design",
+      "beat": "4-card-anatomy",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=(//div[normalize-space()='Layout Design'])[1]/ancestor::div[3]",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 8,
+        "radius": 12,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Size, priority, deadline",
+        "anchor": "auto",
+        "duration_ms": 4800,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 30500,
+      "type": "wait",
+      "selector": "button:has-text('Pick Up')",
+      "beat": "5-pick-up-button-zoom",
+      "zoom": {
+        "scale": 1.7,
+        "in_ms": 800,
+        "hold_ms": 6900,
+        "out_ms": 800
+      },
+      "highlight": {
+        "target_selector": "button:has-text('Pick Up')",
+        "style": "both",
+        "duration_ms": 8000,
+        "intensity": 0.6,
+        "pad": 4,
+        "radius": 18,
+        "pulse": true
+      },
+      "callout": {
+        "text": "One click to claim",
+        "anchor": "auto",
+        "duration_ms": 4500,
+        "max_width": 280
+      },
+      "highlight_score": 10
+    },
+    {
+      "t_ms": 39000,
+      "type": "wait",
+      "selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+      "beat": "6-status-strip",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+        "style": "spotlight",
+        "duration_ms": 9000,
+        "intensity": 0.45,
+        "pad": 8,
+        "radius": 10,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Team pulse at a glance",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 8
+    },
+    {
+      "t_ms": 48000,
+      "type": "wait",
+      "selector": "a[href='/review']",
+      "beat": "7-review-submissions",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 9000,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/review']",
+        "style": "both",
+        "duration_ms": 9000,
+        "intensity": 0.5,
+        "pad": 4,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Drafts awaiting sign-off",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 57000,
+      "type": "wait",
+      "selector": "h1:has-text('Dashboard')",
+      "beat": "8-pull-back-wide",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 18000,
+        "out_ms": 0
+      }
+    },
+    {
+      "t_ms": 75000,
+      "type": "wait",
+      "selector": "main"
+    }
+  ],
+  "narration": {
+    "text": "This is your Coordinator dashboard. Your day starts here. The Coordinator Queue holds nine items waiting on your call. Suggested Tasks shows work ready to claim. Each card surfaces size, priority, and deadline at a glance. When one fits, just hit Pick Up to make it yours. Status counters keep the team's pulse in view. And Review Submissions flags drafts needing your sign-off.",
+    "ssml": "<speak>This is your Coordinator dashboard. <break time='200ms'/> Your day starts here. <break time='250ms'/> The Coordinator Queue holds nine items waiting on your call. <break time='250ms'/> Suggested Tasks shows work ready to claim. <break time='200ms'/> Each card surfaces size, priority, and deadline at a glance. <break time='250ms'/> When one fits, just hit Pick Up to make it yours. <break time='300ms'/> Status counters keep the team's pulse in view. <break time='250ms'/> And Review Submissions flags drafts needing your sign-off.</speak>",
+    "alignments": [
+      {
+        "phrase": "This is your Coordinator dashboard",
+        "action_t_ms": 500
+      },
+      {
+        "phrase": "The Coordinator Queue holds nine items waiting on your call",
+        "action_t_ms": 4500
+      },
+      {
+        "phrase": "Suggested Tasks shows work ready to claim",
+        "action_t_ms": 13000
+      },
+      {
+        "phrase": "Each card surfaces size, priority, and deadline at a glance",
+        "action_t_ms": 22000
+      },
+      {
+        "phrase": "just hit Pick Up to make it yours",
+        "action_t_ms": 31000
+      },
+      {
+        "phrase": "Status counters keep the team's pulse in view",
+        "action_t_ms": 39500
+      },
+      {
+        "phrase": "Review Submissions flags drafts needing your sign-off",
+        "action_t_ms": 48500
+      }
+    ]
+  }
+}

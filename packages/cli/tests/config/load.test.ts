@@ -57,7 +57,7 @@ describe("loadConfig", () => {
   it("provides compose defaults", async () => {
     writeFileSync(join(root, ".tutorialvid/config.json"), JSON.stringify(valid));
     const cfg = await loadConfig(root);
-    expect(cfg.compose.draft_resolution).toBe("854x480");
+    expect(cfg.compose.draft_resolution).toBe("1920x1080");
     expect(cfg.compose.fps).toBe(30);
     expect(cfg.compose.music_volume).toBe(0.15);
     expect(cfg.compose.cursor_size_px).toBe(48);

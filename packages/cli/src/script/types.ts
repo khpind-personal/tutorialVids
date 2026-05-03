@@ -17,7 +17,7 @@ export interface SceneAction {
   text?: string;
   zoom?: { scale: number; in_ms: number; hold_ms: number; out_ms: number };
   ripple?: boolean;
-  callout?: { text: string; anchor: "left" | "right" | "top" | "bottom"; duration_ms: number };
+  callout?: { text: string; anchor: "auto" | "left" | "right" | "top" | "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right"; duration_ms: number; max_width?: number };
   highlight_score?: number;
 }
 

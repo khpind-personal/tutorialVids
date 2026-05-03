@@ -36,7 +36,7 @@ Return a single JSON object (no surrounding prose, no markdown fences) with this
       "url"?: "...", "text"?: "...",
       "zoom"?: { "scale": <num>, "in_ms": <int>, "hold_ms": <int>, "out_ms": <int> },
       "ripple"?: <bool>,
-      "callout"?: { "text": "...", "anchor": "top-left"|"top-right"|"bottom-left"|"bottom-right"|"left"|"right"|"top"|"bottom", "duration_ms": <int>, "max_width": <int> },
+      "callout"?: { "text": "...", "anchor": "auto"|"top-left"|"top-right"|"bottom-left"|"bottom-right"|"left"|"right"|"top"|"bottom", "duration_ms": <int>, "max_width": <int> },
       "highlight"?: { "target_selector": "...", "style": "spotlight"|"frame"|"both", "duration_ms": <int>, "intensity": <0-1>, "pad": <int>, "radius": <int>, "pulse": <bool> },
       "highlight_score"?: <int 0-10>
     }
@@ -129,7 +129,9 @@ If `is_common` is true:
 
 # Callout rules
 
-- Use corner anchors (`top-right`, `top-left`, `bottom-right`, `bottom-left`) by default; cardinal anchors (`top`, `right`, `bottom`, `left`) only when the focal element pins to an edge.
+- **Default anchor: `"auto"`.** With `auto`, the renderer places the callout immediately adjacent to the active spotlight bbox (right side if there is room ≥ maxWidth + margin, else left, else below, else above). This visually links the label to the highlighted element so the viewer never has to dart between a corner-anchored card and the spotlight elsewhere on screen.
+- Fall back to a fixed corner (`top-right`, `top-left`, `bottom-right`, `bottom-left`) only when there is no `highlight` on the same beat to anchor against.
+- Cardinal anchors (`top`, `right`, `bottom`, `left`) are reserved for edge-pinned focal elements.
 - Always set `max_width` (240–360 px). Without it the callout text wraps unpredictably and overlaps neighbouring UI.
 - Keep callout text ≤ 6 words. The narration carries the explanation; the callout is a label.
 
