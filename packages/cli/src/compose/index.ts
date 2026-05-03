@@ -16,6 +16,7 @@ export interface RunComposeInput {
   scenes: SceneJson[];
   cursors: Record<string, CursorTrack>;
   audioPaths: Record<string, string[]>;
+  audioOffsets: Record<string, number[]>;
   audioDurations: Record<string, number>;
   captionWords: Record<string, { word: string; start_ms: number; end_ms: number }[]>;
   rawClips: Record<string, string>;
@@ -75,9 +76,11 @@ export async function runCompose(input: RunComposeInput): Promise<RunComposeOutp
     });
     const outPath = join(input.cacheRoot, "compose", scene.segment_id, `${hash}.mp4`);
     await mkdir(dirname(outPath), { recursive: true });
+    const offsets = input.audioOffsets[scene.segment_id] ?? audio.map(() => 0);
     const r = await renderSegment({
       scene, cursor,
       audio_paths: audio,
+      audio_offsets_ms: offsets,
       audio_duration_ms: durMs,
       caption_words: captions,
       raw_clip_path: rawClip,

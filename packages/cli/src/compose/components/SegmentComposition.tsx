@@ -1,4 +1,4 @@
-import { AbsoluteFill, Audio, OffthreadVideo } from "remotion";
+import { AbsoluteFill, Audio, OffthreadVideo, Sequence, useVideoConfig } from "remotion";
 import { ZoomLayer } from "./ZoomLayer.js";
 import { CursorOverlay } from "./CursorOverlay.js";
 import { Callout } from "./Callout.js";
@@ -12,6 +12,7 @@ import type { SrtWord } from "../srt.js";
 export interface SegmentCompositionProps {
   rawClipPath: string;
   audioPaths: string[];
+  audioOffsetsMs?: number[];
   cursorTrack: CursorTrack;
   cursorSvgPath: string;
   cursorSize: number;
@@ -22,6 +23,8 @@ export interface SegmentCompositionProps {
 }
 
 export function SegmentComposition(props: SegmentCompositionProps) {
+  const { fps } = useVideoConfig();
+  const offsets = props.audioOffsetsMs ?? props.audioPaths.map(() => 0);
   return (
     <AbsoluteFill style={{ background: "black" }}>
       <ZoomLayer keyframes={props.keyframes}>
@@ -40,7 +43,14 @@ export function SegmentComposition(props: SegmentCompositionProps) {
       />
       <Callout keyframes={props.keyframes} />
       <CaptionBar words={props.captionWords} />
-      {props.audioPaths.map((p, i) => <Audio key={i} src={p} />)}
+      {props.audioPaths.map((p, i) => {
+        const fromFrames = Math.max(0, Math.round((offsets[i] ?? 0) / 1000 * fps));
+        return (
+          <Sequence key={i} from={fromFrames}>
+            <Audio src={p} />
+          </Sequence>
+        );
+      })}
     </AbsoluteFill>
   );
 }
