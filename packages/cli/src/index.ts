@@ -107,6 +107,17 @@ program
   });
 
 program
+  .command("pace")
+  .description("Re-grid scene t_ms from measured TTS chunk durations + small breath gaps. Run between tts and record for tight pacing.")
+  .option("--cwd <path>", "project root", process.cwd())
+  .option("--no-markdown", "suppress pace report")
+  .action(async (opts) => {
+    const { paceCommand } = await import("./commands/pace.js");
+    const code = await paceCommand({ cwd: opts.cwd, printMarkdown: opts.markdown !== false });
+    process.exit(code);
+  });
+
+program
   .command("record")
   .description("Record per-segment Playwright video + cursor track from scene.json")
   .option("--cwd <path>", "project root", process.cwd())

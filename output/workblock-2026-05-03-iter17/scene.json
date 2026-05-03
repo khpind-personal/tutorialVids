@@ -1,0 +1,261 @@
+{
+  "segment_id": "s01_dashboard_coordinator",
+  "page_id": "dashboard",
+  "role": "coordinator",
+  "role_label": "Coordinator",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 48,
+  "actions": [
+    {
+      "t_ms": 0,
+      "type": "nav",
+      "url": "/dashboard",
+      "beat": "0-nav"
+    },
+    {
+      "t_ms": 0,
+      "type": "wait",
+      "beat": "1-establish-wide",
+      "selector": "h1:has-text('Dashboard')",
+      "narration_phrase": "Welcome to your Coordinator dashboard.",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 2731,
+        "out_ms": 0
+      }
+    },
+    {
+      "t_ms": 3081,
+      "type": "wait",
+      "beat": "2-suggested-tasks",
+      "selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+      "narration_phrase": "Suggested Tasks lists fresh work you can claim — five cards waiting on your call right now.",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 6211,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+        "style": "both",
+        "duration_ms": 6211,
+        "intensity": 0.5,
+        "pad": 6,
+        "radius": 12,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Fresh work to claim",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 300
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 9542,
+      "type": "wait",
+      "beat": "3-pick-up-cta-zoom",
+      "selector": "button:has-text('Pick Up')",
+      "narration_phrase": "Click Pick Up on any card to claim it instantly — size, priority and deadline shown.",
+      "zoom": {
+        "scale": 1.6,
+        "in_ms": 700,
+        "hold_ms": 6101,
+        "out_ms": 700
+      },
+      "highlight": {
+        "target_selector": "button:has-text('Pick Up')",
+        "style": "both",
+        "duration_ms": 6101,
+        "intensity": 0.6,
+        "pad": 4,
+        "radius": 18,
+        "pulse": true
+      },
+      "callout": {
+        "text": "One click to claim",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 10
+    },
+    {
+      "t_ms": 15993,
+      "type": "wait",
+      "beat": "4-coordinator-queue",
+      "selector": "a[href='/coordinator']",
+      "narration_phrase": "Your Coordinator Queue shows nine items needing triage decisions before they reach the design team.",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 6051,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/coordinator']",
+        "style": "both",
+        "duration_ms": 6051,
+        "intensity": 0.5,
+        "pad": 6,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "9 items need triage",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 280
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 22394,
+      "type": "wait",
+      "beat": "5-review-submissions",
+      "selector": "a[href='/review']",
+      "narration_phrase": "Review Submissions holds five drafts already waiting on your approval before work moves forward downstream.",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 6611,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "a[href='/review']",
+        "style": "both",
+        "duration_ms": 6611,
+        "intensity": 0.5,
+        "pad": 6,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "5 drafts awaiting approval",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 300
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 29355,
+      "type": "wait",
+      "beat": "6-status-strip",
+      "selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+      "narration_phrase": "The status strip surfaces approved, on hold, and active counts so you spot bottlenecks fast.",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 6771,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+        "style": "both",
+        "duration_ms": 6771,
+        "intensity": 0.5,
+        "pad": 8,
+        "radius": 10,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Team pulse at a glance",
+        "anchor": "auto",
+        "duration_ms": 5000,
+        "max_width": 300
+      },
+      "highlight_score": 8
+    },
+    {
+      "t_ms": 36476,
+      "type": "wait",
+      "beat": "7-team-overview",
+      "selector": "nav a:has-text('Team Board')",
+      "narration_phrase": "Team Board and Block Health track who is loaded right now.",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 3731,
+        "out_ms": 0
+      },
+      "highlight": {
+        "target_selector": "nav a:has-text('Team Board')",
+        "style": "both",
+        "duration_ms": 3731,
+        "intensity": 0.5,
+        "pad": 6,
+        "radius": 8,
+        "pulse": true
+      },
+      "callout": {
+        "text": "See team load instantly",
+        "anchor": "auto",
+        "duration_ms": 4500,
+        "max_width": 280
+      },
+      "highlight_score": 8
+    },
+    {
+      "t_ms": 40557,
+      "type": "wait",
+      "beat": "8-pull-back-wide",
+      "selector": "h1:has-text('Dashboard')",
+      "narration_phrase": "From here you triage, unblock, and keep flowing.",
+      "zoom": {
+        "scale": 1,
+        "in_ms": 0,
+        "hold_ms": 3771,
+        "out_ms": 0
+      }
+    },
+    {
+      "t_ms": 44678,
+      "type": "wait",
+      "selector": "main",
+      "beat": "9-tail"
+    }
+  ],
+  "narration": {
+    "text": "Welcome to your Coordinator dashboard. Suggested Tasks lists fresh work you can claim — five cards waiting on your call right now. Click Pick Up on any card to claim it instantly — size, priority and deadline shown. Your Coordinator Queue shows nine items needing triage decisions before they reach the design team. Review Submissions holds five drafts already waiting on your approval before work moves forward downstream. The status strip surfaces approved, on hold, and active counts so you spot bottlenecks fast. Team Board and Block Health track who is loaded right now. From here you triage, unblock, and keep flowing.",
+    "ssml": "<speak>Welcome to your Coordinator dashboard. <break time='200ms'/> Suggested Tasks lists fresh work you can claim — five cards waiting on your call right now. <break time='200ms'/> Click Pick Up on any card to claim it instantly — size, priority and deadline shown. <break time='200ms'/> Your Coordinator Queue shows nine items needing triage decisions before they reach the design team. <break time='200ms'/> Review Submissions holds five drafts already waiting on your approval before work moves forward downstream. <break time='200ms'/> The status strip surfaces approved, on hold, and active counts so you spot bottlenecks fast. <break time='200ms'/> Team Board and Block Health track who is loaded right now. <break time='200ms'/> From here you triage, unblock, and keep flowing.</speak>",
+    "alignments": [
+      {
+        "phrase": "Welcome to your Coordinator dashboard.",
+        "action_t_ms": 0
+      },
+      {
+        "phrase": "Suggested Tasks lists fresh work you can claim — five cards waiting on your call right now.",
+        "action_t_ms": 5000
+      },
+      {
+        "phrase": "Click Pick Up on any card to claim it instantly — size, priority and deadline shown.",
+        "action_t_ms": 17000
+      },
+      {
+        "phrase": "Your Coordinator Queue shows nine items needing triage decisions before they reach the design team.",
+        "action_t_ms": 28000
+      },
+      {
+        "phrase": "Review Submissions holds five drafts already waiting on your approval before work moves forward downstream.",
+        "action_t_ms": 39000
+      },
+      {
+        "phrase": "The status strip surfaces approved, on hold, and active counts so you spot bottlenecks fast.",
+        "action_t_ms": 50000
+      },
+      {
+        "phrase": "Team Board and Block Health track who is loaded right now.",
+        "action_t_ms": 61000
+      },
+      {
+        "phrase": "From here you triage, unblock, and keep flowing.",
+        "action_t_ms": 69000
+      }
+    ]
+  }
+}

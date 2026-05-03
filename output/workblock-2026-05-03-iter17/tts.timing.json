@@ -1,0 +1,582 @@
+{
+  "mode": "beat",
+  "duration_ms": 44328,
+  "timing": [
+    {
+      "word": "Welcome",
+      "start_ms": 0,
+      "end_ms": 546
+    },
+    {
+      "word": "to",
+      "start_ms": 546,
+      "end_ms": 1092
+    },
+    {
+      "word": "your",
+      "start_ms": 1092,
+      "end_ms": 1639
+    },
+    {
+      "word": "Coordinator",
+      "start_ms": 1639,
+      "end_ms": 2185
+    },
+    {
+      "word": "dashboard.",
+      "start_ms": 2185,
+      "end_ms": 2731
+    },
+    {
+      "word": "Suggested",
+      "start_ms": 5000,
+      "end_ms": 5365
+    },
+    {
+      "word": "Tasks",
+      "start_ms": 5365,
+      "end_ms": 5731
+    },
+    {
+      "word": "lists",
+      "start_ms": 5731,
+      "end_ms": 6096
+    },
+    {
+      "word": "fresh",
+      "start_ms": 6096,
+      "end_ms": 6461
+    },
+    {
+      "word": "work",
+      "start_ms": 6461,
+      "end_ms": 6827
+    },
+    {
+      "word": "you",
+      "start_ms": 6827,
+      "end_ms": 7192
+    },
+    {
+      "word": "can",
+      "start_ms": 7192,
+      "end_ms": 7557
+    },
+    {
+      "word": "claim",
+      "start_ms": 7557,
+      "end_ms": 7923
+    },
+    {
+      "word": "—",
+      "start_ms": 7923,
+      "end_ms": 8288
+    },
+    {
+      "word": "five",
+      "start_ms": 8288,
+      "end_ms": 8654
+    },
+    {
+      "word": "cards",
+      "start_ms": 8654,
+      "end_ms": 9019
+    },
+    {
+      "word": "waiting",
+      "start_ms": 9019,
+      "end_ms": 9384
+    },
+    {
+      "word": "on",
+      "start_ms": 9384,
+      "end_ms": 9750
+    },
+    {
+      "word": "your",
+      "start_ms": 9750,
+      "end_ms": 10115
+    },
+    {
+      "word": "call",
+      "start_ms": 10115,
+      "end_ms": 10480
+    },
+    {
+      "word": "right",
+      "start_ms": 10480,
+      "end_ms": 10846
+    },
+    {
+      "word": "now.",
+      "start_ms": 10846,
+      "end_ms": 11211
+    },
+    {
+      "word": "Click",
+      "start_ms": 17000,
+      "end_ms": 17366
+    },
+    {
+      "word": "Pick",
+      "start_ms": 17366,
+      "end_ms": 17731
+    },
+    {
+      "word": "Up",
+      "start_ms": 17731,
+      "end_ms": 18097
+    },
+    {
+      "word": "on",
+      "start_ms": 18097,
+      "end_ms": 18463
+    },
+    {
+      "word": "any",
+      "start_ms": 18463,
+      "end_ms": 18828
+    },
+    {
+      "word": "card",
+      "start_ms": 18828,
+      "end_ms": 19194
+    },
+    {
+      "word": "to",
+      "start_ms": 19194,
+      "end_ms": 19560
+    },
+    {
+      "word": "claim",
+      "start_ms": 19560,
+      "end_ms": 19926
+    },
+    {
+      "word": "it",
+      "start_ms": 19926,
+      "end_ms": 20291
+    },
+    {
+      "word": "instantly",
+      "start_ms": 20291,
+      "end_ms": 20657
+    },
+    {
+      "word": "—",
+      "start_ms": 20657,
+      "end_ms": 21023
+    },
+    {
+      "word": "size,",
+      "start_ms": 21023,
+      "end_ms": 21388
+    },
+    {
+      "word": "priority",
+      "start_ms": 21388,
+      "end_ms": 21754
+    },
+    {
+      "word": "and",
+      "start_ms": 21754,
+      "end_ms": 22120
+    },
+    {
+      "word": "deadline",
+      "start_ms": 22120,
+      "end_ms": 22485
+    },
+    {
+      "word": "shown.",
+      "start_ms": 22485,
+      "end_ms": 22851
+    },
+    {
+      "word": "Your",
+      "start_ms": 28000,
+      "end_ms": 28403
+    },
+    {
+      "word": "Coordinator",
+      "start_ms": 28403,
+      "end_ms": 28807
+    },
+    {
+      "word": "Queue",
+      "start_ms": 28807,
+      "end_ms": 29210
+    },
+    {
+      "word": "shows",
+      "start_ms": 29210,
+      "end_ms": 29614
+    },
+    {
+      "word": "nine",
+      "start_ms": 29614,
+      "end_ms": 30017
+    },
+    {
+      "word": "items",
+      "start_ms": 30017,
+      "end_ms": 30420
+    },
+    {
+      "word": "needing",
+      "start_ms": 30420,
+      "end_ms": 30824
+    },
+    {
+      "word": "triage",
+      "start_ms": 30824,
+      "end_ms": 31227
+    },
+    {
+      "word": "decisions",
+      "start_ms": 31227,
+      "end_ms": 31631
+    },
+    {
+      "word": "before",
+      "start_ms": 31631,
+      "end_ms": 32034
+    },
+    {
+      "word": "they",
+      "start_ms": 32034,
+      "end_ms": 32437
+    },
+    {
+      "word": "reach",
+      "start_ms": 32437,
+      "end_ms": 32841
+    },
+    {
+      "word": "the",
+      "start_ms": 32841,
+      "end_ms": 33244
+    },
+    {
+      "word": "design",
+      "start_ms": 33244,
+      "end_ms": 33648
+    },
+    {
+      "word": "team.",
+      "start_ms": 33648,
+      "end_ms": 34051
+    },
+    {
+      "word": "Review",
+      "start_ms": 39000,
+      "end_ms": 39441
+    },
+    {
+      "word": "Submissions",
+      "start_ms": 39441,
+      "end_ms": 39881
+    },
+    {
+      "word": "holds",
+      "start_ms": 39881,
+      "end_ms": 40322
+    },
+    {
+      "word": "five",
+      "start_ms": 40322,
+      "end_ms": 40763
+    },
+    {
+      "word": "drafts",
+      "start_ms": 40763,
+      "end_ms": 41204
+    },
+    {
+      "word": "already",
+      "start_ms": 41204,
+      "end_ms": 41644
+    },
+    {
+      "word": "waiting",
+      "start_ms": 41644,
+      "end_ms": 42085
+    },
+    {
+      "word": "on",
+      "start_ms": 42085,
+      "end_ms": 42526
+    },
+    {
+      "word": "your",
+      "start_ms": 42526,
+      "end_ms": 42967
+    },
+    {
+      "word": "approval",
+      "start_ms": 42967,
+      "end_ms": 43407
+    },
+    {
+      "word": "before",
+      "start_ms": 43407,
+      "end_ms": 43848
+    },
+    {
+      "word": "work",
+      "start_ms": 43848,
+      "end_ms": 44289
+    },
+    {
+      "word": "moves",
+      "start_ms": 44289,
+      "end_ms": 44730
+    },
+    {
+      "word": "forward",
+      "start_ms": 44730,
+      "end_ms": 45170
+    },
+    {
+      "word": "downstream.",
+      "start_ms": 45170,
+      "end_ms": 45611
+    },
+    {
+      "word": "The",
+      "start_ms": 50000,
+      "end_ms": 50451
+    },
+    {
+      "word": "status",
+      "start_ms": 50451,
+      "end_ms": 50903
+    },
+    {
+      "word": "strip",
+      "start_ms": 50903,
+      "end_ms": 51354
+    },
+    {
+      "word": "surfaces",
+      "start_ms": 51354,
+      "end_ms": 51806
+    },
+    {
+      "word": "approved,",
+      "start_ms": 51806,
+      "end_ms": 52257
+    },
+    {
+      "word": "on",
+      "start_ms": 52257,
+      "end_ms": 52708
+    },
+    {
+      "word": "hold,",
+      "start_ms": 52708,
+      "end_ms": 53160
+    },
+    {
+      "word": "and",
+      "start_ms": 53160,
+      "end_ms": 53611
+    },
+    {
+      "word": "active",
+      "start_ms": 53611,
+      "end_ms": 54063
+    },
+    {
+      "word": "counts",
+      "start_ms": 54063,
+      "end_ms": 54514
+    },
+    {
+      "word": "so",
+      "start_ms": 54514,
+      "end_ms": 54965
+    },
+    {
+      "word": "you",
+      "start_ms": 54965,
+      "end_ms": 55417
+    },
+    {
+      "word": "spot",
+      "start_ms": 55417,
+      "end_ms": 55868
+    },
+    {
+      "word": "bottlenecks",
+      "start_ms": 55868,
+      "end_ms": 56320
+    },
+    {
+      "word": "fast.",
+      "start_ms": 56320,
+      "end_ms": 56771
+    },
+    {
+      "word": "Team",
+      "start_ms": 61000,
+      "end_ms": 61339
+    },
+    {
+      "word": "Board",
+      "start_ms": 61339,
+      "end_ms": 61678
+    },
+    {
+      "word": "and",
+      "start_ms": 61678,
+      "end_ms": 62018
+    },
+    {
+      "word": "Block",
+      "start_ms": 62018,
+      "end_ms": 62357
+    },
+    {
+      "word": "Health",
+      "start_ms": 62357,
+      "end_ms": 62696
+    },
+    {
+      "word": "track",
+      "start_ms": 62696,
+      "end_ms": 63035
+    },
+    {
+      "word": "who",
+      "start_ms": 63035,
+      "end_ms": 63374
+    },
+    {
+      "word": "is",
+      "start_ms": 63374,
+      "end_ms": 63713
+    },
+    {
+      "word": "loaded",
+      "start_ms": 63713,
+      "end_ms": 64053
+    },
+    {
+      "word": "right",
+      "start_ms": 64053,
+      "end_ms": 64392
+    },
+    {
+      "word": "now.",
+      "start_ms": 64392,
+      "end_ms": 64731
+    },
+    {
+      "word": "From",
+      "start_ms": 69000,
+      "end_ms": 69471
+    },
+    {
+      "word": "here",
+      "start_ms": 69471,
+      "end_ms": 69943
+    },
+    {
+      "word": "you",
+      "start_ms": 69943,
+      "end_ms": 70414
+    },
+    {
+      "word": "triage,",
+      "start_ms": 70414,
+      "end_ms": 70886
+    },
+    {
+      "word": "unblock,",
+      "start_ms": 70886,
+      "end_ms": 71357
+    },
+    {
+      "word": "and",
+      "start_ms": 71357,
+      "end_ms": 71828
+    },
+    {
+      "word": "keep",
+      "start_ms": 71828,
+      "end_ms": 72300
+    },
+    {
+      "word": "flowing.",
+      "start_ms": 72300,
+      "end_ms": 72771
+    }
+  ],
+  "chunks": [
+    {
+      "index": 0,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/0.mp3",
+      "duration_ms": 2731,
+      "action_t_ms": 0,
+      "phrase": "Welcome to your Coordinator dashboard.",
+      "beat": "1-establish-wide"
+    },
+    {
+      "index": 1,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/1.mp3",
+      "duration_ms": 6211,
+      "action_t_ms": 3081,
+      "phrase": "Suggested Tasks lists fresh work you can claim — five cards waiting on your call right now.",
+      "beat": "2-suggested-tasks"
+    },
+    {
+      "index": 2,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/2.mp3",
+      "duration_ms": 5851,
+      "action_t_ms": 9542,
+      "phrase": "Click Pick Up on any card to claim it instantly — size, priority and deadline shown.",
+      "beat": "3-pick-up-cta-zoom"
+    },
+    {
+      "index": 3,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/3.mp3",
+      "duration_ms": 6051,
+      "action_t_ms": 15993,
+      "phrase": "Your Coordinator Queue shows nine items needing triage decisions before they reach the design team.",
+      "beat": "4-coordinator-queue"
+    },
+    {
+      "index": 4,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/4.mp3",
+      "duration_ms": 6611,
+      "action_t_ms": 22394,
+      "phrase": "Review Submissions holds five drafts already waiting on your approval before work moves forward downstream.",
+      "beat": "5-review-submissions"
+    },
+    {
+      "index": 5,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/5.mp3",
+      "duration_ms": 6771,
+      "action_t_ms": 29355,
+      "phrase": "The status strip surfaces approved, on hold, and active counts so you spot bottlenecks fast.",
+      "beat": "6-status-strip"
+    },
+    {
+      "index": 6,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/6.mp3",
+      "duration_ms": 3731,
+      "action_t_ms": 36476,
+      "phrase": "Team Board and Block Health track who is loaded right now.",
+      "beat": "7-team-overview"
+    },
+    {
+      "index": 7,
+      "mp3_path": "/tmp/tv-workblock-1777704233/.tutorialvid/cache/script/s01_dashboard_coordinator/7.mp3",
+      "duration_ms": 3771,
+      "action_t_ms": 40557,
+      "phrase": "From here you triage, unblock, and keep flowing.",
+      "beat": "8-pull-back-wide"
+    }
+  ]
+}
