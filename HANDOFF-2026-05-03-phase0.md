@@ -81,11 +81,29 @@ $ tutorialvid script-prepare --cwd /tmp/tv-workblock-1777704233
 
 Build clean. Tests 133/134 pass — the 1 failure is the pre-existing Playwright fixture-server flake on `tests/scan/crawl.test.ts` (port 5173 race), not a regression from this work.
 
+## Iter 10 — full pipeline silent draft (single role, coordinator)
+
+After Phase 0 + segment-author landed, ran the full pipeline end-to-end against WorkBlock for `s01_dashboard_coordinator` only. Output bundle: `output/workblock-2026-05-03-iter10/`.
+
+```
+discovery → scan → plan --select dashboard --roles coordinator (1 segment)
+script-prepare → segment-author subagent dispatch → script-consume
+record (per-role storage_state from discovery, 5 live bboxes captured)
+compose (silent — TTS skipped) → finalize
+```
+
+Output: `s01_dashboard_coordinator-draft.mp4`, 1:23 (intro 3s + segment 1:15 + outro 5s), 854x480, 1.1 MB. Coordinator-aware narration in `scene.json` ("As a Coordinator, this dashboard is your command center", references Coordinator Queue / Active Task / My Backlog / Team Board / Notifications by name). All 5 highlight/zoom beats anchored to live bboxes captured by Playwright at record time.
+
+Two pre-existing bugs found and fixed during this run:
+
+1. `compose/stitch.ts` ENTRY pointed at `../../src/compose-entry.tsx` which broke bundle resolution from dist (`.js` extensions don't resolve to `.tsx`). Patched to `../compose-entry.js`.
+2. `compose/ffmpeg.ts` `applyWatermark` called drawtext without a `fontfile` — fails on macOS where ffmpeg-installer ships no default font. Added `findFontFile()` candidate walker (Arial.ttf / Helvetica.ttc / DejaVuSans.ttf paths); falls through to a copy if none found.
+3. `compose/index.ts` + `compose/stitch.ts` now skip the `duckMixMusic` step when no narration audio exists (`StitchInput.skipMusic`). Lets silent drafts render without an audio track on the input.
+
 ## Open
 
 - `team_member` couldn't reach `/dashboard` in the live discovery crawl — JWT was fresh and worked when I logged in via Playwright MCP, but the headless crawl hit `/login` redirect. Likely an RBAC interceptor that kicks unrecognized roles. Worth reproducing manually before assuming the access matrix is wrong; the architecture is sound.
-- TTS quota (Gemini 2.5 Flash Preview free tier) still blocks a full 5-segment compose pass. Unchanged — Issue 2 from prior handoff.
-- Real script-consume + tts + record + compose loop wasn't run end-to-end here; the skill's subagent dispatch + Gemini quota + at least one role with full access is the next step.
+- TTS quota (Gemini 2.5 Flash Preview free tier) still blocks a full 5-segment compose pass. Unchanged — Issue 2 from prior handoff. `GEMINI_API_KEY` not set in this session's shell either; couldn't run TTS to verify the audio + caption + duckmix path with the new role-aware artifacts. The narration JSON (text + ssml + alignments) is ready to feed straight into TTS once a key is set.
 
 ## Resume
 

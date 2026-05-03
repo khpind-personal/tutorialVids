@@ -17,11 +17,33 @@ export async function concatSegments(inputs: string[], out: string): Promise<voi
   await run(chain);
 }
 
+async function findFontFile(): Promise<string | null> {
+  const candidates = [
+    "/System/Library/Fonts/Supplemental/Arial.ttf",
+    "/System/Library/Fonts/Helvetica.ttc",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    "/usr/share/fonts/TTF/DejaVuSans.ttf",
+    "/usr/share/fonts/dejavu/DejaVuSans.ttf",
+    "C:\\Windows\\Fonts\\arial.ttf"
+  ];
+  const { access } = await import("node:fs/promises");
+  for (const c of candidates) {
+    try { await access(c); return c; } catch {}
+  }
+  return null;
+}
+
 export async function applyWatermark(inPath: string, outPath: string, text: string): Promise<void> {
+  const fontfile = await findFontFile();
+  if (!fontfile) {
+    const { copyFile } = await import("node:fs/promises");
+    await copyFile(inPath, outPath);
+    return;
+  }
   const chain = ffmpeg(inPath);
   chain.videoFilters([{
     filter: "drawtext",
-    options: { text, fontsize: 36, fontcolor: "white@0.7", x: "w-tw-20", y: "20", box: 1, boxcolor: "black@0.4", boxborderw: 8 }
+    options: { fontfile, text, fontsize: 36, fontcolor: "white@0.7", x: "w-tw-20", y: "20", box: 1, boxcolor: "black@0.4", boxborderw: 8 }
   }]);
   chain.output(outPath);
   await run(chain);

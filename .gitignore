@@ -31,3 +31,4 @@ yarn-debug.log*
 # Test outputs
 coverage/
 .nyc_output/
+output/workblock-2026-05-02/storage-state-DO-NOT-COMMIT.json
