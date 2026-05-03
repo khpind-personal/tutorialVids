@@ -1,0 +1,72 @@
+[
+  {
+    "t_ms": 12000,
+    "selector": "text=Coordinator Queue",
+    "bbox": {
+      "x": 40,
+      "y": 409,
+      "w": 118,
+      "h": 20
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 28000,
+    "selector": "text=Active Task",
+    "bbox": {
+      "x": 40,
+      "y": 248,
+      "w": 72,
+      "h": 20
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 40000,
+    "selector": "text=My Backlog",
+    "bbox": {
+      "x": 40,
+      "y": 279,
+      "w": 73,
+      "h": 20
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 52000,
+    "selector": "text=Team Board",
+    "bbox": {
+      "x": 40,
+      "y": 509,
+      "w": 74,
+      "h": 20
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "t_ms": 64000,
+    "selector": "text=Notifications",
+    "bbox": {
+      "x": 40,
+      "y": 740,
+      "w": 79,
+      "h": 20
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0
+    }
+  }
+]

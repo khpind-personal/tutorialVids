@@ -16,6 +16,7 @@ export interface StitchInput {
   workDir: string;
   finalOut: string;
   resolution: { width: number; height: number };
+  skipMusic?: boolean;
 }
 
 interface IntroSpec {
@@ -33,7 +34,7 @@ interface OutroSpec extends IntroSpec {
 }
 
 const here = dirname(fileURLToPath(import.meta.url));
-const ENTRY = resolve(here, "../../src/compose-entry.tsx");
+const ENTRY = resolve(here, "../compose-entry.js");
 let cachedBundle: string | null = null;
 
 async function ensureBundle(): Promise<string> {
@@ -87,7 +88,12 @@ export async function stitchFinal(input: StitchInput): Promise<string> {
   const concatOut = join(input.workDir, "concat.mp4");
   await concatSegments([introMp4, ...input.segmentMp4s, outroMp4], concatOut);
 
-  await duckMixMusic({ videoIn: concatOut, musicIn: input.musicPath, out: input.finalOut, musicVolume: input.musicVolume });
+  if (input.skipMusic) {
+    const { copyFile } = await import("node:fs/promises");
+    await copyFile(concatOut, input.finalOut);
+  } else {
+    await duckMixMusic({ videoIn: concatOut, musicIn: input.musicPath, out: input.finalOut, musicVolume: input.musicVolume });
+  }
 
   return input.finalOut;
 }

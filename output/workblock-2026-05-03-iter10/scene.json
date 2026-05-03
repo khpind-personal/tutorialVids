@@ -1,0 +1,142 @@
+{
+  "segment_id": "s01_dashboard_coordinator",
+  "page_id": "dashboard",
+  "role": "coordinator",
+  "role_label": "Coordinator",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 75,
+  "actions": [
+    {
+      "t_ms": 0,
+      "type": "nav",
+      "url": "/dashboard",
+      "selector": "body"
+    },
+    {
+      "t_ms": 1500,
+      "type": "wait",
+      "selector": "body",
+      "callout": {
+        "text": "Coordinator Dashboard",
+        "anchor": "top",
+        "duration_ms": 3000
+      }
+    },
+    {
+      "t_ms": 12000,
+      "type": "click",
+      "selector": "text=Coordinator Queue",
+      "zoom": {
+        "scale": 1.8,
+        "in_ms": 400,
+        "hold_ms": 3500,
+        "out_ms": 400
+      },
+      "ripple": true,
+      "highlight_score": 10,
+      "highlight": {
+        "target_selector": "text=Coordinator Queue"
+      },
+      "callout": {
+        "text": "9 items pending triage",
+        "anchor": "right",
+        "duration_ms": 3000
+      }
+    },
+    {
+      "t_ms": 28000,
+      "type": "click",
+      "selector": "text=Active Task",
+      "zoom": {
+        "scale": 1.8,
+        "in_ms": 400,
+        "hold_ms": 2800,
+        "out_ms": 400
+      },
+      "ripple": true,
+      "highlight_score": 8,
+      "highlight": {
+        "target_selector": "text=Active Task"
+      }
+    },
+    {
+      "t_ms": 40000,
+      "type": "click",
+      "selector": "text=My Backlog",
+      "zoom": {
+        "scale": 1.8,
+        "in_ms": 400,
+        "hold_ms": 2800,
+        "out_ms": 400
+      },
+      "ripple": true,
+      "highlight_score": 7,
+      "highlight": {
+        "target_selector": "text=My Backlog"
+      }
+    },
+    {
+      "t_ms": 52000,
+      "type": "click",
+      "selector": "text=Team Board",
+      "zoom": {
+        "scale": 1.8,
+        "in_ms": 400,
+        "hold_ms": 2800,
+        "out_ms": 400
+      },
+      "ripple": true,
+      "highlight_score": 8,
+      "highlight": {
+        "target_selector": "text=Team Board"
+      }
+    },
+    {
+      "t_ms": 64000,
+      "type": "click",
+      "selector": "text=Notifications",
+      "zoom": {
+        "scale": 1.8,
+        "in_ms": 400,
+        "hold_ms": 3000,
+        "out_ms": 400
+      },
+      "ripple": true,
+      "highlight_score": 9,
+      "highlight": {
+        "target_selector": "text=Notifications"
+      }
+    }
+  ],
+  "narration": {
+    "text": "Welcome to WorkBlock PM. As a Coordinator, this dashboard is your command center for keeping the build-out pipeline moving. Let's walk through what you'll use every day.\n\nThe heart of your day is the Coordinator Queue. You've got 9 items pending here, each one a task that needs you to triage, assign a reviewer, or unblock a teammate. Right next to it, your Active Task shows what you're personally driving right now, so context-switching stays cheap. My Backlog is where you'll plan ahead, the work that's queued up just for you.\n\nWhen you need to balance load across the team, open the Team Board to see capacity at a glance and reassign with confidence. And when something needs your attention, Notifications surface mentions, escalations, and reviewer pings the moment they happen. That's your dashboard, ready when you are.",
+    "ssml": "<speak>Welcome to WorkBlock PM. <break time='200ms'/> As a Coordinator, this dashboard is your command center for keeping the build-out pipeline moving. <break time='200ms'/> Let's walk through what you'll use every day. <break time='400ms'/> The heart of your day is the Coordinator Queue. <break time='200ms'/> You've got 9 items pending here, each one a task that needs you to triage, assign a reviewer, or unblock a teammate. <break time='250ms'/> Right next to it, your Active Task shows what you're personally driving right now, so context-switching stays cheap. <break time='200ms'/> My Backlog is where you'll plan ahead, the work that's queued up just for you. <break time='400ms'/> When you need to balance load across the team, open the Team Board to see capacity at a glance and reassign with confidence. <break time='250ms'/> And when something needs your attention, Notifications surface mentions, escalations, and reviewer pings the moment they happen. <break time='200ms'/> That's your dashboard, ready when you are.</speak>",
+    "alignments": [
+      {
+        "phrase": "Welcome to WorkBlock PM",
+        "action_t_ms": 0
+      },
+      {
+        "phrase": "Coordinator Queue",
+        "action_t_ms": 12000
+      },
+      {
+        "phrase": "Active Task",
+        "action_t_ms": 28000
+      },
+      {
+        "phrase": "My Backlog",
+        "action_t_ms": 40000
+      },
+      {
+        "phrase": "Team Board",
+        "action_t_ms": 52000
+      },
+      {
+        "phrase": "Notifications",
+        "action_t_ms": 64000
+      }
+    ]
+  }
+}

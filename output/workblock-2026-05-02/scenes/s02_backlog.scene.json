@@ -1,0 +1,317 @@
+{
+  "segment_id": "s02_backlog",
+  "page_id": "backlog",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 90,
+  "viewport": { "w": 1920, "h": 1080 },
+  "actions": [
+    { "t_ms": 0, "type": "nav", "url": "/backlog" },
+    {
+      "t_ms": 0,
+      "type": "wait",
+      "selector": "h1:has-text('My Backlog')",
+      "beat": 1,
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 600,
+        "hold_ms": 5800,
+        "out_ms": 600,
+        "bbox": { "x": 303, "y": 255, "w": 1583, "h": 536 }
+      },
+      "callout": {
+        "text": "Your personal task backlog",
+        "anchor": "right",
+        "duration_ms": 5200
+      }
+    },
+    {
+      "t_ms": 7000,
+      "type": "wait",
+      "selector": "h1:has-text('My Backlog')",
+      "beat": 2,
+      "zoom": {
+        "scale": 1.55,
+        "in_ms": 700,
+        "hold_ms": 6100,
+        "out_ms": 700,
+        "bbox": { "x": 270, "y": 20, "w": 260, "h": 50 }
+      },
+      "highlight": {
+        "bbox": { "x": 270, "y": 20, "w": 260, "h": 50 },
+        "style": "both",
+        "duration_ms": 2200,
+        "intensity": 0.6,
+        "pad": 10,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "47 tasks available right now",
+        "anchor": "right",
+        "duration_ms": 5400
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 14500,
+      "type": "wait",
+      "selector": "text=Stuck in Queue",
+      "beat": 3,
+      "zoom": {
+        "scale": 1.35,
+        "in_ms": 700,
+        "hold_ms": 6600,
+        "out_ms": 700,
+        "bbox": { "x": 300, "y": 190, "w": 1280, "h": 50 }
+      },
+      "highlight": {
+        "bbox": { "x": 300, "y": 190, "w": 1280, "h": 50 },
+        "style": "spotlight",
+        "duration_ms": 2400,
+        "intensity": 0.55,
+        "pad": 12,
+        "radius": 12,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Past their dwell threshold",
+        "anchor": "bottom",
+        "duration_ms": 5800
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 22500,
+      "type": "wait",
+      "selector": "text=Claim & Start",
+      "beat": 4,
+      "zoom": {
+        "scale": 1.42,
+        "in_ms": 700,
+        "hold_ms": 7100,
+        "out_ms": 700,
+        "bbox": { "x": 303, "y": 255, "w": 764, "h": 204 }
+      },
+      "highlight": {
+        "bbox": { "x": 303, "y": 255, "w": 764, "h": 204 },
+        "style": "both",
+        "duration_ms": 2700,
+        "intensity": 0.6,
+        "pad": 8,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Each card is one stuck task",
+        "anchor": "left",
+        "duration_ms": 6000
+      },
+      "highlight_score": 8
+    },
+    {
+      "t_ms": 31000,
+      "type": "wait",
+      "selector": "text=Claim & Start",
+      "beat": 5,
+      "zoom": {
+        "scale": 1.85,
+        "in_ms": 600,
+        "hold_ms": 5800,
+        "out_ms": 600,
+        "bbox": { "x": 970, "y": 265, "w": 90, "h": 40 }
+      },
+      "highlight": {
+        "bbox": { "x": 970, "y": 265, "w": 90, "h": 40 },
+        "style": "glow",
+        "duration_ms": 2200,
+        "intensity": 0.7,
+        "pad": 10,
+        "radius": 12,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Overdue: 47 days, 3 hours",
+        "anchor": "left",
+        "duration_ms": 5000
+      },
+      "highlight_score": 9
+    },
+    {
+      "t_ms": 38000,
+      "type": "wait",
+      "selector": "text=Claim & Start",
+      "beat": 6,
+      "zoom": {
+        "scale": 1.65,
+        "in_ms": 700,
+        "hold_ms": 6100,
+        "out_ms": 700,
+        "bbox": { "x": 300, "y": 340, "w": 260, "h": 40 }
+      },
+      "highlight": {
+        "bbox": { "x": 300, "y": 340, "w": 260, "h": 40 },
+        "style": "spotlight",
+        "duration_ms": 2400,
+        "intensity": 0.55,
+        "pad": 10,
+        "radius": 10,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Status — needs estimating",
+        "anchor": "right",
+        "duration_ms": 5400
+      },
+      "highlight_score": 7
+    },
+    {
+      "t_ms": 45500,
+      "type": "wait",
+      "selector": "text=Claim & Start",
+      "beat": 7,
+      "zoom": {
+        "scale": 1.95,
+        "in_ms": 800,
+        "hold_ms": 7400,
+        "out_ms": 800,
+        "bbox": { "x": 300, "y": 380, "w": 170, "h": 60 }
+      },
+      "highlight": {
+        "bbox": { "x": 300, "y": 380, "w": 170, "h": 60 },
+        "style": "both",
+        "duration_ms": 3100,
+        "intensity": 0.65,
+        "pad": 12,
+        "radius": 16,
+        "pulse": true
+      },
+      "callout": {
+        "text": "One click to take ownership",
+        "anchor": "right",
+        "duration_ms": 6800
+      },
+      "highlight_score": 10
+    },
+    {
+      "t_ms": 54500,
+      "type": "wait",
+      "selector": "text=Claim & Start",
+      "beat": 8,
+      "zoom": {
+        "scale": 1.4,
+        "in_ms": 700,
+        "hold_ms": 6600,
+        "out_ms": 700,
+        "bbox": { "x": 1106, "y": 491, "w": 764, "h": 204 }
+      },
+      "highlight": {
+        "bbox": { "x": 1106, "y": 491, "w": 764, "h": 204 },
+        "style": "both",
+        "duration_ms": 2500,
+        "intensity": 0.55,
+        "pad": 8,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Same flow, every card",
+        "anchor": "left",
+        "duration_ms": 5800
+      },
+      "highlight_score": 8
+    },
+    {
+      "t_ms": 62500,
+      "type": "wait",
+      "selector": "h1:has-text('My Backlog')",
+      "beat": 9,
+      "zoom": {
+        "scale": 1.5,
+        "in_ms": 700,
+        "hold_ms": 6600,
+        "out_ms": 700,
+        "bbox": { "x": 1480, "y": 90, "w": 420, "h": 50 }
+      },
+      "highlight": {
+        "bbox": { "x": 1480, "y": 90, "w": 420, "h": 50 },
+        "style": "spotlight",
+        "duration_ms": 2400,
+        "intensity": 0.55,
+        "pad": 10,
+        "radius": 12,
+        "pulse": false
+      },
+      "callout": {
+        "text": "Sort and filter to focus",
+        "anchor": "left",
+        "duration_ms": 6000
+      },
+      "highlight_score": 7
+    },
+    {
+      "t_ms": 70500,
+      "type": "wait",
+      "selector": "h1:has-text('My Backlog')",
+      "beat": 10,
+      "zoom": {
+        "scale": 1.05,
+        "in_ms": 800,
+        "hold_ms": 8400,
+        "out_ms": 800,
+        "bbox": { "x": 303, "y": 255, "w": 1583, "h": 650 }
+      },
+      "callout": {
+        "text": "Pick yours and go",
+        "anchor": "right",
+        "duration_ms": 7400
+      }
+    },
+    {
+      "t_ms": 80500,
+      "type": "wait",
+      "selector": "text=My Completed Tasks",
+      "beat": 11,
+      "zoom": {
+        "scale": 1.55,
+        "in_ms": 700,
+        "hold_ms": 8100,
+        "out_ms": 700,
+        "bbox": { "x": 1690, "y": 25, "w": 200, "h": 40 }
+      },
+      "highlight": {
+        "bbox": { "x": 1690, "y": 25, "w": 200, "h": 40 },
+        "style": "both",
+        "duration_ms": 2800,
+        "intensity": 0.6,
+        "pad": 10,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Track wins here next",
+        "anchor": "left",
+        "duration_ms": 7400
+      },
+      "highlight_score": 8
+    },
+    { "t_ms": 90000, "type": "wait", "selector": "h1:has-text('My Backlog')" }
+  ],
+  "narration": {
+    "text": "This is My Backlog — every task waiting for someone to pick it up. Forty-seven tasks are claimable today across every project you can touch. These are tasks that sat in queue too long — past their dwell threshold and ready for anyone to grab. Each card is a single task — its ID, the project it belongs to, and how long it's been waiting. The counter top-right tells you exactly how stale it is — this one's been stuck forty-seven days. Tags tell you the state — this one is waiting to be sized before work starts. One click on Claim and Start — and the task is yours, your name on it, your clock running. Every card on the grid works the same way — different project, same one-tap claim. Filter by type, size, criticality, or sort to surface what matters to you first. Browse the grid, pick the one that fits your day, and you're working in seconds. When you're done, your finished work lives over here — your record of everything shipped.",
+    "ssml": "<speak><prosody rate=\"medium\" pitch=\"+0%\">This is My Backlog — every task waiting for someone to pick it up. <break time=\"400ms\"/> Forty-seven tasks are claimable today across every project you can touch. <break time=\"500ms\"/> These are tasks that sat in queue too long — past their dwell threshold and ready for anyone to grab. <break time=\"450ms\"/> Each card is a single task — its ID, the project it belongs to, and how long it's been waiting. <break time=\"400ms\"/> The counter top-right tells you exactly how stale it is — this one's been stuck forty-seven days. <break time=\"450ms\"/> Tags tell you the state — this one is waiting to be sized before work starts. <break time=\"500ms\"/> One click on Claim and Start — and the task is yours, your name on it, your clock running. <break time=\"500ms\"/> Every card on the grid works the same way — different project, same one-tap claim. <break time=\"450ms\"/> Filter by type, size, criticality, or sort to surface what matters to you first. <break time=\"500ms\"/> Browse the grid, pick the one that fits your day, and you're working in seconds. <break time=\"500ms\"/> When you're done, your finished work lives over here — your record of everything shipped.</prosody></speak>",
+    "alignments": [
+      { "phrase": "This is My Backlog", "action_t_ms": 400 },
+      { "phrase": "Forty-seven tasks are claimable", "action_t_ms": 7400 },
+      { "phrase": "These are tasks that sat in queue too long", "action_t_ms": 14900 },
+      { "phrase": "Each card is a single task", "action_t_ms": 22900 },
+      { "phrase": "The counter top-right", "action_t_ms": 31400 },
+      { "phrase": "Tags tell you the state", "action_t_ms": 38400 },
+      { "phrase": "One click on Claim and Start", "action_t_ms": 46000 },
+      { "phrase": "Every card on the grid works the same way", "action_t_ms": 54900 },
+      { "phrase": "Filter by type, size, criticality", "action_t_ms": 62900 },
+      { "phrase": "Browse the grid", "action_t_ms": 70900 },
+      { "phrase": "When you're done, your finished work lives over here", "action_t_ms": 81000 }
+    ]
+  }
+}

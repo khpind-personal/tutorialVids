@@ -1,0 +1,72 @@
+{
+  "segment_id": "s01_dashboard",
+  "page_id": "dashboard",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 75,
+  "viewport": { "w": 1920, "h": 1080 },
+  "actions": [
+    { "t_ms": 0, "type": "nav", "url": "/dashboard" },
+
+    { "t_ms": 0, "type": "wait", "selector": "h1:has-text('Dashboard')", "beat": "1-establish-wide",
+      "zoom": { "scale": 1.0, "in_ms": 600, "hold_ms": 3300, "out_ms": 600, "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 } } },
+
+    { "t_ms": 4500, "type": "wait", "selector": "h3:has-text('Suggested Tasks')", "beat": "2-section-overview",
+      "zoom": { "scale": 1.0, "in_ms": 0, "hold_ms": 8000, "out_ms": 0, "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 } },
+      "highlight": {
+        "target_selector": "xpath=//h3[normalize-space()='Suggested Tasks']/ancestor::div[contains(@class,'mb-5')][1]",
+        "style": "spotlight", "duration_ms": 8000, "intensity": 0.45, "pad": 6, "radius": 12, "pulse": false },
+      "callout": { "text": "Five tasks waiting to be picked up", "anchor": "bottom-right", "duration_ms": 5000, "max_width": 320 },
+      "highlight_score": 9 },
+
+    { "t_ms": 12500, "type": "wait", "selector": "text=Layout Design", "beat": "3-first-card",
+      "zoom": { "scale": 1.0, "in_ms": 0, "hold_ms": 9000, "out_ms": 0, "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 } },
+      "highlight": {
+        "target_selector": "xpath=(//div[normalize-space()='Layout Design'])[1]/ancestor::div[3]",
+        "style": "both", "duration_ms": 9000, "intensity": 0.5, "pad": 8, "radius": 12, "pulse": true },
+      "callout": { "text": "Each card: size · priority · deadline", "anchor": "top-right", "duration_ms": 4800, "max_width": 320 },
+      "highlight_score": 9 },
+
+    { "t_ms": 21500, "type": "wait", "selector": "text=Pick Up", "beat": "4-pick-up-button-zoom",
+      "zoom": { "scale": 1.7, "in_ms": 800, "hold_ms": 6900, "out_ms": 800, "bbox": { "x": 955, "y": 227, "w": 89, "h": 36 } },
+      "highlight": {
+        "target_selector": "button:has-text('Pick Up')",
+        "style": "both", "duration_ms": 8000, "intensity": 0.6, "pad": 4, "radius": 18, "pulse": true },
+      "callout": { "text": "One click — it's yours", "anchor": "top-left", "duration_ms": 4500, "max_width": 280 },
+      "highlight_score": 10 },
+
+    { "t_ms": 30000, "type": "wait", "selector": "text=Coordinator Queue", "beat": "5-sidebar-coord-queue",
+      "zoom": { "scale": 1.0, "in_ms": 0, "hold_ms": 8500, "out_ms": 0, "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 } },
+      "highlight": {
+        "target_selector": "a[href='/coordinator']",
+        "style": "both", "duration_ms": 8500, "intensity": 0.5, "pad": 6, "radius": 6, "pulse": true },
+      "callout": { "text": "9 items need your call", "anchor": "top-right", "duration_ms": 5000, "max_width": 280 },
+      "highlight_score": 9 },
+
+    { "t_ms": 38500, "type": "wait", "selector": "text=Approved", "beat": "6-status-strip",
+      "zoom": { "scale": 1.0, "in_ms": 0, "hold_ms": 9000, "out_ms": 0, "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 } },
+      "highlight": {
+        "target_selector": "xpath=//div[normalize-space()='On Hold 21']/parent::*",
+        "style": "spotlight", "duration_ms": 9000, "intensity": 0.45, "pad": 8, "radius": 10, "pulse": false },
+      "callout": { "text": "Team pulse, at a glance", "anchor": "top-right", "duration_ms": 5000, "max_width": 280 },
+      "highlight_score": 8 },
+
+    { "t_ms": 47500, "type": "wait", "selector": "text=Review Submissions", "beat": "7-review-submissions",
+      "zoom": { "scale": 1.0, "in_ms": 0, "hold_ms": 9000, "out_ms": 0, "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 } },
+      "highlight": {
+        "target_selector": "a[href='/review']",
+        "style": "both", "duration_ms": 9000, "intensity": 0.5, "pad": 4, "radius": 8, "pulse": true },
+      "callout": { "text": "5 drafts already waiting on you", "anchor": "top-left", "duration_ms": 5000, "max_width": 320 },
+      "highlight_score": 9 },
+
+    { "t_ms": 56500, "type": "wait", "selector": "h1:has-text('Dashboard')", "beat": "8-pull-back-wide",
+      "zoom": { "scale": 1.0, "in_ms": 0, "hold_ms": 18500, "out_ms": 0, "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 } } },
+
+    { "t_ms": 75000, "type": "wait", "selector": "main" }
+  ],
+  "narration": {
+    "text": "This is your Dashboard. Five tasks waiting in Suggested Tasks. Each card: size, priority, deadline. Pick Up to claim. Sidebar shows your Coordinator Queue. Status counters give the team pulse. Quick Actions to Browse, Estimate, or Review.",
+    "ssml": "<speak>This is your Dashboard.</speak>",
+    "alignments": [ { "phrase": "This is your Dashboard", "action_t_ms": 500 } ]
+  }
+}

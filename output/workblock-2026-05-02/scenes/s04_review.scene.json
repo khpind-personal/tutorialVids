@@ -1,0 +1,178 @@
+{
+  "segment_id": "s04_review",
+  "page_id": "review",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 75,
+  "actions": [
+    {
+      "t_ms": 0,
+      "type": "nav",
+      "url": "/review"
+    },
+    {
+      "t_ms": 1000,
+      "type": "wait",
+      "selector": "main",
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 0,
+        "hold_ms": 3500,
+        "out_ms": 0,
+        "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 }
+      },
+      "callout": {
+        "text": "The Review page",
+        "anchor": "top",
+        "duration_ms": 2800
+      },
+      "highlight_score": 0.35
+    },
+    {
+      "t_ms": 4500,
+      "type": "wait",
+      "selector": "nav",
+      "zoom": {
+        "scale": 1.35,
+        "in_ms": 1200,
+        "hold_ms": 7300,
+        "out_ms": 0,
+        "bbox": { "x": 0, "y": 0, "w": 270, "h": 1080 }
+      },
+      "callout": {
+        "text": "Reviewers live in the sidebar",
+        "anchor": "right",
+        "duration_ms": 3000
+      },
+      "highlight_score": 0.78
+    },
+    {
+      "t_ms": 13000,
+      "type": "wait",
+      "selector": "text=Coordinator Queue",
+      "zoom": {
+        "scale": 2.4,
+        "in_ms": 1100,
+        "hold_ms": 7900,
+        "out_ms": 0,
+        "bbox": { "x": 0, "y": 506, "w": 270, "h": 60 }
+      },
+      "callout": {
+        "text": "Same shell, different role",
+        "anchor": "right",
+        "duration_ms": 3200
+      },
+      "highlight_score": 0.92
+    },
+    {
+      "t_ms": 22000,
+      "type": "wait",
+      "selector": "main",
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 1300,
+        "hold_ms": 6700,
+        "out_ms": 0,
+        "bbox": { "x": 292, "y": 31, "w": 1628, "h": 1021 }
+      },
+      "callout": {
+        "text": "Reviewers see queued submissions here",
+        "anchor": "top",
+        "duration_ms": 3400
+      },
+      "highlight_score": 0.7
+    },
+    {
+      "t_ms": 30000,
+      "type": "wait",
+      "selector": "main",
+      "zoom": {
+        "scale": 1.15,
+        "in_ms": 1100,
+        "hold_ms": 12900,
+        "out_ms": 0,
+        "bbox": { "x": 292, "y": 102, "w": 1582, "h": 294 }
+      },
+      "callout": {
+        "text": "No identity. No time. No tier.",
+        "anchor": "center",
+        "duration_ms": 4800
+      },
+      "highlight_score": 0.98
+    },
+    {
+      "t_ms": 44000,
+      "type": "wait",
+      "selector": "main",
+      "zoom": {
+        "scale": 1.6,
+        "in_ms": 1100,
+        "hold_ms": 9900,
+        "out_ms": 0,
+        "bbox": { "x": 292, "y": 31, "w": 851, "h": 51 }
+      },
+      "callout": {
+        "text": "WU credits land after final approval",
+        "anchor": "bottom",
+        "duration_ms": 3400
+      },
+      "highlight_score": 0.88
+    },
+    {
+      "t_ms": 55000,
+      "type": "wait",
+      "selector": "main",
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 1200,
+        "hold_ms": 10800,
+        "out_ms": 0,
+        "bbox": { "x": 292, "y": 31, "w": 1628, "h": 1021 }
+      },
+      "callout": {
+        "text": "Empty queue means work is flowing",
+        "anchor": "top",
+        "duration_ms": 3600
+      },
+      "highlight_score": 0.6
+    },
+    {
+      "t_ms": 67000,
+      "type": "wait",
+      "selector": "main",
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 1500,
+        "hold_ms": 6500,
+        "out_ms": 0,
+        "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 }
+      },
+      "callout": {
+        "text": "Honest. Blind. Fair.",
+        "anchor": "center",
+        "duration_ms": 3800
+      },
+      "highlight_score": 0.5
+    },
+    {
+      "t_ms": 75000,
+      "type": "wait",
+      "selector": "main",
+      "highlight_score": 0.3
+    }
+  ],
+  "narration": {
+    "text": "This is the Review page. Empty today — and that's worth pausing on. Reviewers find their queue here in the sidebar, the same shell every role uses, just a different view. This account is a coordinator, so what you see is the coordinator's queue. A reviewer signs in, and the same slot fills with submissions awaiting their judgment. When that happens, those gray cards in the main area become real submissions — one per piece of work waiting to be judged. And here's the rule that makes review fair: blind. The reviewer never sees who did the work, how long it took, or whether they're Senior, Normal, or Intern. Just the work. Work Unit credits aren't awarded until the highest-tier reviewer approves. One signal, one moment, no partial credit for almost-done. So an empty queue isn't a bug — it's a green light. Nothing is stuck waiting on a reviewer right now. Honest about who's looking, blind to who did it, fair on what gets credit. That's review in WorkBlock.",
+    "ssml": "<speak><prosody rate=\"medium\">This is the Review page. Empty today — and that's worth pausing on.</prosody><break time=\"500ms\"/><prosody rate=\"medium\">Reviewers find their queue here in the sidebar, the same shell every role uses, just a different view.</prosody><break time=\"400ms\"/><prosody rate=\"medium\">This account is a coordinator, so what you see is the coordinator's queue. A reviewer signs in, and the same slot fills with submissions awaiting their judgment.</prosody><break time=\"450ms\"/><prosody rate=\"medium\">When that happens, those gray cards in the main area become real submissions — one per piece of work waiting to be judged.</prosody><break time=\"500ms\"/><prosody rate=\"medium\">And here's the rule that makes review fair: <emphasis level=\"moderate\">blind</emphasis>. The reviewer never sees who did the work, how long it took, or whether they're Senior, Normal, or Intern. Just the work.</prosody><break time=\"500ms\"/><prosody rate=\"medium\">Work Unit credits aren't awarded until the highest-tier reviewer approves. One signal, one moment, no partial credit for almost-done.</prosody><break time=\"500ms\"/><prosody rate=\"medium\">So an empty queue isn't a bug — it's a green light. Nothing is stuck waiting on a reviewer right now.</prosody><break time=\"500ms\"/><prosody rate=\"medium\">Honest about who's looking, blind to who did it, fair on what gets credit. That's review in WorkBlock.</prosody></speak>",
+    "alignments": [
+      { "phrase": "This is the Review page. Empty today", "action_t_ms": 1000 },
+      { "phrase": "Reviewers find their queue here in the sidebar", "action_t_ms": 4500 },
+      { "phrase": "This account is a coordinator", "action_t_ms": 13000 },
+      { "phrase": "those gray cards in the main area become real submissions", "action_t_ms": 22000 },
+      { "phrase": "the rule that makes review fair: blind", "action_t_ms": 30000 },
+      { "phrase": "Work Unit credits aren't awarded until the highest-tier reviewer approves", "action_t_ms": 44000 },
+      { "phrase": "an empty queue isn't a bug", "action_t_ms": 55000 },
+      { "phrase": "Honest about who's looking, blind to who did it", "action_t_ms": 67000 }
+    ]
+  }
+}

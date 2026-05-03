@@ -127,6 +127,7 @@ export async function runCompose(input: RunComposeInput): Promise<RunComposeOutp
 
     const workDir = join(input.cacheRoot, "compose", `_stitch_${safeRole}`);
     const stitchedHd = join(workDir, "stitched-hd.mp4");
+    const hasNarration = ordered.some((s) => (input.audioPaths[s.segment_id] ?? []).length > 0);
     await stitchFinal({
       segmentMp4s,
       introTemplatePath, outroTemplatePath,
@@ -135,7 +136,8 @@ export async function runCompose(input: RunComposeInput): Promise<RunComposeOutp
       outroCta: input.config.compose.outro_cta,
       workDir,
       finalOut: stitchedHd,
-      resolution: finalRes
+      resolution: finalRes,
+      ...(hasNarration ? {} : { skipMusic: true })
     });
 
     const draftScaled = join(draftDir, `draft-no-wm.${safeRole}.mp4`);

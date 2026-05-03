@@ -1,0 +1,347 @@
+{
+  "segment_id": "s03_coordinator",
+  "page_id": "coordinator",
+  "depth": "medium",
+  "tone": "friendly",
+  "target_duration_s": 90,
+  "actions": [
+    {
+      "type": "nav",
+      "t_ms": 0,
+      "url": "/coordinator",
+      "wait_for": "h1:has-text('Coordinator Queue')"
+    },
+    {
+      "type": "wait",
+      "t_ms": 200,
+      "selector": "h1:has-text('Coordinator Queue')",
+      "note": "beat_1_establishing_wide",
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 800,
+        "hold_ms": 4400,
+        "out_ms": 800,
+        "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 }
+      },
+      "highlight": {
+        "bbox": { "x": 290, "y": 40, "w": 330, "h": 55 },
+        "style": "glow",
+        "duration_ms": 1800,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Coordinator's command center",
+        "anchor": "right",
+        "duration_ms": 3200
+      },
+      "highlight_score": 8
+    },
+    {
+      "type": "wait",
+      "t_ms": 6000,
+      "selector": "text=9 pending",
+      "note": "beat_2_nine_pending_badge",
+      "zoom": {
+        "scale": 1.35,
+        "in_ms": 900,
+        "hold_ms": 4200,
+        "out_ms": 900,
+        "bbox": { "x": 512, "y": 59, "w": 90, "h": 28 }
+      },
+      "highlight": {
+        "bbox": { "x": 505, "y": 52, "w": 104, "h": 42 },
+        "style": "glow",
+        "duration_ms": 1600,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Nine tasks waiting",
+        "anchor": "below",
+        "duration_ms": 3000
+      },
+      "highlight_score": 9
+    },
+    {
+      "type": "wait",
+      "t_ms": 12000,
+      "selector": "text=Pending Assignment",
+      "note": "beat_3_left_panel_reveal",
+      "zoom": {
+        "scale": 1.18,
+        "in_ms": 1000,
+        "hold_ms": 5000,
+        "out_ms": 1000,
+        "bbox": { "x": 292, "y": 102, "w": 427, "h": 860 }
+      },
+      "highlight": {
+        "bbox": { "x": 286, "y": 96, "w": 440, "h": 870 },
+        "style": "both",
+        "duration_ms": 2400,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Source of work, on the left",
+        "anchor": "right",
+        "duration_ms": 3600
+      },
+      "highlight_score": 9
+    },
+    {
+      "type": "wait",
+      "t_ms": 20000,
+      "selector": "text=Pending Assignment",
+      "note": "beat_4_project_grouping",
+      "zoom": {
+        "scale": 1.45,
+        "in_ms": 800,
+        "hold_ms": 3700,
+        "out_ms": 800,
+        "bbox": { "x": 314, "y": 179, "w": 404, "h": 90 }
+      },
+      "highlight": {
+        "bbox": { "x": 308, "y": 173, "w": 416, "h": 48 },
+        "style": "glow",
+        "duration_ms": 1800,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Grouped by project",
+        "anchor": "right",
+        "duration_ms": 2800
+      },
+      "highlight_score": 7
+    },
+    {
+      "type": "wait",
+      "t_ms": 25500,
+      "selector": "text=Signed Off",
+      "note": "beat_5_signed_off_green",
+      "zoom": {
+        "scale": 1.85,
+        "in_ms": 900,
+        "hold_ms": 4100,
+        "out_ms": 900,
+        "bbox": { "x": 415, "y": 272, "w": 62, "h": 23 }
+      },
+      "highlight": {
+        "bbox": { "x": 408, "y": 266, "w": 76, "h": 35 },
+        "style": "glow",
+        "duration_ms": 2000,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Signed Off — ready to assign",
+        "anchor": "right",
+        "duration_ms": 3200
+      },
+      "highlight_score": 9
+    },
+    {
+      "type": "wait",
+      "t_ms": 31500,
+      "selector": "text=Scope Change",
+      "note": "beat_6_scope_change_purple",
+      "zoom": {
+        "scale": 1.85,
+        "in_ms": 900,
+        "hold_ms": 4100,
+        "out_ms": 900,
+        "bbox": { "x": 415, "y": 511, "w": 81, "h": 23 }
+      },
+      "highlight": {
+        "bbox": { "x": 408, "y": 505, "w": 95, "h": 35 },
+        "style": "glow",
+        "duration_ms": 2000,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Scope Change — needs review",
+        "anchor": "right",
+        "duration_ms": 3200
+      },
+      "highlight_score": 9
+    },
+    {
+      "type": "wait",
+      "t_ms": 37500,
+      "selector": "text=Pre-Sign Off",
+      "note": "beat_7_pre_signoff_amber",
+      "zoom": {
+        "scale": 1.85,
+        "in_ms": 900,
+        "hold_ms": 4100,
+        "out_ms": 900,
+        "bbox": { "x": 399, "y": 628, "w": 84, "h": 23 }
+      },
+      "highlight": {
+        "bbox": { "x": 392, "y": 622, "w": 98, "h": 35 },
+        "style": "glow",
+        "duration_ms": 2000,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Pre-Sign Off — awaiting client",
+        "anchor": "right",
+        "duration_ms": 3400
+      },
+      "highlight_score": 9
+    },
+    {
+      "type": "wait",
+      "t_ms": 43500,
+      "selector": "text=Pending Assignment",
+      "note": "beat_8_overdue_counter",
+      "zoom": {
+        "scale": 1.7,
+        "in_ms": 900,
+        "hold_ms": 4600,
+        "out_ms": 900,
+        "bbox": { "x": 620, "y": 230, "w": 110, "h": 80 }
+      },
+      "highlight": {
+        "bbox": { "x": 644, "y": 240, "w": 76, "h": 32 },
+        "style": "glow",
+        "duration_ms": 2200,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Overdue counts pressure the queue",
+        "anchor": "left",
+        "duration_ms": 3600
+      },
+      "highlight_score": 8
+    },
+    {
+      "type": "wait",
+      "t_ms": 50000,
+      "selector": "main",
+      "note": "beat_9_right_pane_empty_stage",
+      "zoom": {
+        "scale": 1.12,
+        "in_ms": 1000,
+        "hold_ms": 5500,
+        "out_ms": 1000,
+        "bbox": { "x": 741, "y": 102, "w": 1134, "h": 843 }
+      },
+      "highlight": {
+        "bbox": { "x": 735, "y": 96, "w": 1146, "h": 855 },
+        "style": "both",
+        "duration_ms": 2800,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Detail and actions land here",
+        "anchor": "left",
+        "duration_ms": 3800
+      },
+      "highlight_score": 8
+    },
+    {
+      "type": "wait",
+      "t_ms": 58500,
+      "selector": "main",
+      "note": "beat_10a_climax_pick_left",
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 1000,
+        "hold_ms": 4800,
+        "out_ms": 800,
+        "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 }
+      },
+      "highlight": {
+        "bbox": { "x": 304, "y": 222, "w": 420, "h": 80 },
+        "style": "both",
+        "duration_ms": 2400,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Pick a task on the left",
+        "anchor": "top",
+        "duration_ms": 3200
+      },
+      "highlight_score": 10
+    },
+    {
+      "type": "wait",
+      "t_ms": 68000,
+      "selector": "main",
+      "note": "beat_10b_climax_handoff_to_right",
+      "zoom": {
+        "scale": 1.0,
+        "in_ms": 600,
+        "hold_ms": 4500,
+        "out_ms": 600,
+        "bbox": { "x": 0, "y": 0, "w": 1920, "h": 1080 }
+      },
+      "highlight": {
+        "bbox": { "x": 741, "y": 102, "w": 1134, "h": 843 },
+        "style": "both",
+        "duration_ms": 2400,
+        "intensity": 0.55,
+        "pad": 14,
+        "radius": 14,
+        "pulse": true
+      },
+      "callout": {
+        "text": "Then assign, split, or send back",
+        "anchor": "bottom",
+        "duration_ms": 3400
+      },
+      "highlight_score": 10
+    },
+    {
+      "type": "wait",
+      "t_ms": 90000,
+      "selector": "main",
+      "note": "final_settle"
+    }
+  ],
+  "narration": {
+    "text": "This is the Coordinator Queue — the command center where work gets routed. Nine tasks are waiting, and each one needs a decision before work can start. On the left, every pending task — grouped by project so you always see the context first. Tasks live under their project, so you never assign blind. A green Signed Off tag means the brief is locked — this one's ready for a teammate. Purple flags a scope change — the coordinator decides whether to re-plan or push it back. Amber means the client hasn't signed off yet — these wait, but stay visible so nothing gets lost. Every row carries an overdue counter, so the most urgent work pulls your eye first. Right now the right pane is empty — it's the workspace, waiting for a task. The flow is simple — pick a task on the left, and the right pane fills with everything you need to assign it, split it, or send it back. That's the whole loop.",
+    "ssml": "<speak><prosody rate=\"medium\">This is the Coordinator Queue<break time=\"160ms\"/> — the command center where work gets routed.<break time=\"380ms\"/> Nine tasks are waiting,<break time=\"160ms\"/> and each one needs a decision before work can start.<break time=\"420ms\"/> On the left, every pending task<break time=\"140ms\"/> — grouped by project so you always see the context first.<break time=\"380ms\"/> Tasks live under their project,<break time=\"140ms\"/> so you never assign blind.<break time=\"380ms\"/> A green <emphasis level=\"moderate\">Signed Off</emphasis> tag means the brief is locked<break time=\"140ms\"/> — this one's ready for a teammate.<break time=\"380ms\"/> Purple flags a <emphasis level=\"moderate\">scope change</emphasis><break time=\"140ms\"/> — the coordinator decides whether to re-plan or push it back.<break time=\"380ms\"/> Amber means the client hasn't signed off yet<break time=\"140ms\"/> — these wait, but stay visible so nothing gets lost.<break time=\"380ms\"/> Every row carries an <emphasis level=\"moderate\">overdue counter</emphasis>,<break time=\"140ms\"/> so the most urgent work pulls your eye first.<break time=\"420ms\"/> Right now the right pane is empty<break time=\"140ms\"/> — it's the workspace, waiting for a task.<break time=\"420ms\"/> The flow is simple<break time=\"160ms\"/> — pick a task on the left,<break time=\"180ms\"/> and the right pane fills with everything you need to assign it, split it, or send it back.<break time=\"380ms\"/> <emphasis level=\"strong\">That's the whole loop.</emphasis></prosody></speak>",
+    "alignments": [
+      { "t_ms": 200, "text": "This is the Coordinator Queue — the command center where work gets routed." },
+      { "t_ms": 6100, "text": "Nine tasks are waiting, and each one needs a decision before work can start." },
+      { "t_ms": 12100, "text": "On the left, every pending task — grouped by project so you always see the context first." },
+      { "t_ms": 20100, "text": "Tasks live under their project, so you never assign blind." },
+      { "t_ms": 25600, "text": "A green Signed Off tag means the brief is locked — this one's ready for a teammate." },
+      { "t_ms": 31600, "text": "Purple flags a scope change — the coordinator decides whether to re-plan or push it back." },
+      { "t_ms": 37600, "text": "Amber means the client hasn't signed off yet — these wait, but stay visible so nothing gets lost." },
+      { "t_ms": 43600, "text": "Every row carries an overdue counter, so the most urgent work pulls your eye first." },
+      { "t_ms": 50100, "text": "Right now the right pane is empty — it's the workspace, waiting for a task." },
+      { "t_ms": 58600, "text": "The flow is simple — pick a task on the left," },
+      { "t_ms": 68100, "text": "and the right pane fills with everything you need to assign it, split it, or send it back." },
+      { "t_ms": 78000, "text": "That's the whole loop." }
+    ]
+  }
+}
