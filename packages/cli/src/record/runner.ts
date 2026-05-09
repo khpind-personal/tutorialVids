@@ -79,10 +79,15 @@ export async function runActions(input: RunActionsInput): Promise<void> {
     switch (a.type) {
       case "nav": {
         if (!a.url) throw new Error("nav action missing url");
+        // Use domcontentloaded + soft load wait instead of networkidle.
+        // Apps with long-polling sockets (websockets, SSE, analytics beacons)
+        // never reach networkidle, causing goto() to time out at 30s.
         await input.page.goto(
           new URL(a.url, input.baseUrl).toString(),
-          { waitUntil: "networkidle" }
+          { waitUntil: "domcontentloaded" }
         );
+        await input.page.waitForLoadState("load", { timeout: 15000 }).catch(() => {});
+        await input.page.waitForTimeout(2000);
         break;
       }
       case "wait": {
@@ -94,6 +99,11 @@ export async function runActions(input: RunActionsInput): Promise<void> {
           input.retryBackoffMs,
           a.selector
         );
+        // Scroll the selector into view so the live bbox capture in compose
+        // anchors the highlight on visible pixels rather than off-screen ones.
+        try {
+          await input.page.locator(a.selector!).first().scrollIntoViewIfNeeded({ timeout: 2000 });
+        } catch {}
         break;
       }
       case "type": {

@@ -25,7 +25,19 @@ async function ensureAssetServer(): Promise<string> {
   const server = createServer((req, res) => {
     try {
       const url = new URL(req.url ?? "/", "http://x");
-      const p = decodeURIComponent(url.pathname);
+      let p = decodeURIComponent(url.pathname);
+      // The pathname leads with "/" but the asset paths handed to toUrl are
+      // typically relative (e.g. ".tutorialvid/cache/..."). When that happens,
+      // resolve from process.cwd() rather than treating "/foo" as a real
+      // filesystem path. Genuine absolute paths (under /Users, /home, /var,
+      // /tmp) are kept as-is so that fully-qualified asset paths still work.
+      if (p.startsWith("/") && !p.startsWith("//")) {
+        const stripped = p.replace(/^\/+/, "");
+        const looksAbsolute = /^(Users|home|var|tmp|opt|private|System)\b/.test(stripped);
+        if (!looksAbsolute) {
+          p = resolve(process.cwd(), stripped);
+        }
+      }
       const st = statSync(p);
       if (!st.isFile()) { res.statusCode = 404; res.end(); return; }
       res.statusCode = 200;
@@ -52,7 +64,12 @@ export function closeAssetServer(): void {
 export async function renderSegment(input: ComposeInput): Promise<ComposeResult> {
   const bundleLocation = await ensureBundle();
   const assetBase = await ensureAssetServer();
-  const toUrl = (p: string) => p.startsWith("http") ? p : `${assetBase}${encodeURI(p)}`;
+  // Always insert a "/" between the asset server origin and the path. Without
+  // it, a relative path like ".tutorialvid/..." became
+  // "http://127.0.0.1:55173.tutorialvid/..." (the leading "." gets glued onto
+  // the port and the URL parser throws ERR_INVALID_URL inside Remotion).
+  const toUrl = (p: string) =>
+    p.startsWith("http") ? p : `${assetBase}/${encodeURI(p.replace(/^\.?\//, ""))}`;
   const timeline = buildTimeline({
     scene: input.scene,
     cursor: input.cursor,
