@@ -7,14 +7,27 @@ const gotoMock = vi.fn();
 const clickMock = vi.fn();
 const fillMock = vi.fn();
 const waitForSelectorMock = vi.fn();
+const waitForLoadStateMock = vi.fn().mockResolvedValue(undefined);
+const waitForTimeoutMock = vi.fn().mockResolvedValue(undefined);
 const evalMock = vi.fn();
+const scrollIntoViewMock = vi.fn().mockResolvedValue(undefined);
+const boundingBoxMock = vi.fn().mockResolvedValue(null);
+const locatorMock = vi.fn(() => ({
+  first: () => ({
+    scrollIntoViewIfNeeded: scrollIntoViewMock,
+    boundingBox: boundingBoxMock,
+  }),
+}));
 
 const fakePage = {
   goto: gotoMock,
   click: clickMock,
   fill: fillMock,
   waitForSelector: waitForSelectorMock,
+  waitForLoadState: waitForLoadStateMock,
+  waitForTimeout: waitForTimeoutMock,
   evaluate: evalMock,
+  locator: locatorMock,
   url: () => "http://localhost:5173/dashboard",
 };
 
@@ -25,7 +38,12 @@ beforeEach(() => {
   clickMock.mockReset();
   fillMock.mockReset();
   waitForSelectorMock.mockReset();
+  waitForLoadStateMock.mockReset().mockResolvedValue(undefined);
+  waitForTimeoutMock.mockReset().mockResolvedValue(undefined);
   evalMock.mockReset();
+  scrollIntoViewMock.mockReset().mockResolvedValue(undefined);
+  boundingBoxMock.mockReset().mockResolvedValue(null);
+  locatorMock.mockClear();
   (cursor.note as any).mockReset();
 });
 
